@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { BookingFields, BookingLink, BookingModal, BookingPrice, StatusBadge } from "../../components/booking";
 import { Empty, Field, NumberInput } from "../../components/ui";
-import { bookingHome, homeAmount, stayNights, stayTax } from "../../lib/calc";
-import { BOARDS, MEALS, STAY_KINDS, addDays, boardLabel, newStay } from "../../lib/defaults";
+import { bookingHome, homeAmount, stayNights, stayTax, taxPerPerson } from "../../lib/calc";
+import { BOARDS, MEALS, STAY_KINDS, TAX_UNITS, addDays, boardLabel, newStay } from "../../lib/defaults";
 import { currencySymbol, dateRange, dayLabel, money, num } from "../../lib/format";
 import { useStore } from "../../lib/store";
 import type { TripSummary } from "../../lib/summary";
@@ -202,23 +202,32 @@ function StayEditor({ trip, sum, s, onClose }: { trip: Trip; sum: TripSummary; s
 function TouristTaxFields({ trip, s, set }: { trip: Trip; s: Stay; set: (patch: Partial<Stay>) => void }) {
   const t = stayTax(s, trip);
   const auto = stayTax({ ...s, touristTaxPersons: null }, trip).persons;
+  const u = s.touristTaxUnit;
+  const per = u === "person" || u === "night" ? `${t.nights} Nächte` : `${t.days} Tage`;
+  const calc =
+    u === "total"
+      ? `${money(t.total, s.currency)} gesamt, verteilt auf ${t.spreadDays} Tage (≈ ${money(t.total / t.spreadDays, s.currency)} pro Tag)`
+      : `${taxPerPerson(u) ? `${t.persons} Pers. × ` : ""}${per} × ${money(s.touristTax, s.currency)} = ${money(t.total, s.currency)}`;
   const hint = s.touristTax
-    ? `${s.touristTaxUnit === "person" ? `${t.persons} Pers. × ` : ""}${t.nights} Nächte × ${money(s.touristTax, s.currency)} = ${money(t.total, s.currency)}${s.touristTaxIncluded ? " – im Preis enthalten" : " – wird als eigene Ausgabe übernommen"}`
-    : "Tourismusabgabe, City Tax o. Ä.; 0 = keine";
+    ? `${calc}${s.touristTaxIncluded ? " – im Preis enthalten" : " – wird als eigene Ausgabe übernommen"}`
+    : "Tourismusabgabe, City Tax o. Ä.; 0 = keine. Tage = Nächte + 1";
   return (
     <>
       <Field label="Kurtaxe" hint={hint}>
         <div className="row nowrap">
           <NumberInput value={s.touristTax} min={0} suffix={currencySymbol(s.currency)} onChange={(v) => set({ touristTax: v ?? 0 })} />
           <select value={s.touristTaxUnit} onChange={(e) => set({ touristTaxUnit: e.target.value as TaxUnit })}>
-            <option value="person">pro Person/Nacht</option>
-            <option value="night">pro Nacht</option>
+            {Object.entries(TAX_UNITS).map(([k, v]) => (
+              <option key={k} value={k}>
+                {v}
+              </option>
+            ))}
           </select>
         </div>
       </Field>
       {s.touristTax > 0 && (
         <>
-          {s.touristTaxUnit === "person" && (
+          {taxPerPerson(s.touristTaxUnit) && (
             <Field label="Personen für die Kurtaxe" hint={`leer = automatisch (${num(auto, 0)}, aus „Für“ bzw. den Mitreisenden)`}>
               <NumberInput value={s.touristTaxPersons} digits={0} min={1} allowEmpty placeholder={String(auto)} onChange={(v) => set({ touristTaxPersons: v || null })} />
             </Field>

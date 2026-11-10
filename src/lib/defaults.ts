@@ -2,6 +2,7 @@ import type {
   Activity,
   Board,
   Meal,
+  TaxUnit,
   BookingStatus,
   ChecklistItem,
   ChecklistKind,
@@ -100,6 +101,14 @@ export const BOARDS: Record<Board, { label: string; short: string }> = {
   full: { label: "Vollpension (drei Mahlzeiten)", short: "Vollpension" },
   all: { label: "All-Inclusive", short: "All-Inclusive" },
   custom: { label: "Einzelne Mahlzeiten …", short: "" },
+};
+
+export const TAX_UNITS: Record<TaxUnit, string> = {
+  person: "pro Person/Nacht",
+  personDay: "pro Person/Tag",
+  night: "pro Nacht",
+  day: "pro Tag",
+  total: "gesamt",
 };
 
 export const MEALS: Record<Meal, string> = { breakfast: "Frühstück", lunch: "Mittagessen", dinner: "Abendessen" };

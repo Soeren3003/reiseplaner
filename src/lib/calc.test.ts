@@ -3,6 +3,7 @@ import {
   arrivalDate,
   dailyByPerson,
   stayTax,
+  stayTaxExpenseFields,
   syncBookingExpenses,
   bookingExpenseFields,
   bookingHasExpense,
@@ -257,6 +258,18 @@ describe("Verpflegung und Kurtaxe", () => {
     expect(stayTax({ ...s, touristTaxPersons: 2 }, t).total).toBe(15);
     expect(stayTax({ ...s, touristTaxUnit: "night" }, t).total).toBe(7.5);
     expect(stayTax({ ...s, touristTaxIncluded: true }, t).extra).toBe(0);
+    // 3 Nächte = 4 Tage
+    expect(stayTax({ ...s, touristTaxUnit: "day" }, t)).toMatchObject({ days: 4, total: 10, spreadDays: 4 });
+    expect(stayTax({ ...s, touristTaxUnit: "personDay", touristTaxPersons: 2 }, t).total).toBe(20);
+  });
+
+  it("nimmt einen Gesamtbetrag und verteilt ihn auf die Tage", () => {
+    // Beispiel: 90 € für 10 Tage (9 Nächte)
+    const s = { ...newStay(t, "anna", "2026-03-01", "2026-03-10"), name: "Hotel", touristTax: 90, touristTaxUnit: "total" as const, status: "booked" as const };
+    expect(stayTax(s, t)).toMatchObject({ nights: 9, days: 10, total: 90 });
+    const f = stayTaxExpenseFields(s, t);
+    expect(f).toMatchObject({ amount: 90, date: "2026-03-01", endDate: "2026-03-10" });
+    expect(stayTax({ ...s, touristTax: 9, touristTaxUnit: "day" }, t).total).toBe(90);
   });
 
   it("legt für gebuchte Unterkünfte Preis und Kurtaxe als Ausgaben an und entfernt sie wieder", () => {

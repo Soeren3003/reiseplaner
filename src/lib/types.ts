@@ -105,8 +105,11 @@ export type Board = "none" | "breakfast" | "half" | "full" | "all" | "custom";
 
 export type Meal = "breakfast" | "lunch" | "dinner";
 
-/** Kurtaxe: pro Person und Nacht oder pro Nacht (Zimmer/Wohnung) */
-export type TaxUnit = "person" | "night";
+/**
+ * Kurtaxe: pro Person und Nacht, pro Person und Tag, pro Nacht, pro Tag (Zimmer/Wohnung) oder als Gesamtbetrag.
+ * Tage = Nächte + 1 (An- und Abreisetag zählen mit).
+ */
+export type TaxUnit = "person" | "personDay" | "night" | "day" | "total";
 
 export interface Stay extends Booking {
   kind: StayKind;

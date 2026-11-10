@@ -1,5 +1,5 @@
 import { TRANSPORT_MODES, addDays, dayRange, daysBetween } from "./defaults";
-import type { Activity, Booking, BookingKind, Expense, ExpenseCategory, Payment, PaymentMethod, Settings, Stay, Transport, Trip } from "./types";
+import type { Activity, Booking, BookingKind, Expense, ExpenseCategory, Payment, PaymentMethod, Settings, Stay, TaxUnit, Transport, Trip } from "./types";
 
 export const round2 = (n: number) => Math.round(n * 100) / 100;
 
@@ -310,12 +310,22 @@ export function plannedCosts(trip: Trip, bookings: Booking[]) {
 
 // ---------- Kurtaxe ----------
 
-/** Kurtaxe einer Unterkunft: Personen, Nächte, Summe und davon zusätzlich zum Preis zu zahlen */
+/** Kurtaxe pro Person? */
+export const taxPerPerson = (u: TaxUnit) => u === "person" || u === "personDay";
+
+/**
+ * Kurtaxe einer Unterkunft: Personen, Nächte, Tage, Summe und davon zusätzlich zum Preis zu zahlen.
+ * `spreadDays` = Tage, auf die die Ausgabe verteilt wird (Nächte bei Nacht-Sätzen, sonst An- bis Abreisetag).
+ */
 export function stayTax(s: Pick<Stay, "touristTax" | "touristTaxUnit" | "touristTaxPersons" | "touristTaxIncluded" | "travelers" | "checkIn" | "checkOut">, trip: Pick<Trip, "travelers">) {
   const persons = s.touristTaxPersons && s.touristTaxPersons > 0 ? s.touristTaxPersons : s.travelers.length || trip.travelers.length || 1;
   const nights = stayNights(s);
-  const total = round2((s.touristTax || 0) * nights * (s.touristTaxUnit === "person" ? persons : 1));
-  return { persons, nights, total, extra: s.touristTaxIncluded ? 0 : total };
+  const days = nights ? nights + 1 : 1;
+  const u = s.touristTaxUnit;
+  const units = u === "total" ? 1 : (u === "person" || u === "night" ? nights : days) * (taxPerPerson(u) ? persons : 1);
+  const total = round2((s.touristTax || 0) * units);
+  const spreadDays = u === "person" || u === "night" ? Math.max(1, nights) : days;
+  return { persons, nights, days, spreadDays, total, extra: s.touristTaxIncluded ? 0 : total };
 }
 
 /** Eigene Ausgabe für die Kurtaxe, wenn gebucht und nicht im Preis enthalten */
@@ -332,7 +342,7 @@ export function stayTaxExpenseFields(s: Stay, trip: Pick<Trip, "travelers">): Pa
     splitAmong: s.travelers,
     method: s.method,
     date: s.checkIn,
-    endDate: t.nights > 1 ? addDays(s.checkIn, t.nights - 1) : "",
+    endDate: t.spreadDays > 1 ? addDays(s.checkIn, t.spreadDays - 1) : "",
     excludeFromDaily: false,
     source: "stay",
     sourceId: s.id,
