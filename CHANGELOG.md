@@ -10,6 +10,13 @@ Die Versionsnummern folgen der [semantischen Versionierung](https://semver.org/l
 
 Vor Version 1.0.0 kann sich das Datenformat noch ändern; ältere Datensätze werden beim Laden mit Standardwerten ergänzt.
 
+## [0.2.2] – 2026-11-10
+
+### Neu
+
+- Kurtaxe auch pro Tag, pro Person und Tag oder als Gesamtbetrag (z. B. 90 € für 10 Tage). Tage = Nächte + 1;
+  der Betrag wird gleichmäßig auf die Tage der Unterkunft verteilt.
+
 ## [0.2.1] – 2026-11-10
 
 ### Behoben

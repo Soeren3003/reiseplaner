@@ -62,8 +62,8 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
   Eine neue Verbindung startet dort, wo die letzte angekommen ist.
 - **Unterkünfte:** Hotel, Ferienwohnung, Hostel, Camping, privat, Schiff/Nachtzug – mit Check-in/-out samt Uhrzeit,
   Adresse, Telefon, Buchungsnummer, Preis pro Nacht. **Verpflegung**: nur Übernachtung, Frühstück, Halbpension,
-  Vollpension, All-Inclusive oder einzelne Mahlzeiten. **Kurtaxe** bzw. City Tax pro Person und Nacht oder pro
-  Nacht; sie wird als eigene Ausgabe übernommen (oder als „im Preis enthalten“ markiert). Lücken im Zeitraum werden
+  Vollpension, All-Inclusive oder einzelne Mahlzeiten. **Kurtaxe** bzw. City Tax pro Person und Nacht, pro
+  Person und Tag, pro Nacht, pro Tag oder als Gesamtbetrag; sie wird als eigene Ausgabe übernommen (oder als „im Preis enthalten“ markiert). Lücken im Zeitraum werden
   angezeigt und lassen sich mit einem Klick füllen.
 - **Aktivitäten:** Ausflüge, Führungen, Reservierungen oder einfach Ideen, nach Tagen sortiert.
 - Jede Buchung hat einen **Status**: *Idee* und *Reserviert* zählen als geplante Kosten, *Gebucht* wird
@@ -121,8 +121,9 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
   (An- und Abreisetag zählen mit). Ausgaben vor oder nach der Reise zählen zur Summe, nicht zum Durchschnitt.
 - **Pro Person und Tag** = Tagesdurchschnitt geteilt durch die Zahl der Mitreisenden (allein bzw. beim eigenen
   Anteil: 1). Die Spalten je Person in „Tag für Tag“ zeigen dagegen den tatsächlichen Anteil an den geteilten Ausgaben.
-- **Kurtaxe** = Betrag × Nächte (× Personen, wenn pro Person). Die Personen ergeben sich aus „Für“ bzw. den
-  Mitreisenden oder werden eingetragen.
+- **Kurtaxe** = Betrag × Nächte bzw. Tage (× Personen, wenn pro Person); Tage = Nächte + 1. Ein Gesamtbetrag wird
+  gleichmäßig auf die Tage von der Anreise bis zur Abreise verteilt. Die Personen ergeben sich aus „Aufgeteilt auf“
+  bzw. den Mitreisenden oder werden eingetragen.
 - **Verteilte Ausgaben** (Unterkunft, Mietwagen, „verteilen bis“) werden gleichmäßig auf die Tage aufgeteilt.
 - **Geplant** sind Preise von Buchungen mit Status *Idee* oder *Reserviert*. Der Überblick zeigt Ausgaben plus
   Geplantes im Vergleich zum Budget.
