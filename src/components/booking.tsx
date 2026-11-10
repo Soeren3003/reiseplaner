@@ -126,10 +126,10 @@ export function BookingFields<T extends Booking>({ trip, sum, b, set }: { trip: 
       />
       {sum.shared && (
         <>
-          <Field label="Bezahlt von">
+          <Field label="Bezahlt von" hint="Wer hat das Geld ausgelegt?">
             <PersonSelect people={sum.travelers} value={b.paidBy} onChange={(paidBy) => set({ paidBy } as Partial<T>)} emptyLabel="Noch offen" />
           </Field>
-          <Field label="Für" wide>
+          <Field label="Aufgeteilt auf" wide hint="Wer trägt die Kosten? „Alle“ = gleichmäßig auf alle Mitreisenden.">
             <PersonPicker people={sum.travelers} selected={b.travelers} onChange={(travelers) => set({ travelers } as Partial<T>)} allLabel="Alle" />
           </Field>
         </>

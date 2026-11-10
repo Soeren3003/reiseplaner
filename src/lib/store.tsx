@@ -44,6 +44,11 @@ interface Store extends Data {
   /** Buchung speichern und die zugehörige Ausgabe anlegen, anpassen oder entfernen */
   saveBooking: (kind: BookingKind, booking: AnyBooking, trip?: Trip) => void;
   removeBooking: (kind: BookingKind, booking: AnyBooking) => Promise<void>;
+  /**
+   * Ausgabe ändern. Bei automatisch übernommenen Ausgaben gehen Zahler, Aufteilung und Zahlungsmittel an die
+   * Buchung (sonst würden sie beim nächsten Speichern der Buchung überschrieben).
+   */
+  updateExpense: (e: Expense, patch: Partial<Expense>) => void;
   deleteTrip: (id: string) => Promise<void>;
   deletePerson: (id: string) => Promise<void>;
   reload: () => Promise<void>;
@@ -233,6 +238,27 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         for (const e of r.upserts) save("expenses", e);
         for (const id of r.removals) void remove("expenses", id);
         save(BOOKING_COLLECTION[kind], r.booking as never);
+      },
+      updateExpense: (e, patch) => {
+        const booking = e.source ? (data[BOOKING_COLLECTION[e.source]] as AnyBooking[]).find((b) => b.id === e.sourceId) : undefined;
+        const toBooking: Partial<AnyBooking> = {};
+        if (patch.paidBy !== undefined) toBooking.paidBy = patch.paidBy;
+        if (patch.splitAmong !== undefined) toBooking.travelers = patch.splitAmong;
+        if (patch.method !== undefined) toBooking.method = patch.method;
+        if (booking && e.source && Object.keys(toBooking).length) {
+          const rest = Object.fromEntries(Object.entries(patch).filter(([k]) => !["paidBy", "splitAmong", "method"].includes(k)));
+          // übrige Felder (z. B. Land, Notiz) bleiben an der Ausgabe; die Buchung gleicht danach Preis und Zahler ab
+          const ex = Object.keys(rest).length ? { ...e, ...rest } : e;
+          const others = data.expenses.map((x) => (x.id === ex.id ? ex : x));
+          const trip = data.trips.find((t) => t.id === booking.tripId);
+          if (!trip) return;
+          const r = syncBookingExpenses(e.source, { ...booking, ...toBooking } as AnyBooking, trip, settings, others, () => newExpense(trip, booking.paidBy, booking.createdAt.slice(0, 10)));
+          for (const x of r.upserts) save("expenses", x);
+          for (const id of r.removals) void remove("expenses", id);
+          save(BOOKING_COLLECTION[e.source], r.booking as never);
+          return;
+        }
+        save("expenses", { ...e, ...patch });
       },
       removeBooking: async (kind, b) => {
         if (b.expenseId) await remove("expenses", b.expenseId);

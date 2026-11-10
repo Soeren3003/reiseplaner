@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BarList } from "../../components/charts";
 import { CurrencySelect, MethodSelect, MoneyField } from "../../components/booking";
 import { PersonDot, PersonPicker, PersonSelect } from "../../components/common";
@@ -10,6 +10,8 @@ import { date, dayLabel, fixed, money, num } from "../../lib/format";
 import { useStore } from "../../lib/store";
 import type { TripSummary } from "../../lib/summary";
 import type { Expense, ExpenseCategory, Trip } from "../../lib/types";
+
+const NO_PAYER = "__ohne";
 
 const SOURCE_LABEL = { transport: "Transport", stay: "Unterkünfte", activity: "Aktivitäten" } as const;
 
@@ -26,7 +28,7 @@ export default function Expenses({ trip, sum }: { trip: Trip; sum: TripSummary }
     (e) =>
       (!cat || e.category === cat) &&
       (method === null || (e.method || "") === method) &&
-      (!who || e.paidBy === who || splitIds(e, trip).includes(who)) &&
+      (!who || (who === NO_PAYER ? !e.paidBy : e.paidBy === who || splitIds(e, trip).includes(who))) &&
       (!q || `${e.title} ${e.notes} ${e.country} ${CATEGORIES[e.category].label}`.toLowerCase().includes(q.toLowerCase())),
   );
   const days = useMemo(() => [...new Set(list.map((e) => e.date))], [list]);
@@ -36,6 +38,7 @@ export default function Expenses({ trip, sum }: { trip: Trip; sum: TripSummary }
     <div className="split">
       <div className="main-col">
         <QuickAdd trip={trip} sum={sum} />
+        {sum.shared && sum.settlement.withoutPayer > 0 && <MissingPayer sum={sum} onShow={() => setWho(NO_PAYER)} />}
         <section className="card">
           <div className="card-head">
             <h2>Ausgaben</h2>
@@ -49,7 +52,17 @@ export default function Expenses({ trip, sum }: { trip: Trip; sum: TripSummary }
                   </option>
                 ))}
               </select>
-              {sum.shared && <PersonSelect people={sum.travelers} value={who} onChange={setWho} emptyLabel="Alle Personen" />}
+              {sum.shared && (
+                <select value={who} onChange={(e) => setWho(e.target.value)}>
+                  <option value="">Alle Personen</option>
+                  {sum.travelers.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name || "Ohne Namen"}
+                    </option>
+                  ))}
+                  <option value={NO_PAYER}>– ohne „bezahlt von“ –</option>
+                </select>
+              )}
               <select value={method ?? "*"} onChange={(e) => setMethod(e.target.value === "*" ? null : e.target.value)} title="Zahlungsmittel">
                 <option value="*">Alle Zahlungsmittel</option>
                 {[...new Set(sum.expenses.map((e) => e.method || ""))].sort().map((x) => (
@@ -142,8 +155,8 @@ function ExpenseRow({ trip, sum, e, onClick }: { trip: Trip; sum: TripSummary; e
         </div>
       </div>
       {sum.shared && (
-        <span className="exp-people" title={`bezahlt von ${sum.name(e.paidBy)} · für ${ids.length === trip.travelers.length ? "alle" : ids.map(sum.name).join(", ")}`}>
-          <PersonDot person={sum.person(e.paidBy)} size={20} />
+        <span className="exp-people" title={`bezahlt von ${e.paidBy ? sum.name(e.paidBy) : "– fehlt –"} · für ${ids.length === trip.travelers.length ? "alle" : ids.map(sum.name).join(", ")}`}>
+          {e.paidBy ? <PersonDot person={sum.person(e.paidBy)} size={20} /> : <span className="no-payer" title="„bezahlt von“ fehlt">?</span>}
           {ids.length !== trip.travelers.length && <span className="muted small">→ {ids.length}</span>}
         </span>
       )}
@@ -165,6 +178,9 @@ function QuickAdd({ trip, sum }: { trip: Trip; sum: TripSummary }) {
   const lastManual = sum.expenses.find((e) => !e.source);
   const [d, setD] = useState({ date: defaultDate, amount: 0, currency: lastManual?.currency ?? trip.currency, category: "food" as ExpenseCategory, title: "", paidBy: me, method: lastManual?.method ?? "" });
   const [key, setKey] = useState(0);
+  useEffect(() => {
+    if (sum.shared && !sum.travelers.some((p) => p.id === d.paidBy)) setD((x) => ({ ...x, paidBy: me }));
+  }, [sum.shared, sum.travelers, d.paidBy, me]);
 
   const add = () => {
     if (!d.amount) return;
@@ -293,7 +309,7 @@ function RatesCard({ trip, sum }: { trip: Trip; sum: TripSummary }) {
 function ExpenseEditor({ trip, sum, e, onClose }: { trip: Trip; sum: TripSummary; e: Expense; onClose: () => void }) {
   const store = useStore();
   const [confirm, setConfirm] = useState(false);
-  const set = (patch: Partial<Expense>) => store.save("expenses", { ...e, ...patch });
+  const set = (patch: Partial<Expense>) => store.updateExpense(e, patch);
   const linked = !!e.source;
   const countries = [...new Set([...trip.countries, ...(e.country ? [e.country] : [])])];
   return (
@@ -325,7 +341,12 @@ function ExpenseEditor({ trip, sum, e, onClose }: { trip: Trip; sum: TripSummary
         </>
       }
     >
-      {linked && <div className="alert">Automatisch aus „{SOURCE_LABEL[e.source as keyof typeof SOURCE_LABEL]}“ übernommen. Betrag, Datum, Zahler und Aufteilung dort ändern; Löschen über den Status der Buchung.</div>}
+      {linked && (
+        <div className="alert">
+          Automatisch aus „{SOURCE_LABEL[e.source as keyof typeof SOURCE_LABEL]}“ übernommen. Betrag und Datum dort ändern, Löschen über den Status der Buchung. „Bezahlt
+          von“, „Aufgeteilt auf“ und das Zahlungsmittel lassen sich hier ändern und gelten dann auch für die Buchung.
+        </div>
+      )}
       <div className="form-grid">
         <Field label="Wofür" wide>
           <input value={e.title} disabled={linked} autoFocus={!e.title && !linked} placeholder={CATEGORIES[e.category].label} onChange={(ev) => set({ title: ev.target.value })} />
@@ -359,15 +380,13 @@ function ExpenseEditor({ trip, sum, e, onClose }: { trip: Trip; sum: TripSummary
         )}
         {sum.shared && (
           <>
-            <Field label="Bezahlt von">
-              <PersonSelect people={sum.travelers} value={e.paidBy} onChange={(paidBy) => !linked && set({ paidBy })} emptyLabel="Bitte wählen" />
+            <Field label="Bezahlt von" hint="Wer hat das Geld ausgelegt?">
+              <span className={e.paidBy ? "" : "missing-select"}>
+                <PersonSelect people={sum.travelers} value={e.paidBy} onChange={(paidBy) => set({ paidBy })} emptyLabel="Bitte wählen" />
+              </span>
             </Field>
-            <Field label="Für" wide>
-              {linked ? (
-                <span className="muted">{splitIds(e, trip).map(sum.name).join(", ")}</span>
-              ) : (
-                <PersonPicker people={sum.travelers} selected={e.splitAmong} onChange={(splitAmong) => set({ splitAmong })} allLabel="Alle" />
-              )}
+            <Field label="Aufgeteilt auf" wide hint="Wer trägt die Kosten? „Alle“ = gleichmäßig auf alle Mitreisenden. Nicht: wer bezahlt hat.">
+              <PersonPicker people={sum.travelers} selected={e.splitAmong} onChange={(splitAmong) => set({ splitAmong })} allLabel="Alle" />
             </Field>
           </>
         )}
@@ -391,5 +410,42 @@ function ExpenseEditor({ trip, sum, e, onClose }: { trip: Trip; sum: TripSummary
         </Field>
       </div>
     </Modal>
+  );
+}
+
+/** Hinweis mit Filter und Sammel-Aktion für Ausgaben ohne „bezahlt von“ */
+function MissingPayer({ sum, onShow }: { sum: TripSummary; onShow: () => void }) {
+  const store = useStore();
+  const [who, setWho] = useState(sum.travelers.some((p) => p.id === store.me) ? store.me : "");
+  const missing = sum.expenses.filter((e) => !e.paidBy);
+  return (
+    <div className="alert row">
+      <span className="grow">
+        {missing.length} Ausgabe(n) ohne „bezahlt von“ – sie werden aufgeteilt, aber niemandem gutgeschrieben.{" "}
+        <button className="link small" onClick={onShow}>
+          Anzeigen
+        </button>
+      </span>
+      <span className="row nowrap">
+        alle auf
+        <PersonSelect people={sum.travelers} value={who} onChange={setWho} emptyLabel="Person wählen" />
+        <button
+          className="small"
+          disabled={!who}
+          onClick={() => {
+            // Buchungen nur einmal ändern (Preis und Kurtaxe gehören zur selben Unterkunft)
+            const seen = new Set<string>();
+            for (const e of missing) {
+              const key = e.source ? `${e.source}/${e.sourceId}` : e.id;
+              if (seen.has(key)) continue;
+              seen.add(key);
+              store.updateExpense(e, { paidBy: who });
+            }
+          }}
+        >
+          setzen
+        </button>
+      </span>
+    </div>
   );
 }
