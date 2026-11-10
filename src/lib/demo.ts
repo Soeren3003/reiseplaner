@@ -3,11 +3,11 @@
  * Nur in der Browser-Vorschau: http://localhost:1420/?demo (überschreibt die Vorschau-Daten im localStorage).
  * Alle Personen, Buchungsnummern und Beträge sind frei erfunden.
  */
-import { bookingExpenseFields, bookingHasExpense, type AnyBooking } from "./calc";
+import { syncBookingExpenses, type AnyBooking } from "./calc";
 import { PALETTE, addDays, defaultSettings, newActivity, newExpense, newPerson, newStay, newTransport, newTrip, templateItems, today } from "./defaults";
-import type { Activity, BookingKind, ChecklistItem, Expense, ExpenseCategory, PaymentMethod, Stay, Transport, Trip } from "./types";
+import type { Activity, BookingKind, ChecklistItem, Expense, ExpenseCategory, Settings, Stay, Transport, Trip } from "./types";
 
-const settings = defaultSettings();
+const settings: Settings = { ...defaultSettings(), paymentMethods: ["Bar", "Kreditkarte", "Debitkarte / Girokarte", "PayPal / online", "Suica"] };
 
 const people = [
   { ...newPerson(0), id: "alex", name: "Alex Beispiel", color: PALETTE[0] },
@@ -19,14 +19,12 @@ const expenses: Expense[] = [];
 const checklist: ChecklistItem[] = [];
 
 function book<T extends AnyBooking>(kind: BookingKind, b: T): T {
-  if (bookingHasExpense(b)) {
-    const trip = trips.find((t) => t.id === b.tripId)!;
-    const e = { ...newExpense(trip, b.paidBy, b.createdAt.slice(0, 10)), ...bookingExpenseFields(kind, b, settings) } as Expense;
-    expenses.push(e);
-    b = { ...b, expenseId: e.id };
-  }
-  bookings.push({ kind, b });
-  return b;
+  if (!b.method && b.status === "booked") b = { ...b, method: "Kreditkarte" };
+  const trip = trips.find((t) => t.id === b.tripId)!;
+  const r = syncBookingExpenses(kind, b, trip, settings, expenses, () => newExpense(trip, b.paidBy, b.createdAt.slice(0, 10)));
+  expenses.push(...r.upserts);
+  bookings.push({ kind, b: r.booking });
+  return r.booking;
 }
 
 function spend(trip: Trip, day: number, category: ExpenseCategory, amount: number, title: string, extra: Partial<Expense> = {}) {
@@ -125,30 +123,30 @@ function demoJapan() {
     status: "booked",
   } as Transport);
   book("stay", { ...newStay(t, "sam", d(2), d(6)), name: "Hotel Sakura Shinjuku", address: "Shinjuku, Tokio", currency: "JPY", price: 92000, status: "booked", bookingRef: "HS-55102", provider: "Direkt" } as Stay);
-  book("stay", { ...newStay(t, "alex", d(6), d(8)), kind: "hotel", name: "Ryokan am See", address: "Hakone", currency: "JPY", price: 64000, breakfast: true, status: "booked" } as Stay);
+  book("stay", { ...newStay(t, "alex", d(6), d(8)), kind: "hotel", name: "Ryokan am See", address: "Hakone", currency: "JPY", price: 64000, board: "half", touristTax: 150, touristTaxUnit: "person", status: "booked" } as Stay);
   book("stay", { ...newStay(t, "sam", d(8), d(12)), kind: "apartment", name: "Machiya Gion", address: "Gion, Kyoto", currency: "JPY", price: 88000, status: "booked" } as Stay);
   book("stay", { ...newStay(t, "alex", d(12), d(14)), name: "Hotel Namba", address: "Namba, Osaka", currency: "JPY", price: 30000, status: "booked" } as Stay);
   book("activity", { ...newActivity(t, "alex", d(4)), title: "teamLab Planets", time: "10:00", location: "Toyosu", currency: "JPY", price: 7600, status: "booked" } as Activity);
   book("activity", { ...newActivity(t, "sam", d(9)), title: "Teezeremonie", time: "15:00", location: "Gion", currency: "JPY", price: 9000, status: "booked" } as Activity);
   book("activity", { ...newActivity(t, "", d(10)), title: "Fushimi Inari früh morgens", time: "06:30", location: "Fushimi" } as Activity);
 
-  const daily: [ExpenseCategory, number, string, PaymentMethod?][] = [
-    ["food", 3400, "Ramen"],
-    ["food", 5200, "Izakaya"],
-    ["groceries", 1450, "Konbini", "cash"],
-    ["transport", 1200, "U-Bahn", "card"],
-    ["activities", 1000, "Tempel"],
+  const daily: [ExpenseCategory, number, string, string][] = [
+    ["food", 3400, "Ramen", "Bar"],
+    ["food", 5200, "Izakaya", "Kreditkarte"],
+    ["groceries", 1450, "Konbini", "Bar"],
+    ["transport", 1200, "U-Bahn", "Suica"],
+    ["activities", 1000, "Tempel", "Bar"],
   ];
   for (let day = 2; day <= 13; day++) {
     daily.forEach(([c, amount, title, method], i) => {
       if ((day + i) % 3 === 0 && c !== "food") return;
-      spend(t, day, c, Math.round(amount * (0.8 + ((day * 7 + i * 13) % 9) / 20)), title, { currency: "JPY", paidBy: (day + i) % 2 ? "alex" : "sam", method: method ?? "card", country: "Japan" });
+      spend(t, day, c, Math.round(amount * (0.8 + ((day * 7 + i * 13) % 9) / 20)), title, { currency: "JPY", paidBy: (day + i) % 2 ? "alex" : "sam", method, country: "Japan" });
     });
   }
   spend(t, 3, "shopping", 18000, "Kamera-Objektiv", { currency: "JPY", splitAmong: ["sam"], paidBy: "sam", country: "Japan" });
   spend(t, 9, "shopping", 6500, "Keramik", { currency: "JPY", splitAmong: ["alex"], country: "Japan" });
-  spend(t, 2, "communication", 3000, "eSIM 15 GB", { currency: "JPY", country: "Japan", method: "online" });
-  spend(t, -40, "fees", 64, "Auslandskrankenversicherung", { excludeFromDaily: true, method: "online" });
+  spend(t, 2, "communication", 3000, "eSIM 15 GB", { currency: "JPY", country: "Japan", method: "PayPal / online" });
+  spend(t, -40, "fees", 64, "Auslandskrankenversicherung", { excludeFromDaily: true, method: "PayPal / online" });
 }
 
 function demoPortugal() {
@@ -157,8 +155,8 @@ function demoPortugal() {
   book("transport", { ...newTransport(t, "alex", "flight", d(1)), from: "Frankfurt (FRA)", to: "Lissabon (LIS)", carrier: "Beispiel Air", number: "BX 410", departTime: "07:10", arriveTime: "09:05", durationMin: 175, distanceKm: 1890, price: 312, status: "booked", bookingRef: "PT4KLM" } as Transport);
   book("transport", { ...newTransport(t, "", "train", d(5)), from: "Lissabon", to: "Porto", carrier: "CP", number: "Alfa Pendular", departTime: "09:39", arriveTime: "12:28", distanceKm: 337, price: 64, status: "option" } as Transport);
   book("transport", { ...newTransport(t, "alex", "flight", d(8)), from: "Porto (OPO)", to: "Frankfurt (FRA)", carrier: "Beispiel Air", number: "BX 417", departTime: "18:20", arriveTime: "22:15", durationMin: 175, distanceKm: 1720, price: 298, status: "booked" } as Transport);
-  book("stay", { ...newStay(t, "sam", d(1), d(5)), kind: "apartment", name: "Apartment Alfama", address: "Alfama, Lissabon", price: 520, status: "booked", provider: "Ferienportal" } as Stay);
-  book("stay", { ...newStay(t, "", d(5), d(8)), name: "Hotel Ribeira", address: "Ribeira, Porto", price: 390, status: "idea" } as Stay);
+  book("stay", { ...newStay(t, "sam", d(1), d(5)), kind: "apartment", name: "Apartment Alfama", address: "Alfama, Lissabon", price: 520, status: "booked", provider: "Ferienportal", touristTax: 4, method: "Kreditkarte" } as Stay);
+  book("stay", { ...newStay(t, "", d(5), d(8)), name: "Hotel Ribeira", address: "Ribeira, Porto", price: 390, status: "idea", board: "breakfast", touristTax: 3 } as Stay);
   book("activity", { ...newActivity(t, "", d(3)), title: "Tagesausflug Sintra", time: "09:00", price: 70, status: "idea" } as Activity);
   book("activity", { ...newActivity(t, "", d(6)), title: "Portweinkellerei mit Verkostung", time: "16:00", location: "Vila Nova de Gaia", price: 50, status: "option" } as Activity);
   const todos = templateItems(t.id, "todo", settings.todoTemplate);
@@ -182,8 +180,8 @@ function demoIceland() {
   ];
   for (const [a, b, name, price] of stays) book("stay", { ...newStay(t, "", d(a), d(b)), kind: "apartment", name, currency: "ISK", price, status: "booked" } as Stay);
   for (let day = 1; day <= 10; day++) {
-    spend(t, day, "food", 4200 + (day % 3) * 900, "Essen", { currency: "ISK", country: "Island", method: "card", paidBy: "" });
-    if (day % 2) spend(t, day, "car", 11000, "Tanken", { currency: "ISK", country: "Island", method: "card", paidBy: "" });
+    spend(t, day, "food", 4200 + (day % 3) * 900, "Essen", { currency: "ISK", country: "Island", method: "Kreditkarte", paidBy: "" });
+    if (day % 2) spend(t, day, "car", 11000, "Tanken", { currency: "ISK", country: "Island", method: "Kreditkarte", paidBy: "" });
     if (day % 3 === 0) spend(t, day, "groceries", 6500, "Supermarkt", { currency: "ISK", country: "Island", paidBy: "" });
   }
   spend(t, 4, "activities", 14000, "Gletscherwanderung", { currency: "ISK", country: "Island", paidBy: "" });
@@ -206,6 +204,6 @@ export function loadDemo() {
   put("checklist", checklist);
   put("expenses", expenses);
   put("payments", []);
-  localStorage.removeItem("reiseplaner:settings");
+  put("settings", [settings]);
   localStorage.setItem("reiseplaner:me", "alex");
 }

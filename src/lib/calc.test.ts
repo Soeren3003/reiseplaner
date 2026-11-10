@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   arrivalDate,
+  dailyByPerson,
+  stayTax,
+  syncBookingExpenses,
   bookingExpenseFields,
   bookingHasExpense,
   budgetTotal,
@@ -17,7 +20,7 @@ import {
   tripDays,
   tripStats,
 } from "./calc";
-import { defaultSettings, newActivity, newExpense, newPayment, newStay, newTransport, newTrip, templateItems } from "./defaults";
+import { boardLabel, defaultSettings, migrateExpense, migrateStay, newActivity, newExpense, newPayment, newStay, newTransport, newTrip, templateItems } from "./defaults";
 import type { Expense, Trip } from "./types";
 
 function trip(patch: Partial<Trip> = {}): Trip {
@@ -113,7 +116,7 @@ describe("Auswertung", () => {
     exp(t, 400, { date: "2026-03-01", endDate: "2026-03-04", category: "stay", paidBy: "ben" }),
     // Flug vor der Reise gebucht, nicht im Tagesdurchschnitt
     exp(t, 600, { date: "2026-01-10", category: "flight", excludeFromDaily: true, paidBy: "anna" }),
-    exp(t, 5000, { date: "2026-03-03", category: "food", currency: "JPY", paidBy: "anna", splitAmong: ["anna"], method: "cash", country: "Japan" }),
+    exp(t, 5000, { date: "2026-03-03", category: "food", currency: "JPY", paidBy: "anna", splitAmong: ["anna"], method: "Bar", country: "Japan" }),
   ];
 
   it("summiert, verteilt auf Tage und rechnet den Tagesdurchschnitt", () => {
@@ -199,5 +202,81 @@ describe("Vorlagen", () => {
       ["Dokumente", "Pass"],
       ["Kleidung", "Socken"],
     ]);
+  });
+});
+
+describe("Pro Person und Zahlungsmittel", () => {
+  const t = trip({ travelers: ["anna", "ben"] });
+  const list = [
+    exp(t, 100, { date: "2026-03-01", paidBy: "anna", method: "Bar" }),
+    exp(t, 60, { date: "2026-03-01", paidBy: "ben", method: "Kreditkarte", splitAmong: ["ben"] }),
+    exp(t, 40, { date: "2026-03-02", paidBy: "anna" }),
+  ];
+
+  it("rechnet pro Person und Tag", () => {
+    const s = tripStats(t, list);
+    expect(s.persons).toBe(2);
+    expect(s.perDay).toBe(40);
+    expect(s.perPersonDay).toBe(20);
+    expect(tripStats(t, list, "anna").perPersonDay).toBe(14);
+  });
+
+  it("schlüsselt Tage nach Zahlungsmittel auf", () => {
+    const d = tripStats(t, list).daily;
+    expect(d[0].byMethod).toEqual({ Bar: 100, Kreditkarte: 60 });
+    expect(d[1].byMethod).toEqual({ "": 40 });
+    expect(tripStats(t, list).byMethod[0]).toMatchObject({ key: "Bar", amount: 100 });
+  });
+
+  it("zeigt jeden Tag den Anteil jeder Person", () => {
+    const p = dailyByPerson(t, list);
+    expect(p.find((x) => x.personId === "anna")?.daily).toEqual([50, 20, 0, 0, 0]);
+    expect(p.find((x) => x.personId === "ben")?.daily).toEqual([110, 20, 0, 0, 0]);
+  });
+
+  it("übernimmt alte Zahlungsarten", () => {
+    expect(migrateExpense({ id: "x", method: "card" }).method).toBe("Kreditkarte");
+    expect(migrateExpense({ id: "x", method: "Revolut" }).method).toBe("Revolut");
+  });
+});
+
+describe("Verpflegung und Kurtaxe", () => {
+  const t = trip({ travelers: ["anna", "ben", "cem"] });
+
+  it("übernimmt das frühere Frühstücks-Häkchen", () => {
+    expect(migrateStay({ id: "s", breakfast: true }).board).toBe("breakfast");
+    expect(migrateStay({ id: "s" }).board).toBe("none");
+    expect(boardLabel({ board: "custom", meals: ["dinner", "breakfast"] })).toBe("mit Frühstück + Abendessen");
+    expect(boardLabel({ board: "half", meals: [] })).toBe("Halbpension");
+  });
+
+  it("rechnet Kurtaxe pro Person und Nacht bzw. pro Nacht", () => {
+    const s = { ...newStay(t, "anna", "2026-03-01", "2026-03-04"), touristTax: 2.5 };
+    expect(stayTax(s, t)).toMatchObject({ persons: 3, nights: 3, total: 22.5, extra: 22.5 });
+    expect(stayTax({ ...s, travelers: ["anna"] }, t).total).toBe(7.5);
+    expect(stayTax({ ...s, touristTaxPersons: 2 }, t).total).toBe(15);
+    expect(stayTax({ ...s, touristTaxUnit: "night" }, t).total).toBe(7.5);
+    expect(stayTax({ ...s, touristTaxIncluded: true }, t).extra).toBe(0);
+  });
+
+  it("legt für gebuchte Unterkünfte Preis und Kurtaxe als Ausgaben an und entfernt sie wieder", () => {
+    let n = 0;
+    const make = () => ({ ...newExpense(t, "", "2026-03-01"), id: `e${++n}` });
+    const s = { ...newStay(t, "anna", "2026-03-01", "2026-03-04"), name: "Hotel", price: 300, touristTax: 2, status: "booked" as const, method: "Kreditkarte" };
+    const r = syncBookingExpenses("stay", s, t, defaultSettings(), [], make);
+    expect(r.upserts.map((e) => [e.title, e.amount, e.category, e.method])).toEqual([
+      ["Hotel", 300, "stay", "Kreditkarte"],
+      ["Kurtaxe Hotel", 18, "fees", "Kreditkarte"],
+    ]);
+    expect(r.booking.expenseId).toBe("e1");
+    expect(r.booking.taxExpenseId).toBe("e2");
+    const back = syncBookingExpenses("stay", { ...r.booking, status: "option" }, t, defaultSettings(), r.upserts, make);
+    expect(back.removals).toEqual(["e1", "e2"]);
+    expect(back.booking.taxExpenseId).toBe("");
+  });
+
+  it("zählt Kurtaxe nicht gebuchter Unterkünfte als geplant", () => {
+    const s = { ...newStay(t, "", "2026-03-01", "2026-03-03"), price: 200, touristTax: 1, status: "idea" as const };
+    expect(plannedCosts(t, [s])).toBe(206);
   });
 });

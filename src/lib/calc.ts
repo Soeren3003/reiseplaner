@@ -199,6 +199,8 @@ export interface DayTotal {
   date: string;
   total: number;
   byCategory: Partial<Record<ExpenseCategory, number>>;
+  /** nach Zahlungsmittel; "" = ohne Angabe */
+  byMethod: Record<string, number>;
 }
 
 export interface TripStats {
@@ -207,6 +209,10 @@ export interface TripStats {
   dailyBase: number;
   days: number;
   perDay: number;
+  /** Personen, auf die gerechnet wird (Mitreisende; beim eigenen Anteil bzw. allein 1) */
+  persons: number;
+  /** Ø pro Person und Tag (Tagesdurchschnitt geteilt durch die Personen) */
+  perPersonDay: number;
   /** Ausgaben vor bzw. nach dem Reisezeitraum (z. B. Flüge, Versicherung) */
   beforeTrip: number;
   afterTrip: number;
@@ -231,7 +237,7 @@ export function tripStats(trip: Trip, expenses: Expense[], personId?: string): T
   const total = items.reduce((a, x) => a + x.v, 0);
   const days = tripDays(trip);
   const range = dayRange(trip.startDate, trip.endDate || trip.startDate);
-  const dayMap = new Map<string, DayTotal>(range.map((d) => [d, { date: d, total: 0, byCategory: {} }]));
+  const dayMap = new Map<string, DayTotal>(range.map((d) => [d, { date: d, total: 0, byCategory: {}, byMethod: {} }]));
   let beforeTrip = 0;
   let afterTrip = 0;
   let dailyBase = 0;
@@ -245,6 +251,7 @@ export function tripStats(trip: Trip, expenses: Expense[], personId?: string): T
         const t = dayMap.get(d)!;
         t.total += part;
         t.byCategory[e.category] = (t.byCategory[e.category] ?? 0) + part;
+        t.byMethod[e.method || ""] = (t.byMethod[e.method || ""] ?? 0) + part;
         dailyBase += part;
       }
     }
@@ -262,12 +269,16 @@ export function tripStats(trip: Trip, expenses: Expense[], personId?: string): T
     date: d.date,
     total: round2(d.total),
     byCategory: Object.fromEntries(Object.entries(d.byCategory).map(([k, v]) => [k, round2(v)])) as DayTotal["byCategory"],
+    byMethod: Object.fromEntries(Object.entries(d.byMethod).map(([k, v]) => [k, round2(v)])),
   }));
+  const persons = personId ? 1 : Math.max(1, trip.travelers.length);
   return {
     total: round2(total),
     dailyBase: round2(dailyBase),
     days,
     perDay: days ? round2(dailyBase / days) : 0,
+    persons,
+    perPersonDay: days ? round2(dailyBase / days / persons) : 0,
     beforeTrip: round2(beforeTrip),
     afterTrip: round2(afterTrip),
     byCategory: group(items.map((x) => ({ key: x.e.category, amount: x.v }))),
@@ -280,9 +291,52 @@ export function tripStats(trip: Trip, expenses: Expense[], personId?: string): T
   };
 }
 
-/** Geplante, noch nicht gebuchte Kosten (Ideen und Reservierungen) in der Heimatwährung */
+/** Tag für Tag der Anteil jeder mitreisenden Person (Heimatwährung, nur Ausgaben im Tagesdurchschnitt) */
+export function dailyByPerson(trip: Trip, expenses: Expense[]) {
+  return trip.travelers.map((personId) => {
+    const st = tripStats(trip, expenses, personId);
+    return { personId, daily: st.daily.map((d) => d.total), total: st.total, perDay: st.perDay };
+  });
+}
+
+/** Geplante, noch nicht gebuchte Kosten (Ideen und Reservierungen, inkl. Kurtaxe) in der Heimatwährung */
 export function plannedCosts(trip: Trip, bookings: Booking[]) {
-  return round2(bookings.filter((b) => b.status === "idea" || b.status === "option").reduce((a, b) => a + bookingHome(b, trip), 0));
+  return round2(
+    bookings
+      .filter((b) => b.status === "idea" || b.status === "option")
+      .reduce((a, b) => a + bookingHome(b, trip) + ("touristTax" in b ? homeAmount({ amount: stayTax(b as Stay, trip).extra, currency: b.currency }, trip) : 0), 0),
+  );
+}
+
+// ---------- Kurtaxe ----------
+
+/** Kurtaxe einer Unterkunft: Personen, Nächte, Summe und davon zusätzlich zum Preis zu zahlen */
+export function stayTax(s: Pick<Stay, "touristTax" | "touristTaxUnit" | "touristTaxPersons" | "touristTaxIncluded" | "travelers" | "checkIn" | "checkOut">, trip: Pick<Trip, "travelers">) {
+  const persons = s.touristTaxPersons && s.touristTaxPersons > 0 ? s.touristTaxPersons : s.travelers.length || trip.travelers.length || 1;
+  const nights = stayNights(s);
+  const total = round2((s.touristTax || 0) * nights * (s.touristTaxUnit === "person" ? persons : 1));
+  return { persons, nights, total, extra: s.touristTaxIncluded ? 0 : total };
+}
+
+/** Eigene Ausgabe für die Kurtaxe, wenn gebucht und nicht im Preis enthalten */
+export const stayHasTaxExpense = (s: Stay, trip: Pick<Trip, "travelers">) => s.status === "booked" && stayTax(s, trip).extra > 0;
+
+export function stayTaxExpenseFields(s: Stay, trip: Pick<Trip, "travelers">): Partial<Expense> {
+  const t = stayTax(s, trip);
+  return {
+    title: `Kurtaxe ${s.name || "Unterkunft"}`,
+    category: "fees",
+    amount: t.extra,
+    currency: s.currency,
+    paidBy: s.paidBy,
+    splitAmong: s.travelers,
+    method: s.method,
+    date: s.checkIn,
+    endDate: t.nights > 1 ? addDays(s.checkIn, t.nights - 1) : "",
+    excludeFromDaily: false,
+    source: "stay",
+    sourceId: s.id,
+  };
 }
 
 // ---------- Transport ----------
@@ -322,6 +376,7 @@ export function bookingExpenseFields(kind: BookingKind, b: AnyBooking, settings:
     currency: b.currency,
     paidBy: b.paidBy,
     splitAmong: b.travelers,
+    method: b.method,
     source: kind,
     sourceId: b.id,
   };
@@ -358,6 +413,38 @@ export function bookingExpenseFields(kind: BookingKind, b: AnyBooking, settings:
 
 /** Soll zu dieser Buchung eine Ausgabe existieren? */
 export const bookingHasExpense = (b: Pick<Booking, "status" | "price">) => b.status === "booked" && (b.price || 0) !== 0;
+
+/**
+ * Automatische Ausgaben einer Buchung abgleichen: Preis (und bei Unterkünften die Kurtaxe) anlegen, anpassen
+ * oder entfernen. `make` erzeugt eine neue, leere Ausgabe. Liefert die Buchung mit den Kennungen der Ausgaben.
+ */
+export function syncBookingExpenses<B extends AnyBooking>(
+  kind: BookingKind,
+  booking: B,
+  trip: Trip,
+  settings: Pick<Settings, "excludeFlightsFromDaily">,
+  existing: Expense[],
+  make: () => Expense,
+): { booking: B; upserts: Expense[]; removals: string[] } {
+  let b = booking;
+  const upserts: Expense[] = [];
+  const removals: string[] = [];
+  const link = (key: "expenseId" | "taxExpenseId", wanted: boolean, fields: () => Partial<Expense>) => {
+    const id = (b as unknown as Record<string, string>)[key] ?? "";
+    const linked = id ? existing.find((e) => e.id === id) : undefined;
+    if (wanted) {
+      const exp = { ...(linked ?? make()), ...fields() } as Expense;
+      if (exp.id !== id) b = { ...b, [key]: exp.id };
+      upserts.push(exp);
+    } else if (id) {
+      if (linked) removals.push(linked.id);
+      b = { ...b, [key]: "" };
+    }
+  };
+  link("expenseId", bookingHasExpense(b), () => bookingExpenseFields(kind, b, settings));
+  if (kind === "stay") link("taxExpenseId", stayHasTaxExpense(b as Stay, trip), () => stayTaxExpenseFields(b as Stay, trip));
+  return { booking: b, upserts, removals };
+}
 
 // ---------- Tagesplan ----------
 

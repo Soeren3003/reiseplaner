@@ -1,9 +1,9 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { saveAs } from "./api";
-import { arrivalDate, homeAmount, rateOf, splitIds, stayNights, transportDuration } from "./calc";
+import { arrivalDate, dailyByPerson, homeAmount, rateOf, splitIds, stayNights, stayTax, transportDuration } from "./calc";
 import { toCsv } from "./csv";
-import { BOOKING_STATUS, CATEGORIES, PAYMENT_METHODS, STAY_KINDS, TRANSPORT_MODES, addDays } from "./defaults";
+import { BOOKING_STATUS, CATEGORIES, STAY_KINDS, TRANSPORT_MODES, addDays, boardLabel } from "./defaults";
 import { date, dateRange, dayLabel, duration, money, num, safeFileName } from "./format";
 import type { TripSummary } from "./summary";
 import type { Transport, Trip } from "./types";
@@ -150,7 +150,7 @@ export const exportIcs = (trip: Trip, sum: TripSummary) => saveAs(`${safeFileNam
 // ---------- CSV ----------
 
 export function expenseRows(trip: Trip, sum: TripSummary): (string | number)[][] {
-  const head = ["Datum", "bis", "Wofür", "Kategorie", "Betrag", "Währung", "Kurs", `Betrag (${trip.currency})`, "Land", "Zahlungsart", "Bezahlt von", "Aufgeteilt auf", "im Tagesdurchschnitt", "Notiz"];
+  const head = ["Datum", "bis", "Wofür", "Kategorie", "Betrag", "Währung", "Kurs", `Betrag (${trip.currency})`, "Land", "Zahlungsmittel", "Bezahlt von", "Aufgeteilt auf", "im Tagesdurchschnitt", "Notiz"];
   return [
     head,
     ...sum.expenses
@@ -166,7 +166,7 @@ export function expenseRows(trip: Trip, sum: TripSummary): (string | number)[][]
         rateOf(e, trip) ?? "fehlt",
         homeAmount(e, trip),
         e.country,
-        e.method ? PAYMENT_METHODS[e.method] : "",
+        e.method,
         sum.shared ? sum.name(e.paidBy) : "",
         sum.shared ? splitIds(e, trip).map(sum.name).join(", ") : "",
         e.excludeFromDaily ? "nein" : "ja",
@@ -185,6 +185,18 @@ export function settlementRows(trip: Trip, sum: TripSummary): (string | number)[
     ...s.transfers.map((t) => [`${sum.name(t.from)} → ${sum.name(t.to)}`, "", "", "", t.amount]),
   ];
 }
+
+/** Tag für Tag: Gesamt, pro Person im Schnitt und der Anteil jeder mitreisenden Person */
+export function dailyRows(trip: Trip, sum: TripSummary): (string | number)[][] {
+  const people = sum.shared ? dailyByPerson(trip, sum.expenses) : [];
+  const persons = Math.max(1, trip.travelers.length);
+  return [
+    ["Tag", "Datum", `Gesamt (${trip.currency})`, "pro Person", ...people.map((p) => sum.name(p.personId))],
+    ...sum.stats.daily.map((d, i) => [i + 1, date(d.date), d.total, Math.round((d.total / persons) * 100) / 100, ...people.map((p) => p.daily[i])]),
+  ];
+}
+
+export const exportDailyCsv = (trip: Trip, sum: TripSummary) => saveAs(`Tage ${safeFileName(trip.name)}.csv`, enc(toCsv(dailyRows(trip, sum))), "text/csv");
 
 export const exportExpensesCsv = (trip: Trip, sum: TripSummary) => saveAs(`Ausgaben ${safeFileName(trip.name)}.csv`, enc(toCsv(expenseRows(trip, sum))), "text/csv");
 export const exportSettlementCsv = (trip: Trip, sum: TripSummary) => saveAs(`Abrechnung ${safeFileName(trip.name)}.csv`, enc(toCsv(settlementRows(trip, sum))), "text/csv");
@@ -286,8 +298,19 @@ export function buildTripPdf(trip: Trip, sum: TripSummary, parts: PdfParts = { p
     );
     table(
       "Unterkünfte",
-      ["Zeitraum", "Nächte", "Unterkunft", "Adresse", "Buchung", "Preis"],
-      sum.stays.map((s) => [dateRange(s.checkIn, s.checkOut), String(stayNights(s)), `${s.name} (${STAY_KINDS[s.kind].label})`, s.address, s.bookingRef, s.price ? plain(money(s.price, s.currency)) : ""]),
+      ["Zeitraum", "Nächte", "Unterkunft", "Adresse", "Buchung", "Preis", "Kurtaxe"],
+      sum.stays.map((s) => {
+        const tax = stayTax(s, trip);
+        return [
+          dateRange(s.checkIn, s.checkOut),
+          String(stayNights(s)),
+          `${s.name} (${[STAY_KINDS[s.kind].label, boardLabel(s)].filter(Boolean).join(", ")})`,
+          s.address,
+          s.bookingRef,
+          s.price ? plain(money(s.price, s.currency)) : "",
+          tax.total ? `${plain(money(tax.total, s.currency))}${s.touristTaxIncluded ? " (inkl.)" : ""}` : "",
+        ];
+      }),
     );
     table(
       "Aktivitäten",
@@ -299,7 +322,7 @@ export function buildTripPdf(trip: Trip, sum: TripSummary, parts: PdfParts = { p
   if (parts.expenses && sum.expenses.length) {
     const st = sum.stats;
     table(
-      `Ausgaben: ${m(st.total)} gesamt, ${m(st.perDay)} pro Tag (${st.days} Tage)`,
+      `Ausgaben: ${m(st.total)} gesamt, ${m(st.perDay)} pro Tag${st.persons > 1 ? `, ${m(st.perPersonDay)} pro Person und Tag` : ""} (${st.days} Tage)`,
       ["Kategorie", "Betrag", "Anteil", "Anzahl"],
       st.byCategory.map((c) => [CATEGORIES[c.key].label, m(c.amount), `${num(st.total ? (c.amount / st.total) * 100 : 0, 0)} %`, String(c.count)]),
     );

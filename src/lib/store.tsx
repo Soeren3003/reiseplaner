@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { api, type Collection } from "./api";
-import { bookingExpenseFields, bookingHasExpense, type AnyBooking } from "./calc";
-import { defaultSettings, migrateExpense, migratePerson, migrateSettings, migrateTrip, newExpense, now } from "./defaults";
+import { syncBookingExpenses, type AnyBooking } from "./calc";
+import { defaultSettings, migrateBooking, migrateExpense, migratePerson, migrateSettings, migrateStay, migrateTrip, newExpense, now } from "./defaults";
 import type { Activity, BookingKind, ChecklistItem, Expense, LocalConfig, Payment, Person, Settings, Stay, SyncReport, Transport, Trip } from "./types";
 
 type Entity = { id: string; updatedAt: string };
@@ -42,7 +42,7 @@ interface Store extends Data {
   save: <K extends ListCollection>(collection: K, item: Data[K][number]) => void;
   remove: (collection: ListCollection, id: string) => Promise<void>;
   /** Buchung speichern und die zugehörige Ausgabe anlegen, anpassen oder entfernen */
-  saveBooking: (kind: BookingKind, booking: AnyBooking) => void;
+  saveBooking: (kind: BookingKind, booking: AnyBooking, trip?: Trip) => void;
   removeBooking: (kind: BookingKind, booking: AnyBooking) => Promise<void>;
   deleteTrip: (id: string) => Promise<void>;
   deletePerson: (id: string) => Promise<void>;
@@ -136,6 +136,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     d.people = d.people.map(migratePerson).sort((a, b) => a.name.localeCompare(b.name, "de"));
     d.trips = d.trips.map((t) => migrateTrip(t, cur)).sort((a, b) => b.startDate.localeCompare(a.startDate));
     d.expenses = d.expenses.map(migrateExpense);
+    d.stays = d.stays.map(migrateStay);
+    d.transports = d.transports.map(migrateBooking);
+    d.activities = d.activities.map(migrateBooking);
     setData(d);
   }, []);
 
@@ -223,23 +226,17 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         schedule("settings", v);
       },
       save,
-      saveBooking: (kind, booking) => {
-        let b = booking;
-        const trip = data.trips.find((t) => t.id === b.tripId);
-        const linked = b.expenseId ? data.expenses.find((e) => e.id === b.expenseId) : undefined;
-        if (trip && bookingHasExpense(b)) {
-          const fields = bookingExpenseFields(kind, b, settings);
-          const exp = linked ? { ...linked, ...fields } : { ...newExpense(trip, b.paidBy, b.createdAt.slice(0, 10)), ...fields };
-          if (exp.id !== b.expenseId) b = { ...b, expenseId: exp.id };
-          save("expenses", exp as Expense);
-        } else if (b.expenseId) {
-          if (linked) void remove("expenses", linked.id);
-          b = { ...b, expenseId: "" };
-        }
-        save(BOOKING_COLLECTION[kind], b as never);
+      saveBooking: (kind, booking, tripOverride) => {
+        const trip = tripOverride ?? data.trips.find((t) => t.id === booking.tripId);
+        if (!trip) return save(BOOKING_COLLECTION[kind], booking as never);
+        const r = syncBookingExpenses(kind, booking, trip, settings, data.expenses, () => newExpense(trip, booking.paidBy, booking.createdAt.slice(0, 10)));
+        for (const e of r.upserts) save("expenses", e);
+        for (const id of r.removals) void remove("expenses", id);
+        save(BOOKING_COLLECTION[kind], r.booking as never);
       },
       removeBooking: async (kind, b) => {
         if (b.expenseId) await remove("expenses", b.expenseId);
+        if ("taxExpenseId" in b && b.taxExpenseId) await remove("expenses", b.taxExpenseId);
         await remove(BOOKING_COLLECTION[kind], b.id);
       },
       remove,

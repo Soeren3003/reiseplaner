@@ -1,11 +1,12 @@
 import type {
   Activity,
+  Board,
+  Meal,
   BookingStatus,
   ChecklistItem,
   ChecklistKind,
   Expense,
   ExpenseCategory,
-  PaymentMethod,
   Payment,
   Person,
   Settings,
@@ -63,7 +64,7 @@ export const CATEGORIES: Record<ExpenseCategory, { label: string; icon: string }
   groceries: { label: "Lebensmittel", icon: "🛒" },
   activities: { label: "Aktivitäten & Eintritt", icon: "🎟" },
   shopping: { label: "Shopping & Souvenirs", icon: "🛍" },
-  fees: { label: "Visum, Versicherung & Gebühren", icon: "📄" },
+  fees: { label: "Visum, Gebühren & Kurtaxe", icon: "📄" },
   communication: { label: "Internet & Telefon", icon: "📱" },
   health: { label: "Gesundheit", icon: "💊" },
   other: { label: "Sonstiges", icon: "•" },
@@ -92,12 +93,29 @@ export const STAY_KINDS: Record<StayKind, { label: string; icon: string }> = {
   other: { label: "Sonstiges", icon: "🛌" },
 };
 
-export const PAYMENT_METHODS: Record<Exclude<PaymentMethod, "">, string> = {
-  cash: "Bar",
-  card: "Karte",
-  online: "Online / Überweisung",
-  other: "Sonstiges",
+export const BOARDS: Record<Board, { label: string; short: string }> = {
+  none: { label: "Nur Übernachtung", short: "" },
+  breakfast: { label: "Frühstück", short: "mit Frühstück" },
+  half: { label: "Halbpension (Frühstück + Abendessen)", short: "Halbpension" },
+  full: { label: "Vollpension (drei Mahlzeiten)", short: "Vollpension" },
+  all: { label: "All-Inclusive", short: "All-Inclusive" },
+  custom: { label: "Einzelne Mahlzeiten …", short: "" },
 };
+
+export const MEALS: Record<Meal, string> = { breakfast: "Frühstück", lunch: "Mittagessen", dinner: "Abendessen" };
+
+/** Kurztext der Verpflegung, z. B. „Halbpension“ oder „Frühstück + Abendessen“ */
+export function boardLabel(s: { board: Board; meals: Meal[] }) {
+  if (s.board !== "custom") return BOARDS[s.board].short;
+  const m = (Object.keys(MEALS) as Meal[]).filter((k) => s.meals.includes(k));
+  return m.length ? `mit ${m.map((k) => MEALS[k]).join(" + ")}` : "";
+}
+
+export const DEFAULT_PAYMENT_METHODS = ["Bar", "Kreditkarte", "Debitkarte / Girokarte", "PayPal / online", "Überweisung"];
+
+/** Frühere feste Zahlungsarten (Version 0.1) auf die neuen Namen abbilden */
+const OLD_METHODS: Record<string, string> = { cash: "Bar", card: "Kreditkarte", online: "PayPal / online", other: "Sonstiges" };
+export const migrateMethod = (m: string | undefined) => (m ? (OLD_METHODS[m] ?? m) : "");
 
 /** Farben für Personen – gut unterscheidbar */
 export const PALETTE = ["#2a78d6", "#eb6834", "#1f9d6b", "#9b51e0", "#d6336c", "#c99a06", "#0f8fa8", "#6b7280"];
@@ -164,6 +182,7 @@ export function defaultSettings(): Settings {
     updatedAt: now(),
     defaultCurrency: "EUR",
     excludeFlightsFromDaily: true,
+    paymentMethods: DEFAULT_PAYMENT_METHODS,
     todoTemplate: DEFAULT_TODOS,
     packTemplate: DEFAULT_PACKING,
   };
@@ -171,7 +190,8 @@ export function defaultSettings(): Settings {
 
 /** Ältere oder unvollständige Datensätze (z. B. per Sync von einer älteren Version) mit Standardwerten ergänzen */
 export function migrateSettings(s: Partial<Settings>): Settings {
-  return { ...defaultSettings(), ...s, id: "settings" };
+  const d = defaultSettings();
+  return { ...d, ...s, paymentMethods: s.paymentMethods?.length ? s.paymentMethods : d.paymentMethods, id: "settings" };
 }
 
 const base = () => ({ id: uid(), createdAt: now(), updatedAt: now() });
@@ -217,6 +237,7 @@ const booking = (trip: Trip, paidBy: string) => ({
   currency: trip.currency,
   paidBy,
   travelers: [] as string[],
+  method: "",
   provider: "",
   bookingRef: "",
   link: "",
@@ -254,8 +275,25 @@ export function newStay(trip: Trip, paidBy: string, checkIn = trip.startDate, ch
     checkInTime: "",
     checkOut: checkOut > checkIn ? checkOut : addDays(checkIn, 1),
     checkOutTime: "",
-    breakfast: false,
+    board: "none",
+    meals: [],
+    touristTax: 0,
+    touristTaxUnit: "person",
+    touristTaxPersons: null,
+    touristTaxIncluded: false,
+    taxExpenseId: "",
   };
+}
+
+/** Buchungen älterer Versionen ergänzen (Zahlungsmittel; bei Unterkünften Verpflegung und Kurtaxe) */
+export function migrateBooking<T extends { id: string; method?: string }>(b: T): T {
+  return { ...b, method: migrateMethod(b.method) };
+}
+
+export function migrateStay(s: Partial<Stay> & { id: string; breakfast?: boolean }): Stay {
+  const { breakfast, ...rest } = s;
+  const d = { board: (breakfast ? "breakfast" : "none") as Board, meals: [] as Meal[], touristTax: 0, touristTaxUnit: "person" as const, touristTaxPersons: null, touristTaxIncluded: false, taxExpenseId: "" };
+  return migrateBooking({ ...d, ...rest } as Stay);
 }
 
 export function newActivity(trip: Trip, paidBy: string, date = trip.startDate): Activity {
@@ -314,7 +352,6 @@ export function migrateExpense(e: Partial<Expense> & { id: string }): Expense {
     paidBy: "",
     splitAmong: [],
     country: "",
-    method: "",
     excludeFromDaily: false,
     source: "",
     sourceId: "",
@@ -322,6 +359,7 @@ export function migrateExpense(e: Partial<Expense> & { id: string }): Expense {
     createdAt: now(),
     updatedAt: now(),
     ...e,
+    method: migrateMethod(e.method),
   } as Expense;
 }
 

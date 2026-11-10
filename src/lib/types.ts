@@ -62,6 +62,8 @@ export interface Booking extends Entity {
   paidBy: string;
   /** Für wen? Leer = alle Mitreisenden */
   travelers: string[];
+  /** Zahlungsmittel (Name aus den Einstellungen, z. B. „Kreditkarte“) */
+  method: string;
   /** Anbieter bzw. Buchungsportal */
   provider: string;
   bookingRef: string;
@@ -98,6 +100,14 @@ export interface Transport extends Booking {
 
 export type StayKind = "hotel" | "apartment" | "hostel" | "camping" | "private" | "ship" | "other";
 
+/** Verpflegung: Übernachtung, Frühstück, Halbpension, Vollpension, All-Inclusive oder einzelne Mahlzeiten */
+export type Board = "none" | "breakfast" | "half" | "full" | "all" | "custom";
+
+export type Meal = "breakfast" | "lunch" | "dinner";
+
+/** Kurtaxe: pro Person und Nacht oder pro Nacht (Zimmer/Wohnung) */
+export type TaxUnit = "person" | "night";
+
 export interface Stay extends Booking {
   kind: StayKind;
   name: string;
@@ -107,7 +117,18 @@ export interface Stay extends Booking {
   checkInTime: string;
   checkOut: string;
   checkOutTime: string;
-  breakfast: boolean;
+  board: Board;
+  /** nur bei board = "custom" */
+  meals: Meal[];
+  /** Kurtaxe bzw. Tourismusabgabe je Einheit, in der Währung der Unterkunft (0 = keine) */
+  touristTax: number;
+  touristTaxUnit: TaxUnit;
+  /** Personen für die Kurtaxe; null = automatisch (Mitreisende der Unterkunft) */
+  touristTaxPersons: number | null;
+  /** schon im Preis enthalten → keine eigene Ausgabe */
+  touristTaxIncluded: boolean;
+  /** Automatisch erzeugte Ausgabe für die Kurtaxe */
+  taxExpenseId: string;
 }
 
 export interface Activity extends Booking {
@@ -149,7 +170,8 @@ export type ExpenseCategory =
   | "health"
   | "other";
 
-export type PaymentMethod = "" | "cash" | "card" | "online" | "other";
+/** Zahlungsmittel: frei benennbar (Einstellungen), leer = ohne Angabe */
+export type PaymentMethod = string;
 
 export type BookingKind = "transport" | "stay" | "activity";
 
@@ -194,6 +216,8 @@ export interface Settings {
   defaultCurrency: string;
   /** Anreise und Rückreise (Flüge) standardmäßig nicht im Tagesdurchschnitt */
   excludeFlightsFromDaily: boolean;
+  /** Zahlungsmittel zur Auswahl, z. B. „Bar“, „Kreditkarte“, „Revolut“ */
+  paymentMethods: string[];
   todoTemplate: string[];
   /** Zeilen mit „:“ am Ende beginnen einen Abschnitt */
   packTemplate: string[];
