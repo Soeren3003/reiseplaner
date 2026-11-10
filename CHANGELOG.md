@@ -10,6 +10,24 @@ Die Versionsnummern folgen der [semantischen Versionierung](https://semver.org/l
 
 Vor Version 1.0.0 kann sich das Datenformat noch ändern; ältere Datensätze werden beim Laden mit Standardwerten ergänzt.
 
+## [0.2.0] – 2026-11-10
+
+### Neu
+
+- Unterkünfte: Verpflegung (nur Übernachtung, Frühstück, Halbpension, Vollpension, All-Inclusive oder einzelne
+  Mahlzeiten) statt nur „Frühstück“
+- Unterkünfte: Kurtaxe pro Person und Nacht oder pro Nacht, als eigene Ausgabe oder „im Preis enthalten“;
+  Personenzahl automatisch oder von Hand
+- Zahlungsmittel frei benennbar (Einstellungen), auswählbar bei Ausgaben, in der Schnellerfassung und bei Buchungen;
+  Filter in der Ausgabenliste
+- Auswertung: Diagramm pro Tag nach Kategorie oder Zahlungsmittel, für die Gruppe oder pro Person; Ø pro Person und
+  Tag; Tabelle nach Zahlungsmittel; Tabelle „Tag für Tag“ mit dem Anteil jeder Person und CSV-Export
+- Statistik: Ø pro Person und Tag, Auswertung nach Zahlungsmittel
+
+### Geändert
+
+- Bisherige Zahlungsarten (Bar, Karte, Online) und das Frühstücks-Häkchen werden beim Laden übernommen.
+
 ## [0.1.0] – 2026-11-10
 
 Erste Version.

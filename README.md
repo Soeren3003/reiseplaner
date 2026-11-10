@@ -61,8 +61,10 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
   Link, Strecke in km und Dauer. Die Dauer wird aus den Zeiten berechnet oder bei Zeitzonen von Hand eingetragen.
   Eine neue Verbindung startet dort, wo die letzte angekommen ist.
 - **Unterkünfte:** Hotel, Ferienwohnung, Hostel, Camping, privat, Schiff/Nachtzug – mit Check-in/-out samt Uhrzeit,
-  Adresse, Telefon, Frühstück, Buchungsnummer, Preis pro Nacht. Lücken im Zeitraum werden angezeigt und lassen sich
-  mit einem Klick füllen.
+  Adresse, Telefon, Buchungsnummer, Preis pro Nacht. **Verpflegung**: nur Übernachtung, Frühstück, Halbpension,
+  Vollpension, All-Inclusive oder einzelne Mahlzeiten. **Kurtaxe** bzw. City Tax pro Person und Nacht oder pro
+  Nacht; sie wird als eigene Ausgabe übernommen (oder als „im Preis enthalten“ markiert). Lücken im Zeitraum werden
+  angezeigt und lassen sich mit einem Klick füllen.
 - **Aktivitäten:** Ausflüge, Führungen, Reservierungen oder einfach Ideen, nach Tagen sortiert.
 - Jede Buchung hat einen **Status**: *Idee* und *Reserviert* zählen als geplante Kosten, *Gebucht* wird
   **automatisch als Ausgabe übernommen** (Unterkünfte verteilt auf die Nächte, Mietwagen auf die Miettage),
@@ -73,15 +75,16 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
   Ausgaben und Abrechnung.
 
 ### Ausgaben
-- Schnell erfassen: Datum, Betrag, Währung, Kategorie, optional wofür – Enter, fertig.
+- Schnell erfassen: Datum, Betrag, Währung, Kategorie, Zahlungsmittel, optional wofür – Enter, fertig.
 - 12 Kategorien (Flüge, Transport, Auto/Sprit/Maut, Unterkunft, Essen & Trinken, Lebensmittel, Aktivitäten,
-  Shopping, Visum/Versicherung/Gebühren, Internet & Telefon, Gesundheit, Sonstiges)
+  Shopping, Visum/Gebühren/Kurtaxe, Internet & Telefon, Gesundheit, Sonstiges)
 - **Beliebige Währungen** mit Wechselkursen, die von Hand gepflegt werden (in beide Richtungen eingebbar,
   z. B. „1 EUR = 161,5 JPY“); einzelne Ausgaben können einen eigenen Kurs haben, etwa laut Kreditkartenabrechnung.
-- Land, Zahlungsart (bar, Karte, online), Notiz
+- Land, **Zahlungsmittel** (frei benennbar in den Einstellungen, z. B. Bar, Kreditkarte Visa, Revolut,
+  Reisekasse – auch bei Buchungen), Notiz
 - Über mehrere Tage **verteilen** (Rail-Pass, Mietwagen) und **aus dem Tagesdurchschnitt ausnehmen**
   (Anreise, vorab bezahlte Versicherung). Gebuchte Flüge sind standardmäßig ausgenommen.
-- Liste nach Tagen mit Tagessummen, Suche und Filter nach Kategorie und Person, CSV-Export
+- Liste nach Tagen mit Tagessummen, Suche und Filter nach Kategorie, Person und Zahlungsmittel, CSV-Export
 
 ### Mitreisende und Abrechnung
 - Wer hat bezahlt, auf wen wird verteilt (alle oder eine Auswahl)
@@ -89,11 +92,13 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
 - Abrechnung als Text kopieren oder als CSV speichern
 
 ### Auswerten
-- Je Reise: Gesamt, Ø pro Tag, pro Person, Budget; **Säulendiagramm pro Tag** nach Kategorie; Tabelle und
-  Balken nach Kategorie; nach Land, Zahlungsart und Währung; pro Person
+- Je Reise: Gesamt, Ø pro Tag, **Ø pro Person und Tag**, Budget
+- **Säulendiagramm pro Tag**, aufgeschlüsselt nach Kategorie oder Zahlungsmittel, für die Gruppe oder pro Person
+- Tabellen und Balken nach Kategorie und **Zahlungsmittel**; nach Land und Währung; pro Person
+- Tabelle **Tag für Tag** mit Gesamt, Schnitt pro Person und dem Anteil jeder mitreisenden Person (CSV-Export)
 - Umschalter **„Ganze Gruppe / Mein Anteil“**
 - **Statistik über alle Reisen**: Reisen, Reisetage, Nächte, Länder, Ausgaben pro Reise als Diagramm, nach
-  Kategorie, Land und Jahr, Verkehrsmittel mit Anzahl, km und Stunden, Budget-Abweichung je Reise, CSV-Export
+  Kategorie, Land, Zahlungsmittel und Jahr, Ø pro Tag und pro Person und Tag, Verkehrsmittel mit Anzahl, km und Stunden, Budget-Abweichung je Reise, CSV-Export
 
 ### Dokumente
 - Tickets, Bordkarten, Buchungsbestätigungen und Belege je Reise ablegen (per Drag & Drop) und mit
@@ -114,6 +119,10 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
   Fehlt ein Kurs, zählt der Betrag noch nicht mit; die App weist darauf hin.
 - **Tagesdurchschnitt** = Ausgaben im Reisezeitraum, die nicht ausgenommen sind, geteilt durch die Reisetage
   (An- und Abreisetag zählen mit). Ausgaben vor oder nach der Reise zählen zur Summe, nicht zum Durchschnitt.
+- **Pro Person und Tag** = Tagesdurchschnitt geteilt durch die Zahl der Mitreisenden (allein bzw. beim eigenen
+  Anteil: 1). Die Spalten je Person in „Tag für Tag“ zeigen dagegen den tatsächlichen Anteil an den geteilten Ausgaben.
+- **Kurtaxe** = Betrag × Nächte (× Personen, wenn pro Person). Die Personen ergeben sich aus „Für“ bzw. den
+  Mitreisenden oder werden eingetragen.
 - **Verteilte Ausgaben** (Unterkunft, Mietwagen, „verteilen bis“) werden gleichmäßig auf die Tage aufgeteilt.
 - **Geplant** sind Preise von Buchungen mit Status *Idee* oder *Reserviert*. Der Überblick zeigt Ausgaben plus
   Geplantes im Vergleich zum Budget.
