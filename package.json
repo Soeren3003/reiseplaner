@@ -1,7 +1,7 @@
 {
   "name": "reiseplaner",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Reisen planen und dokumentieren: Flüge, Transport, Unterkünfte, Ausgaben, Abrechnung und Auswertung – lokal, mit Nextcloud-Sync",
   "license": "MIT",
   "author": "Soeren3003",

@@ -1,6 +1,6 @@
 [package]
 name = "reiseplaner"
-version = "0.2.0"
+version = "0.2.1"
 description = "Reisen planen und dokumentieren: Flüge, Transport, Unterkünfte, Ausgaben, Abrechnung und Auswertung"
 license = "MIT"
 authors = ["Soeren3003"]

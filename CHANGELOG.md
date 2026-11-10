@@ -10,6 +10,21 @@ Die Versionsnummern folgen der [semantischen Versionierung](https://semver.org/l
 
 Vor Version 1.0.0 kann sich das Datenformat noch ändern; ältere Datensätze werden beim Laden mit Standardwerten ergänzt.
 
+## [0.2.1] – 2026-11-10
+
+### Behoben
+
+- „Bezahlt von“ ließ sich bei automatisch übernommenen Ausgaben (aus Transport, Unterkünften, Aktivitäten, Kurtaxe)
+  nicht ändern – die Auswahl wurde ohne Hinweis ignoriert. Zahler, Aufteilung und Zahlungsmittel lassen sich jetzt
+  auch dort ändern und gelten dann für die Buchung.
+
+### Geändert
+
+- „Für“ heißt jetzt „Aufgeteilt auf“, mit Erklärung; „Bezahlt von“ ist rot markiert, solange es fehlt.
+- Ausgaben ohne „bezahlt von“: Hinweis mit Filter und „alle auf … setzen“; in der Liste mit „?“ gekennzeichnet.
+- Die Schnellerfassung schlägt als Zahler immer eine mitreisende Person vor, auch wenn Mitreisende erst später
+  eingetragen werden.
+
 ## [0.2.0] – 2026-11-10
 
 ### Neu
