@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Field } from "../components/ui";
 import { api, inTauri, pickFolder } from "../lib/api";
-import { CURRENCIES, DEFAULT_PACKING, DEFAULT_TODOS } from "../lib/defaults";
+import { CURRENCIES, DEFAULT_PACKING, DEFAULT_PAYMENT_METHODS, DEFAULT_TODOS } from "../lib/defaults";
 import { dateTime } from "../lib/format";
 import { useStore } from "../lib/store";
 import type { LocalConfig, Settings } from "../lib/types";
@@ -35,6 +35,7 @@ export default function SettingsPage({ tab: initial }: { tab?: string }) {
       </div>
 
       {tab === "allgemein" && (
+        <>
         <section className="card narrow">
           <h2>Vorgaben</h2>
           <div className="form-grid">
@@ -51,6 +52,18 @@ export default function SettingsPage({ tab: initial }: { tab?: string }) {
             </label>
           </div>
         </section>
+        <section className="card narrow">
+          <h2>Zahlungsmittel</h2>
+          <p className="muted small">
+            Eines pro Zeile, z. B. „Bar“, „Kreditkarte Visa“, „Revolut“, „Reisekasse“. Erscheint bei Ausgaben und Buchungen zur Auswahl und in der
+            Auswertung. Umbenennen ändert bestehende Ausgaben nicht.
+          </p>
+          <TemplateEditor rows={7} value={s.paymentMethods} onChange={(paymentMethods) => set({ paymentMethods: [...new Set(paymentMethods)] })} />
+          <button className="link small" onClick={() => set({ paymentMethods: DEFAULT_PAYMENT_METHODS })}>
+            Auf Standard zurücksetzen
+          </button>
+        </section>
+        </>
       )}
 
       {tab === "aufgaben" && (
@@ -81,12 +94,12 @@ export default function SettingsPage({ tab: initial }: { tab?: string }) {
 }
 
 /** Zeilen werden erst beim Verlassen übernommen, damit Leerzeilen beim Tippen erhalten bleiben. */
-function TemplateEditor({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
+function TemplateEditor({ value, onChange, rows = 18 }: { value: string[]; onChange: (v: string[]) => void; rows?: number }) {
   const [text, setText] = useState(value.join("\n"));
   useEffect(() => setText(value.join("\n")), [value]);
   return (
     <textarea
-      rows={18}
+      rows={rows}
       value={text}
       onChange={(e) => setText(e.target.value)}
       onBlur={() =>

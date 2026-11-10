@@ -1,15 +1,15 @@
 import { useMemo, useState } from "react";
 import { BarList } from "../../components/charts";
-import { CurrencySelect, MoneyField } from "../../components/booking";
+import { CurrencySelect, MethodSelect, MoneyField } from "../../components/booking";
 import { PersonDot, PersonPicker, PersonSelect } from "../../components/common";
 import { Empty, Field, Modal, NumberInput } from "../../components/ui";
 import { budgetTotal, expenseDays, homeAmount, rateOf, splitIds, tripCurrencies } from "../../lib/calc";
-import { CATEGORIES, PAYMENT_METHODS, newExpense, today } from "../../lib/defaults";
+import { CATEGORIES, newExpense, today } from "../../lib/defaults";
 import { exportExpensesCsv } from "../../lib/export";
 import { date, dayLabel, fixed, money, num } from "../../lib/format";
 import { useStore } from "../../lib/store";
 import type { TripSummary } from "../../lib/summary";
-import type { Expense, ExpenseCategory, PaymentMethod, Trip } from "../../lib/types";
+import type { Expense, ExpenseCategory, Trip } from "../../lib/types";
 
 const SOURCE_LABEL = { transport: "Transport", stay: "Unterkünfte", activity: "Aktivitäten" } as const;
 
@@ -17,6 +17,7 @@ export default function Expenses({ trip, sum }: { trip: Trip; sum: TripSummary }
   const [edit, setEdit] = useState("");
   const [cat, setCat] = useState<"" | ExpenseCategory>("");
   const [who, setWho] = useState("");
+  const [method, setMethod] = useState<string | null>(null);
   const [q, setQ] = useState("");
   const m = (n: number) => money(n, trip.currency);
   const editing = sum.expenses.find((e) => e.id === edit);
@@ -24,6 +25,7 @@ export default function Expenses({ trip, sum }: { trip: Trip; sum: TripSummary }
   const list = sum.expenses.filter(
     (e) =>
       (!cat || e.category === cat) &&
+      (method === null || (e.method || "") === method) &&
       (!who || e.paidBy === who || splitIds(e, trip).includes(who)) &&
       (!q || `${e.title} ${e.notes} ${e.country} ${CATEGORIES[e.category].label}`.toLowerCase().includes(q.toLowerCase())),
   );
@@ -48,6 +50,14 @@ export default function Expenses({ trip, sum }: { trip: Trip; sum: TripSummary }
                 ))}
               </select>
               {sum.shared && <PersonSelect people={sum.travelers} value={who} onChange={setWho} emptyLabel="Alle Personen" />}
+              <select value={method ?? "*"} onChange={(e) => setMethod(e.target.value === "*" ? null : e.target.value)} title="Zahlungsmittel">
+                <option value="*">Alle Zahlungsmittel</option>
+                {[...new Set(sum.expenses.map((e) => e.method || ""))].sort().map((x) => (
+                  <option key={x || "-"} value={x}>
+                    {x || "ohne Angabe"}
+                  </option>
+                ))}
+              </select>
               <button className="ghost small" onClick={() => exportExpensesCsv(trip, sum)} disabled={!sum.expenses.length}>
                 CSV
               </button>
@@ -123,7 +133,7 @@ function ExpenseRow({ trip, sum, e, onClick }: { trip: Trip; sum: TripSummary; e
           {[
             spread > 1 && `verteilt auf ${spread} Tage bis ${date(e.endDate)}`,
             e.country,
-            e.method && PAYMENT_METHODS[e.method],
+            e.method,
             e.excludeFromDaily && "nicht im Tagesdurchschnitt",
             e.notes,
           ]
@@ -152,13 +162,13 @@ function QuickAdd({ trip, sum }: { trip: Trip; sum: TripSummary }) {
   const defaultDate = t0 >= trip.startDate && t0 <= trip.endDate ? t0 : trip.startDate;
   const me = sum.travelers.some((p) => p.id === store.me) ? store.me : (sum.travelers[0]?.id ?? "");
   // zuletzt verwendete Fremdwährung vorschlagen
-  const lastCurrency = sum.expenses.find((e) => !e.source)?.currency ?? trip.currency;
-  const [d, setD] = useState({ date: defaultDate, amount: 0, currency: lastCurrency, category: "food" as ExpenseCategory, title: "", paidBy: me });
+  const lastManual = sum.expenses.find((e) => !e.source);
+  const [d, setD] = useState({ date: defaultDate, amount: 0, currency: lastManual?.currency ?? trip.currency, category: "food" as ExpenseCategory, title: "", paidBy: me, method: lastManual?.method ?? "" });
   const [key, setKey] = useState(0);
 
   const add = () => {
     if (!d.amount) return;
-    store.save("expenses", { ...newExpense(trip, d.paidBy, d.date, d.currency), amount: d.amount, category: d.category, title: d.title.trim() });
+    store.save("expenses", { ...newExpense(trip, d.paidBy, d.date, d.currency), amount: d.amount, category: d.category, title: d.title.trim(), method: d.method });
     setD({ ...d, amount: 0, title: "" });
     setKey((k) => k + 1);
   };
@@ -179,6 +189,7 @@ function QuickAdd({ trip, sum }: { trip: Trip; sum: TripSummary }) {
           ))}
         </select>
         <input value={d.title} placeholder="Wofür? (optional)" onChange={(e) => setD({ ...d, title: e.target.value })} />
+        <MethodSelect value={d.method} onChange={(method) => setD({ ...d, method })} emptyLabel="Zahlungsmittel …" />
         {sum.shared && <PersonSelect people={sum.travelers} value={d.paidBy} onChange={(paidBy) => setD({ ...d, paidBy })} emptyLabel="bezahlt von …" />}
         <button className="primary" onClick={add} disabled={!d.amount}>
           + Ausgabe
@@ -368,15 +379,8 @@ function ExpenseEditor({ trip, sum, e, onClose }: { trip: Trip; sum: TripSummary
             ))}
           </datalist>
         </Field>
-        <Field label="Bezahlt mit">
-          <select value={e.method} onChange={(ev) => set({ method: ev.target.value as PaymentMethod })}>
-            <option value="">–</option>
-            {Object.entries(PAYMENT_METHODS).map(([k, v]) => (
-              <option key={k} value={k}>
-                {v}
-              </option>
-            ))}
-          </select>
+        <Field label="Zahlungsmittel">
+          <MethodSelect value={e.method} onChange={(method) => set({ method })} />
         </Field>
         <label className="check wide">
           <input type="checkbox" checked={e.excludeFromDaily} onChange={(ev) => set({ excludeFromDaily: ev.target.checked })} />

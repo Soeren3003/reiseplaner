@@ -29,7 +29,8 @@ export function NumberInput({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, focus]);
   const n = parseNum(text);
-  const invalid = n === null || (min !== undefined && n < min);
+  const empty = allowEmpty && text.trim() === "";
+  const invalid = !empty && (n === null || (min !== undefined && n < min));
   return (
     <span className={`input-wrap ${className}`}>
       <input

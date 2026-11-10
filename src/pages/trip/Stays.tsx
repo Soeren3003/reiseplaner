@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { BookingFields, BookingLink, BookingModal, BookingPrice, StatusBadge } from "../../components/booking";
-import { Empty, Field } from "../../components/ui";
-import { bookingHome, stayNights } from "../../lib/calc";
-import { STAY_KINDS, addDays, newStay } from "../../lib/defaults";
-import { dateRange, dayLabel, money } from "../../lib/format";
+import { Empty, Field, NumberInput } from "../../components/ui";
+import { bookingHome, homeAmount, stayNights, stayTax } from "../../lib/calc";
+import { BOARDS, MEALS, STAY_KINDS, addDays, boardLabel, newStay } from "../../lib/defaults";
+import { currencySymbol, dateRange, dayLabel, money, num } from "../../lib/format";
 import { useStore } from "../../lib/store";
 import type { TripSummary } from "../../lib/summary";
-import type { Stay, StayKind, Trip } from "../../lib/types";
+import type { Board, Meal, Stay, StayKind, TaxUnit, Trip } from "../../lib/types";
 
 export default function Stays({ trip, sum }: { trip: Trip; sum: TripSummary }) {
   const store = useStore();
@@ -28,8 +28,10 @@ export default function Stays({ trip, sum }: { trip: Trip; sum: TripSummary }) {
 
   const live = sum.stays.filter((s) => s.status !== "cancelled");
   const nights = live.reduce((a, s) => a + stayNights(s), 0);
-  const booked = live.filter((s) => s.status === "booked").reduce((a, s) => a + bookingHome(s, trip), 0);
-  const all = live.reduce((a, s) => a + bookingHome(s, trip), 0);
+  const taxOf = (s: Stay) => homeAmount({ amount: stayTax(s, trip).extra, currency: s.currency }, trip);
+  const booked = live.filter((s) => s.status === "booked").reduce((a, s) => a + bookingHome(s, trip) + taxOf(s), 0);
+  const all = live.reduce((a, s) => a + bookingHome(s, trip) + taxOf(s), 0);
+  const tax = live.reduce((a, s) => a + taxOf(s), 0);
 
   return (
     <div className="split">
@@ -68,7 +70,8 @@ export default function Stays({ trip, sum }: { trip: Trip; sum: TripSummary }) {
                         {s.address && <> · {s.address}</>}
                       </div>
                       <div className="muted small">
-                        {[s.provider, s.bookingRef && `Nr. ${s.bookingRef}`, s.breakfast && "mit Frühstück", s.checkInTime && `Check-in ab ${s.checkInTime}`, s.checkOutTime && `Check-out bis ${s.checkOutTime}`].filter(Boolean).join(" · ")}{" "}
+                        {[s.provider, s.bookingRef && `Nr. ${s.bookingRef}`, boardLabel(s),
+                          s.touristTax > 0 && `Kurtaxe ${money(stayTax(s, trip).total, s.currency)}${s.touristTaxIncluded ? " (inkl.)" : ""}`, s.checkInTime && `Check-in ab ${s.checkInTime}`, s.checkOutTime && `Check-out bis ${s.checkOutTime}`].filter(Boolean).join(" · ")}{" "}
                         <BookingLink url={s.link} />
                       </div>
                     </div>
@@ -95,6 +98,12 @@ export default function Stays({ trip, sum }: { trip: Trip; sum: TripSummary }) {
             <dd>{m(booked)}</dd>
             <dt>inkl. geplant</dt>
             <dd>{m(all)}</dd>
+            {tax > 0 && (
+              <>
+                <dt>davon Kurtaxe</dt>
+                <dd>{m(tax)}</dd>
+              </>
+            )}
             {nights > 0 && (
               <>
                 <dt className="sep">Ø pro Nacht</dt>
@@ -102,7 +111,7 @@ export default function Stays({ trip, sum }: { trip: Trip; sum: TripSummary }) {
               </>
             )}
           </dl>
-          <p className="muted small">Gebuchte Unterkünfte erscheinen unter „Ausgaben“, verteilt auf die einzelnen Nächte.</p>
+          <p className="muted small">Gebuchte Unterkünfte erscheinen unter „Ausgaben“, verteilt auf die einzelnen Nächte. Eine Kurtaxe, die vor Ort dazukommt, wird als eigene Ausgabe übernommen.</p>
         </section>
       </aside>
       {editing && <StayEditor trip={trip} sum={sum} s={editing} onClose={() => setEdit("")} />}
@@ -159,11 +168,67 @@ function StayEditor({ trip, sum, s, onClose }: { trip: Trip; sum: TripSummary; s
       <Field label="Telefon">
         <input value={s.phone} onChange={(e) => set({ phone: e.target.value })} />
       </Field>
-      <label className="check">
-        <input type="checkbox" checked={s.breakfast} onChange={(e) => set({ breakfast: e.target.checked })} />
-        Frühstück inklusive
-      </label>
+      <Field label="Verpflegung">
+        <select value={s.board} onChange={(e) => set({ board: e.target.value as Board })}>
+          {Object.entries(BOARDS).map(([k, v]) => (
+            <option key={k} value={k}>
+              {v.label}
+            </option>
+          ))}
+        </select>
+      </Field>
+      {s.board === "custom" && (
+        <Field label="Mahlzeiten inklusive">
+          <div className="row">
+            {(Object.keys(MEALS) as Meal[]).map((k) => (
+              <label key={k} className="check">
+                <input
+                  type="checkbox"
+                  checked={s.meals.includes(k)}
+                  onChange={(e) => set({ meals: e.target.checked ? [...s.meals, k] : s.meals.filter((x) => x !== k) })}
+                />
+                {MEALS[k]}
+              </label>
+            ))}
+          </div>
+        </Field>
+      )}
+      <TouristTaxFields trip={trip} s={s} set={set} />
       <BookingFields trip={trip} sum={sum} b={s} set={set} />
     </BookingModal>
+  );
+}
+
+function TouristTaxFields({ trip, s, set }: { trip: Trip; s: Stay; set: (patch: Partial<Stay>) => void }) {
+  const t = stayTax(s, trip);
+  const auto = stayTax({ ...s, touristTaxPersons: null }, trip).persons;
+  const hint = s.touristTax
+    ? `${s.touristTaxUnit === "person" ? `${t.persons} Pers. × ` : ""}${t.nights} Nächte × ${money(s.touristTax, s.currency)} = ${money(t.total, s.currency)}${s.touristTaxIncluded ? " – im Preis enthalten" : " – wird als eigene Ausgabe übernommen"}`
+    : "Tourismusabgabe, City Tax o. Ä.; 0 = keine";
+  return (
+    <>
+      <Field label="Kurtaxe" hint={hint}>
+        <div className="row nowrap">
+          <NumberInput value={s.touristTax} min={0} suffix={currencySymbol(s.currency)} onChange={(v) => set({ touristTax: v ?? 0 })} />
+          <select value={s.touristTaxUnit} onChange={(e) => set({ touristTaxUnit: e.target.value as TaxUnit })}>
+            <option value="person">pro Person/Nacht</option>
+            <option value="night">pro Nacht</option>
+          </select>
+        </div>
+      </Field>
+      {s.touristTax > 0 && (
+        <>
+          {s.touristTaxUnit === "person" && (
+            <Field label="Personen für die Kurtaxe" hint={`leer = automatisch (${num(auto, 0)}, aus „Für“ bzw. den Mitreisenden)`}>
+              <NumberInput value={s.touristTaxPersons} digits={0} min={1} allowEmpty placeholder={String(auto)} onChange={(v) => set({ touristTaxPersons: v || null })} />
+            </Field>
+          )}
+          <label className="check">
+            <input type="checkbox" checked={s.touristTaxIncluded} onChange={(e) => set({ touristTaxIncluded: e.target.checked })} />
+            Kurtaxe ist im Preis enthalten
+          </label>
+        </>
+      )}
+    </>
   );
 }

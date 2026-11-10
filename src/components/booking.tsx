@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { bookingHome, rateOf } from "../lib/calc";
 import { BOOKING_STATUS, CURRENCIES } from "../lib/defaults";
 import { money } from "../lib/format";
+import { useStore } from "../lib/store";
 import type { TripSummary } from "../lib/summary";
 import type { Booking, BookingStatus, Trip } from "../lib/types";
 import { PersonPicker, PersonSelect } from "./common";
@@ -78,6 +79,20 @@ export function MoneyField({
   );
 }
 
+/** Zahlungsmittel aus den Einstellungen; ein früher verwendeter, inzwischen gelöschter Name bleibt wählbar */
+export function MethodSelect({ value, onChange, emptyLabel = "–" }: { value: string; onChange: (m: string) => void; emptyLabel?: string }) {
+  const store = useStore();
+  const opts = [...new Set([...store.settings.paymentMethods, ...(value ? [value] : [])])];
+  return (
+    <select value={value} onChange={(e) => onChange(e.target.value)} title="Zahlungsmittel (Liste in den Einstellungen)">
+      <option value="">{emptyLabel}</option>
+      {opts.map((m) => (
+        <option key={m}>{m}</option>
+      ))}
+    </select>
+  );
+}
+
 export function StatusBadge({ status }: { status: BookingStatus }) {
   return <Badge color={BOOKING_STATUS[status].color}>{BOOKING_STATUS[status].label}</Badge>;
 }
@@ -119,6 +134,9 @@ export function BookingFields<T extends Booking>({ trip, sum, b, set }: { trip: 
           </Field>
         </>
       )}
+      <Field label="Bezahlt mit">
+        <MethodSelect value={b.method} onChange={(method) => set({ method } as Partial<T>)} />
+      </Field>
       <Field label="Anbieter / Portal">
         <input value={b.provider} placeholder="z. B. Booking.com, Direkt" onChange={(e) => set({ provider: e.target.value } as Partial<T>)} />
       </Field>

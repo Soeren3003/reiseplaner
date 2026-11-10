@@ -256,7 +256,10 @@ function TripFacts({ trip, sum }: { trip: Trip; sum: TripSummary }) {
                 onChange={(ids) => {
                   // wer schon in Ausgaben vorkommt, bleibt dabei – sonst stimmt die Abrechnung nicht
                   const keep = trip.travelers.filter((id) => used.has(id) && !ids.includes(id));
-                  set({ travelers: [...ids, ...keep] });
+                  const next = { ...trip, travelers: [...ids, ...keep] };
+                  store.save("trips", next);
+                  // Kurtaxe pro Person hängt von der Zahl der Mitreisenden ab
+                  for (const s of sum.stays.filter((x) => x.touristTax > 0 && !x.travelers.length && !x.touristTaxPersons)) store.saveBooking("stay", s, next);
                 }}
               />
             )}

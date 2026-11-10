@@ -2113,3 +2113,25 @@ tr.day-start td {
     grid-template-columns: 1fr 280px;
   }
 }
+
+.table-scroll {
+  overflow-x: auto;
+}
+.chart-note {
+  margin: -4px 0 8px;
+}
+.daily-table th,
+.daily-table td {
+  white-space: nowrap;
+}
+.card-head {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.card-head > .row {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.card-head .search {
+  width: 160px;
+}
