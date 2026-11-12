@@ -4,1658 +4,1895 @@
   "name": "Afghanistan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 642100
  },
  {
   "code": "EG",
   "name": "Ägypten",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1003700
  },
  {
   "code": "AX",
   "name": "Ålandinseln",
   "continent": "Europa",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 800
  },
  {
   "code": "AL",
   "name": "Albanien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 28300
  },
  {
   "code": "DZ",
   "name": "Algerien",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 2322800
  },
  {
   "code": "AS",
   "name": "Amerikanisch-Samoa",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "VI",
   "name": "Amerikanische Jungferninseln",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 300
  },
  {
   "code": "AD",
   "name": "Andorra",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 400
  },
  {
   "code": "AO",
   "name": "Angola",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1249400
  },
  {
   "code": "AI",
   "name": "Anguilla",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "AQ",
   "name": "Antarktis",
   "continent": "Antarktis",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 12256400
  },
  {
   "code": "AG",
   "name": "Antigua und Barbuda",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 400
  },
  {
   "code": "GQ",
   "name": "Äquatorialguinea",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 26600
  },
  {
   "code": "AR",
   "name": "Argentinien",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 2782700
  },
  {
   "code": "AM",
   "name": "Armenien",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 29600
  },
  {
   "code": "AW",
   "name": "Aruba",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 200
  },
  {
   "code": "AZ",
   "name": "Aserbaidschan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 86400
  },
  {
   "code": "ET",
   "name": "Äthiopien",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1131800
  },
  {
   "code": "AU",
   "name": "Australien",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 7706200
  },
  {
   "code": "BS",
   "name": "Bahamas",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 12700
  },
  {
   "code": "BH",
   "name": "Bahrain",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 500
  },
  {
   "code": "BD",
   "name": "Bangladesch",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 135700
  },
  {
   "code": "BB",
   "name": "Barbados",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 400
  },
  {
   "code": "BY",
   "name": "Belarus",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 206700
  },
  {
   "code": "BE",
   "name": "Belgien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 30600
  },
  {
   "code": "BZ",
   "name": "Belize",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 22800
  },
  {
   "code": "BJ",
   "name": "Benin",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 116600
  },
  {
   "code": "BM",
   "name": "Bermuda",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "BT",
   "name": "Bhutan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 39900
  },
  {
   "code": "BO",
   "name": "Bolivien",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1090300
  },
  {
   "code": "BA",
   "name": "Bosnien und Herzegowina",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 51700
  },
  {
   "code": "BW",
   "name": "Botsuana",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 580600
  },
  {
   "code": "BR",
   "name": "Brasilien",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 8499400
  },
  {
   "code": "VG",
   "name": "Britische Jungferninseln",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "IO",
   "name": "Britisches Territorium im Indischen Ozean",
   "continent": "Asien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "BN",
   "name": "Brunei Darussalam",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 5700
  },
  {
   "code": "BG",
   "name": "Bulgarien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 112400
  },
  {
   "code": "BF",
   "name": "Burkina Faso",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 273700
  },
  {
   "code": "BI",
   "name": "Burundi",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 27200
  },
  {
   "code": "CV",
   "name": "Cabo Verde",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 3600
  },
  {
   "code": "CL",
   "name": "Chile",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 737400
  },
  {
   "code": "CN",
   "name": "China",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 9371300
  },
  {
   "code": "CK",
   "name": "Cookinseln",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "CR",
   "name": "Costa Rica",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 51500
  },
  {
   "code": "CI",
   "name": "Côte d’Ivoire",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 322300
  },
  {
   "code": "CW",
   "name": "Curaçao",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 400
  },
  {
   "code": "DK",
   "name": "Dänemark",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 42400
  },
  {
   "code": "DE",
   "name": "Deutschland",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 356200
  },
  {
   "code": "DM",
   "name": "Dominica",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 700
  },
  {
   "code": "DO",
   "name": "Dominikanische Republik",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 48600
  },
  {
   "code": "DJ",
   "name": "Dschibuti",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 21700
  },
  {
   "code": "EC",
   "name": "Ecuador",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 255700
  },
  {
   "code": "SV",
   "name": "El Salvador",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 20400
  },
  {
   "code": "ER",
   "name": "Eritrea",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 123700
  },
  {
   "code": "EE",
   "name": "Estland",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 45400
  },
  {
   "code": "SZ",
   "name": "Eswatini",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 17000
  },
  {
   "code": "FK",
   "name": "Falklandinseln",
   "continent": "Südamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 11400
  },
  {
   "code": "FO",
   "name": "Färöer",
   "continent": "Europa",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 1000
  },
  {
   "code": "FJ",
   "name": "Fidschi",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 18400
  },
  {
   "code": "FI",
   "name": "Finnland",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 330500
  },
  {
   "code": "FR",
   "name": "Frankreich",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 635100
  },
  {
   "code": "PF",
   "name": "Französisch-Polynesien",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 2600
  },
  {
   "code": "TF",
   "name": "Französische Süd- und Antarktisgebiete",
   "continent": "Antarktis",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 7000
  },
  {
   "code": "GA",
   "name": "Gabun",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 260700
  },
  {
   "code": "GM",
   "name": "Gambia",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 10300
  },
  {
   "code": "GE",
   "name": "Georgien",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 69300
  },
  {
   "code": "GH",
   "name": "Ghana",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 239600
  },
  {
   "code": "GD",
   "name": "Grenada",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 300
  },
  {
   "code": "GR",
   "name": "Griechenland",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 130200
  },
  {
   "code": "GL",
   "name": "Grönland",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 2154800
  },
  {
   "code": "GU",
   "name": "Guam",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 500
  },
  {
   "code": "GT",
   "name": "Guatemala",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 108500
  },
  {
   "code": "GG",
   "name": "Guernsey",
   "continent": "Europa",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "GN",
   "name": "Guinea",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 244900
  },
  {
   "code": "GW",
   "name": "Guinea-Bissau",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 32000
  },
  {
   "code": "GY",
   "name": "Guyana",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 211900
  },
  {
   "code": "HT",
   "name": "Haiti",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 26800
  },
  {
   "code": "HM",
   "name": "Heard und McDonaldinseln",
   "continent": "Antarktis",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 400
  },
  {
   "code": "HN",
   "name": "Honduras",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 113500
  },
  {
   "code": "IN",
   "name": "Indien",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 3157900
  },
  {
   "code": "ID",
   "name": "Indonesien",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1872200
  },
  {
   "code": "IQ",
   "name": "Irak",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 437500
  },
  {
   "code": "IR",
   "name": "Iran",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1622900
  },
  {
   "code": "IE",
   "name": "Irland",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 68700
  },
  {
   "code": "IS",
   "name": "Island",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 101200
  },
  {
   "code": "IM",
   "name": "Isle of Man",
   "continent": "Europa",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 600
  },
  {
   "code": "IL",
   "name": "Israel",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 22300
  },
  {
   "code": "IT",
   "name": "Italien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 300300
  },
  {
   "code": "JM",
   "name": "Jamaika",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 10900
  },
  {
   "code": "JP",
   "name": "Japan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 370100
  },
  {
   "code": "YE",
   "name": "Jemen",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 454100
  },
  {
   "code": "JE",
   "name": "Jersey",
   "continent": "Europa",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "JO",
   "name": "Jordanien",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 88900
  },
  {
   "code": "KY",
   "name": "Kaimaninseln",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 300
  },
  {
   "code": "KH",
   "name": "Kambodscha",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 181400
  },
  {
   "code": "CM",
   "name": "Kamerun",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 465900
  },
  {
   "code": "CA",
   "name": "Kanada",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 9872100
  },
  {
   "code": "KZ",
   "name": "Kasachstan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 2712800
  },
  {
   "code": "QA",
   "name": "Katar",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 11100
  },
  {
   "code": "KE",
   "name": "Kenia",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 594900
  },
  {
   "code": "KG",
   "name": "Kirgisistan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 198700
  },
  {
   "code": "KI",
   "name": "Kiribati",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 900
  },
  {
   "code": "CO",
   "name": "Kolumbien",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1139400
  },
  {
   "code": "KM",
   "name": "Komoren",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1600
  },
  {
   "code": "CG",
   "name": "Kongo-Brazzaville",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 346900
  },
  {
   "code": "CD",
   "name": "Kongo-Kinshasa",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 2334700
  },
  {
   "code": "XK",
   "name": "Kosovo",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 10900
  },
  {
   "code": "HR",
   "name": "Kroatien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 54400
  },
  {
   "code": "CU",
   "name": "Kuba",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 109300
  },
  {
   "code": "KW",
   "name": "Kuwait",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 17300
  },
  {
   "code": "LA",
   "name": "Laos",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 228900
  },
  {
   "code": "LS",
   "name": "Lesotho",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 30000
  },
  {
   "code": "LV",
   "name": "Lettland",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 64300
  },
  {
   "code": "LB",
   "name": "Libanon",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 10000
  },
  {
   "code": "LR",
   "name": "Liberia",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 95600
  },
  {
   "code": "LY",
   "name": "Libyen",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1626400
  },
  {
   "code": "LI",
   "name": "Liechtenstein",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "LT",
   "name": "Litauen",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 64500
  },
  {
   "code": "LU",
   "name": "Luxemburg",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 2600
  },
  {
   "code": "MG",
   "name": "Madagaskar",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 594600
  },
  {
   "code": "MW",
   "name": "Malawi",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 119800
  },
  {
   "code": "MY",
   "name": "Malaysia",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 327600
  },
  {
   "code": "MV",
   "name": "Malediven",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "ML",
   "name": "Mali",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1258200
  },
  {
   "code": "MT",
   "name": "Malta",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 300
  },
  {
   "code": "MA",
   "name": "Marokko",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 582400
  },
  {
   "code": "MH",
   "name": "Marshallinseln",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 200
  },
  {
   "code": "MR",
   "name": "Mauretanien",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1038400
  },
  {
   "code": "MU",
   "name": "Mauritius",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1900
  },
  {
   "code": "MX",
   "name": "Mexiko",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1962300
  },
  {
   "code": "FM",
   "name": "Mikronesien",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 500
  },
  {
   "code": "MC",
   "name": "Monaco",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "MN",
   "name": "Mongolei",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1560400
  },
  {
   "code": "ME",
   "name": "Montenegro",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 13700
  },
  {
   "code": "MS",
   "name": "Montserrat",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "MZ",
   "name": "Mosambik",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 790600
  },
  {
   "code": "MM",
   "name": "Myanmar",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 662700
  },
  {
   "code": "NA",
   "name": "Namibia",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 824800
  },
  {
   "code": "NR",
   "name": "Nauru",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "NP",
   "name": "Nepal",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 147200
  },
  {
   "code": "NC",
   "name": "Neukaledonien",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 18600
  },
  {
   "code": "NZ",
   "name": "Neuseeland",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 266800
  },
  {
   "code": "NI",
   "name": "Nicaragua",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 129200
  },
  {
   "code": "NL",
   "name": "Niederlande",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 37100
  },
  {
   "code": "NE",
   "name": "Niger",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1185100
  },
  {
   "code": "NG",
   "name": "Nigeria",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 911500
  },
  {
   "code": "NU",
   "name": "Niue",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 200
  },
  {
   "code": "KP",
   "name": "Nordkorea",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 122500
  },
  {
   "code": "MP",
   "name": "Nördliche Marianen",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 400
  },
  {
   "code": "MK",
   "name": "Nordmazedonien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 25400
  },
  {
   "code": "NF",
   "name": "Norfolkinsel",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "NO",
   "name": "Norwegen",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 384300
  },
  {
   "code": "OM",
   "name": "Oman",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 312000
  },
  {
   "code": "AT",
   "name": "Österreich",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 83900
  },
  {
   "code": "PK",
   "name": "Pakistan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 873800
  },
  {
   "code": "PS",
   "name": "Palästinensische Autonomiegebiete",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 6300
  },
  {
   "code": "PW",
   "name": "Palau",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 300
  },
  {
   "code": "PA",
   "name": "Panama",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 74200
  },
  {
   "code": "PG",
   "name": "Papua-Neuguinea",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 464300
  },
  {
   "code": "PY",
   "name": "Paraguay",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 400900
  },
  {
   "code": "PE",
   "name": "Peru",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1296300
  },
  {
   "code": "PH",
   "name": "Philippinen",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 290300
  },
  {
   "code": "PN",
   "name": "Pitcairninseln",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "PL",
   "name": "Polen",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 312600
  },
  {
   "code": "PT",
   "name": "Portugal",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 90800
  },
  {
   "code": "PR",
   "name": "Puerto Rico",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 8900
  },
  {
   "code": "MD",
   "name": "Republik Moldau",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 33100
  },
  {
   "code": "RW",
   "name": "Ruanda",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 25400
  },
  {
   "code": "RO",
   "name": "Rumänien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 235800
  },
  {
   "code": "RU",
   "name": "Russland",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 16879700
  },
  {
   "code": "SB",
   "name": "Salomonen",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 25700
  },
  {
   "code": "ZM",
   "name": "Sambia",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 755600
  },
  {
   "code": "WS",
   "name": "Samoa",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 2700
  },
  {
   "code": "SM",
   "name": "San Marino",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "ST",
   "name": "São Tomé und Príncipe",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1000
  },
  {
   "code": "SA",
   "name": "Saudi-Arabien",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1925900
  },
  {
   "code": "SE",
   "name": "Schweden",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 443000
  },
  {
   "code": "CH",
   "name": "Schweiz",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 41200
  },
  {
   "code": "SN",
   "name": "Senegal",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 197300
  },
  {
   "code": "RS",
   "name": "Serbien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 77500
  },
  {
   "code": "SC",
   "name": "Seychellen",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 200
  },
  {
   "code": "SL",
   "name": "Sierra Leone",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 71900
  },
  {
   "code": "ZW",
   "name": "Simbabwe",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 390200
  },
  {
   "code": "SG",
   "name": "Singapur",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 500
  },
  {
   "code": "SX",
   "name": "Sint Maarten",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "SK",
   "name": "Slowakei",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 48300
  },
  {
   "code": "SI",
   "name": "Slowenien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 20200
  },
  {
   "code": "SO",
   "name": "Somalia",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 642100
  },
  {
   "code": "HK",
   "name": "Sonderverwaltungsregion Hongkong",
   "continent": "Asien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 1000
  },
  {
   "code": "MO",
   "name": "Sonderverwaltungsregion Macau",
   "continent": "Asien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "ES",
   "name": "Spanien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 506200
  },
  {
   "code": "LK",
   "name": "Sri Lanka",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 66000
  },
  {
   "code": "BL",
   "name": "St. Barthélemy",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "SH",
   "name": "St. Helena",
   "continent": "Afrika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 200
  },
  {
   "code": "KN",
   "name": "St. Kitts und Nevis",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 200
  },
  {
   "code": "LC",
   "name": "St. Lucia",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 600
  },
  {
   "code": "MF",
   "name": "St. Martin",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "PM",
   "name": "St. Pierre und Miquelon",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 200
  },
  {
   "code": "VC",
   "name": "St. Vincent und die Grenadinen",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 300
  },
  {
   "code": "ZA",
   "name": "Südafrika",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1221600
  },
  {
   "code": "SD",
   "name": "Sudan",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1863000
  },
  {
   "code": "GS",
   "name": "Südgeorgien und die Südlichen Sandwichinseln",
   "continent": "Südamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 3700
  },
  {
   "code": "KR",
   "name": "Südkorea",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 97200
  },
  {
   "code": "SS",
   "name": "Südsudan",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 624000
  },
  {
   "code": "SR",
   "name": "Suriname",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 145600
  },
  {
   "code": "SY",
   "name": "Syrien",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 185700
  },
  {
   "code": "TJ",
   "name": "Tadschikistan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 142300
  },
  {
   "code": "TW",
   "name": "Taiwan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 36000
  },
  {
   "code": "TZ",
   "name": "Tansania",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 945800
  },
  {
   "code": "TH",
   "name": "Thailand",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 515700
  },
  {
   "code": "TL",
   "name": "Timor-Leste",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 15000
  },
  {
   "code": "TG",
   "name": "Togo",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 57200
  },
  {
   "code": "TO",
   "name": "Tonga",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 400
  },
  {
   "code": "TT",
   "name": "Trinidad und Tobago",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 5100
  },
  {
   "code": "TD",
   "name": "Tschad",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 1270900
  },
  {
   "code": "CZ",
   "name": "Tschechien",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 78500
  },
  {
   "code": "TN",
   "name": "Tunesien",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 156700
  },
  {
   "code": "TR",
   "name": "Türkei",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 779800
  },
  {
   "code": "TM",
   "name": "Turkmenistan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 470600
  },
  {
   "code": "TC",
   "name": "Turks- und Caicosinseln",
   "continent": "Nordamerika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 300
  },
  {
   "code": "TV",
   "name": "Tuvalu",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": false
+  "onMap": false,
+  "area": 0
  },
  {
   "code": "UG",
   "name": "Uganda",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 242600
  },
  {
   "code": "UA",
   "name": "Ukraine",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 570100
  },
  {
   "code": "HU",
   "name": "Ungarn",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 93000
  },
  {
   "code": "UY",
   "name": "Uruguay",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 177600
  },
  {
   "code": "UZ",
   "name": "Usbekistan",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 447400
  },
  {
   "code": "VU",
   "name": "Vanuatu",
   "continent": "Ozeanien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 11300
  },
  {
   "code": "VA",
   "name": "Vatikanstadt",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 0
  },
  {
   "code": "VE",
   "name": "Venezuela",
   "continent": "Südamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 914300
  },
  {
   "code": "AE",
   "name": "Vereinigte Arabische Emirate",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 71300
  },
  {
   "code": "US",
   "name": "Vereinigte Staaten",
   "continent": "Nordamerika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 9439500
  },
  {
   "code": "GB",
   "name": "Vereinigtes Königreich",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 239600
  },
  {
   "code": "VN",
   "name": "Vietnam",
   "continent": "Asien",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 329000
  },
  {
   "code": "WF",
   "name": "Wallis und Futuna",
   "continent": "Ozeanien",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 100
  },
  {
   "code": "EH",
   "name": "Westsahara",
   "continent": "Afrika",
   "sovereign": false,
-  "onMap": true
+  "onMap": true,
+  "area": 90800
  },
  {
   "code": "CF",
   "name": "Zentralafrikanische Republik",
   "continent": "Afrika",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 621000
  },
  {
   "code": "CY",
   "name": "Zypern",
   "continent": "Europa",
   "sovereign": true,
-  "onMap": true
+  "onMap": true,
+  "area": 9200
  }
 ]

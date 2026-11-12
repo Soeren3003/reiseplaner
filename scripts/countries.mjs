@@ -2,13 +2,15 @@
 // Erzeugt die Länderdaten für die Weltkarte aus world-atlas (Natural Earth, gemeinfrei):
 //
 //   src/generated/world.json       Ländergrenzen (TopoJSON, 1:50 Mio.), jede Fläche mit ISO-3166-Code als id
-//   src/generated/countries.json   Liste: Code, deutscher Name, Kontinent, eigener Staat ja/nein
+//   src/generated/countries.json   Liste: Code, deutscher Name, Kontinent, eigener Staat ja/nein, Fläche in km²
 //
 //   npm run countries
 //
 // Deutsche Namen kommen aus Intl.DisplayNames (in Node bzw. im Browser eingebaut).
 
+import { geoArea } from "d3-geo";
 import { createRequire } from "node:module";
+import { feature } from "topojson-client";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -78,11 +80,25 @@ for (const g of topo.objects.countries.geometries) {
 }
 
 const onMap = new Set(topo.objects.countries.geometries.map((g) => g.id));
+
+// Fläche je Land aus den Grenzen (Kugel mit Erdradius; Festland und Inseln zusammen), gerundet auf 100 km²
+const EARTH_RADIUS_KM = 6371.0088;
+const area = new Map();
+for (const f of feature(topo, topo.objects.countries).features) {
+  area.set(f.id, (area.get(f.id) ?? 0) + geoArea(f) * EARTH_RADIUS_KM ** 2);
+}
 for (const c of sovereign) if (!onMap.has(c)) problems.push(`Staat ohne Fläche auf der Karte (nur in der Liste): ${c} ${de.of(c)}`);
 
 const list = [...continentOf.entries()]
   .filter(([code]) => sovereign.has(code) || onMap.has(code))
-  .map(([code, continent]) => ({ code, name: de.of(code), continent, sovereign: sovereign.has(code), onMap: onMap.has(code) }))
+  .map(([code, continent]) => ({
+    code,
+    name: de.of(code),
+    continent,
+    sovereign: sovereign.has(code),
+    onMap: onMap.has(code),
+    area: Math.round((area.get(code) ?? 0) / 100) * 100,
+  }))
   .sort((a, b) => a.name.localeCompare(b.name, "de"));
 
 const out = join(root, "src", "generated");
