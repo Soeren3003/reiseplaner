@@ -2,6 +2,7 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { saveAs } from "./api";
 import { arrivalDate, dailyByPerson, homeAmount, rateOf, splitIds, stayNights, stayTax, transportDuration } from "./calc";
+import { countryName } from "./countries";
 import { toCsv } from "./csv";
 import { BOOKING_STATUS, CATEGORIES, STAY_KINDS, TRANSPORT_MODES, addDays, boardLabel } from "./defaults";
 import { date, dateRange, dayLabel, duration, money, num, safeFileName } from "./format";
@@ -165,7 +166,7 @@ export function expenseRows(trip: Trip, sum: TripSummary): (string | number)[][]
         e.currency,
         rateOf(e, trip) ?? "fehlt",
         homeAmount(e, trip),
-        e.country,
+        e.country ? countryName(e.country) : "",
         e.method,
         sum.shared ? sum.name(e.paidBy) : "",
         sum.shared ? splitIds(e, trip).map(sum.name).join(", ") : "",

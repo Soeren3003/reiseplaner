@@ -22,7 +22,7 @@ export interface Trip extends Entity {
   name: string;
   /** Reiseziel als Freitext, z. B. „Japan: Tokio, Kyoto, Osaka“ */
   destination: string;
-  /** Länder dieser Reise (Auswahl bei Ausgaben, Auswertung nach Land) */
+  /** Länder dieser Reise als ISO-3166-Codes, z. B. ["PT", "ES"] (Weltkarte, Auswahl bei Ausgaben, Auswertung nach Land) */
   countries: string[];
   startDate: string;
   endDate: string;
@@ -193,6 +193,7 @@ export interface Expense extends Entity {
   paidBy: string;
   /** Aufteilung auf diese Personen; leer = alle Mitreisenden */
   splitAmong: string[];
+  /** ISO-3166-Code des Landes (ältere Daten: Freitext) */
   country: string;
   method: PaymentMethod;
   /** zählt nicht zum Tagesdurchschnitt (z. B. Anreise, Versicherung vorab) */
@@ -210,6 +211,17 @@ export interface Payment extends Entity {
   from: string;
   to: string;
   amount: number;
+  notes: string;
+}
+
+/** Eigene Angaben zu einem Land (Weltkarte): id = ISO-3166-Code, z. B. „PT“ */
+export interface CountryNote extends Entity {
+  /** schon dort gewesen, auch ohne Reise in der App */
+  visited: boolean;
+  /** Jahr des (ersten) Besuchs, optional */
+  visitedYear: string;
+  /** auf der Wunschliste */
+  favorite: boolean;
   notes: string;
 }
 

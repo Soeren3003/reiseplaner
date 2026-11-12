@@ -9,7 +9,7 @@ async function call<T>(cmd: string, args: Record<string, unknown> = {}): Promise
   return invoke<T>(cmd, args);
 }
 
-export type Collection = "trips" | "people" | "transports" | "stays" | "activities" | "checklist" | "expenses" | "payments" | "settings";
+export type Collection = "trips" | "people" | "transports" | "stays" | "activities" | "checklist" | "expenses" | "payments" | "countries" | "settings";
 
 export const api = {
   getConfig: () => call<LocalConfig>("get_config"),

@@ -1,8 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { api, type Collection } from "./api";
 import { syncBookingExpenses, type AnyBooking } from "./calc";
-import { defaultSettings, migrateBooking, migrateExpense, migratePerson, migrateSettings, migrateStay, migrateTrip, newExpense, now } from "./defaults";
-import type { Activity, BookingKind, ChecklistItem, Expense, LocalConfig, Payment, Person, Settings, Stay, SyncReport, Transport, Trip } from "./types";
+import { findCountryCode, migrateCountryList } from "./countries";
+import { defaultSettings, migrateBooking, migrateCountryNote, migrateExpense, migratePerson, migrateSettings, migrateStay, migrateTrip, newExpense, now } from "./defaults";
+import type { Activity, BookingKind, ChecklistItem, CountryNote, Expense, LocalConfig, Payment, Person, Settings, Stay, SyncReport, Transport, Trip } from "./types";
 
 type Entity = { id: string; updatedAt: string };
 
@@ -23,6 +24,8 @@ export interface Data {
   checklist: ChecklistItem[];
   expenses: Expense[];
   payments: Payment[];
+  /** Eigene Angaben zu Ländern (Favoriten, schon besucht) */
+  countries: CountryNote[];
 }
 
 /** Sammlung je Buchungsart */
@@ -66,10 +69,10 @@ export function useStore() {
 }
 
 const SAVE_DELAY = 400;
-export const LISTS: ListCollection[] = ["trips", "people", "transports", "stays", "activities", "checklist", "expenses", "payments"];
+export const LISTS: ListCollection[] = ["trips", "people", "transports", "stays", "activities", "checklist", "expenses", "payments", "countries"];
 /** Sammlungen, deren Einträge zu einer Reise gehören */
 const PER_TRIP = ["transports", "stays", "activities", "checklist", "expenses", "payments"] as const;
-const EMPTY: Data = { trips: [], people: [], transports: [], stays: [], activities: [], checklist: [], expenses: [], payments: [] };
+const EMPTY: Data = { trips: [], people: [], transports: [], stays: [], activities: [], checklist: [], expenses: [], payments: [], countries: [] };
 
 function readMe() {
   try {
@@ -140,7 +143,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const d = next as unknown as Data;
     d.people = d.people.map(migratePerson).sort((a, b) => a.name.localeCompare(b.name, "de"));
     d.trips = d.trips.map((t) => migrateTrip(t, cur)).sort((a, b) => b.startDate.localeCompare(a.startDate));
-    d.expenses = d.expenses.map(migrateExpense);
+    // Länder: frühere Freitext-Angaben („Griechenland“) werden zu ISO-Codes („GR“)
+    d.trips = d.trips.map((t) => ({ ...t, countries: migrateCountryList(t.countries) }));
+    d.expenses = d.expenses.map(migrateExpense).map((e) => (e.country ? { ...e, country: findCountryCode(e.country) ?? e.country } : e));
+    d.countries = d.countries.map(migrateCountryNote);
     d.stays = d.stays.map(migrateStay);
     d.transports = d.transports.map(migrateBooking);
     d.activities = d.activities.map(migrateBooking);

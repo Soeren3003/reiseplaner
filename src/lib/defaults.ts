@@ -1,5 +1,6 @@
 import type {
   Activity,
+  CountryNote,
   Board,
   Meal,
   TaxUnit,
@@ -382,6 +383,14 @@ export function migrateExpense(e: Partial<Expense> & { id: string }): Expense {
     splitAmong: strings(e.splitAmong),
     amount: num0(e.amount),
   } as Expense;
+}
+
+export function newCountryNote(code: string): CountryNote {
+  return { id: code, createdAt: now(), updatedAt: now(), visited: false, visitedYear: "", favorite: false, notes: "" };
+}
+
+export function migrateCountryNote(n: Partial<CountryNote> & { id: string }): CountryNote {
+  return { ...newCountryNote(n.id), ...n, visited: !!n.visited, favorite: !!n.favorite, visitedYear: typeof n.visitedYear === "string" ? n.visitedYear : "" };
 }
 
 export function newPayment(tripId: string, from: string, to: string, date: string): Payment {

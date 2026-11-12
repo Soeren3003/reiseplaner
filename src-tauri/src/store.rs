@@ -2,7 +2,7 @@
 //!
 //! ```text
 //! db/<sammlung>/<id>.json   Reisen, Mitreisende, Transport, Unterkünfte, Aktivitäten, Packliste,
-//!                           Ausgaben, Zahlungen, Einstellungen
+//!                           Ausgaben, Zahlungen, Länder (Favoriten, schon besucht), Einstellungen
 //! files/<reise>/<name>      Dokumente je Reise (Tickets, Buchungsbestätigungen, Belege …)
 //! ```
 //!
@@ -15,7 +15,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::UNIX_EPOCH;
 
-const COLLECTIONS: &[&str] = &["trips", "people", "transports", "stays", "activities", "checklist", "expenses", "payments", "settings"];
+const COLLECTIONS: &[&str] = &["trips", "people", "transports", "stays", "activities", "checklist", "expenses", "payments", "countries", "settings"];
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]

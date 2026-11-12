@@ -18,7 +18,7 @@ function demo() {
     { ...newExpense(trip, "a", "2026-03-03"), title: "=Ramen", amount: 3000, currency: "JPY" },
     { ...newExpense(trip, "b", "2026-03-04"), title: "Tempel", amount: 20, category: "activities" as const },
   ];
-  const data = { trips: [trip], people, transports, stays, activities: [], checklist: [], expenses, payments: [], settings };
+  const data = { trips: [trip], people, transports, stays, activities: [], checklist: [], expenses, payments: [], countries: [], settings };
   return { trip, sum: summarize(trip, data) };
 }
 

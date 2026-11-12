@@ -4,7 +4,7 @@
  * Alle Personen, Buchungsnummern und Beträge sind frei erfunden.
  */
 import { syncBookingExpenses, type AnyBooking } from "./calc";
-import { PALETTE, addDays, defaultSettings, newActivity, newExpense, newPerson, newStay, newTransport, newTrip, templateItems, today } from "./defaults";
+import { PALETTE, addDays, newCountryNote, defaultSettings, newActivity, newExpense, newPerson, newStay, newTransport, newTrip, templateItems, today } from "./defaults";
 import type { Activity, BookingKind, ChecklistItem, Expense, ExpenseCategory, Settings, Stay, Transport, Trip } from "./types";
 
 const settings: Settings = { ...defaultSettings(), paymentMethods: ["Bar", "Kreditkarte", "Debitkarte / Girokarte", "PayPal / online", "Suica"] };
@@ -40,7 +40,7 @@ const japan: Trip = {
   name: "Japan im Frühling",
   emoji: "🏯",
   destination: "Tokio, Hakone, Kyoto, Osaka",
-  countries: ["Japan"],
+  countries: ["JP"],
   startDate: jStart,
   endDate: addDays(jStart, 13),
   status: "done",
@@ -60,7 +60,7 @@ const portugal: Trip = {
   name: "Lissabon & Porto",
   emoji: "🌴",
   destination: "Lissabon, Sintra, Porto",
-  countries: ["Portugal"],
+  countries: ["PT"],
   startDate: pStart,
   endDate: addDays(pStart, 7),
   status: "booked",
@@ -78,7 +78,7 @@ const iceland: Trip = {
   name: "Island Ringstraße",
   emoji: "🏔",
   destination: "Reykjavík, Südküste, Mývatn",
-  countries: ["Island"],
+  countries: ["IS"],
   startDate: iStart,
   endDate: addDays(iStart, 9),
   status: "done",
@@ -140,12 +140,12 @@ function demoJapan() {
   for (let day = 2; day <= 13; day++) {
     daily.forEach(([c, amount, title, method], i) => {
       if ((day + i) % 3 === 0 && c !== "food") return;
-      spend(t, day, c, Math.round(amount * (0.8 + ((day * 7 + i * 13) % 9) / 20)), title, { currency: "JPY", paidBy: (day + i) % 2 ? "alex" : "sam", method, country: "Japan" });
+      spend(t, day, c, Math.round(amount * (0.8 + ((day * 7 + i * 13) % 9) / 20)), title, { currency: "JPY", paidBy: (day + i) % 2 ? "alex" : "sam", method, country: "JP" });
     });
   }
-  spend(t, 3, "shopping", 18000, "Kamera-Objektiv", { currency: "JPY", splitAmong: ["sam"], paidBy: "sam", country: "Japan" });
-  spend(t, 9, "shopping", 6500, "Keramik", { currency: "JPY", splitAmong: ["alex"], country: "Japan" });
-  spend(t, 2, "communication", 3000, "eSIM 15 GB", { currency: "JPY", country: "Japan", method: "PayPal / online" });
+  spend(t, 3, "shopping", 18000, "Kamera-Objektiv", { currency: "JPY", splitAmong: ["sam"], paidBy: "sam", country: "JP" });
+  spend(t, 9, "shopping", 6500, "Keramik", { currency: "JPY", splitAmong: ["alex"], country: "JP" });
+  spend(t, 2, "communication", 3000, "eSIM 15 GB", { currency: "JPY", country: "JP", method: "PayPal / online" });
   spend(t, -40, "fees", 64, "Auslandskrankenversicherung", { excludeFromDaily: true, method: "PayPal / online" });
 }
 
@@ -180,13 +180,32 @@ function demoIceland() {
   ];
   for (const [a, b, name, price] of stays) book("stay", { ...newStay(t, "", d(a), d(b)), kind: "apartment", name, currency: "ISK", price, status: "booked" } as Stay);
   for (let day = 1; day <= 10; day++) {
-    spend(t, day, "food", 4200 + (day % 3) * 900, "Essen", { currency: "ISK", country: "Island", method: "Kreditkarte", paidBy: "" });
-    if (day % 2) spend(t, day, "car", 11000, "Tanken", { currency: "ISK", country: "Island", method: "Kreditkarte", paidBy: "" });
-    if (day % 3 === 0) spend(t, day, "groceries", 6500, "Supermarkt", { currency: "ISK", country: "Island", paidBy: "" });
+    spend(t, day, "food", 4200 + (day % 3) * 900, "Essen", { currency: "ISK", country: "IS", method: "Kreditkarte", paidBy: "" });
+    if (day % 2) spend(t, day, "car", 11000, "Tanken", { currency: "ISK", country: "IS", method: "Kreditkarte", paidBy: "" });
+    if (day % 3 === 0) spend(t, day, "groceries", 6500, "Supermarkt", { currency: "ISK", country: "IS", paidBy: "" });
   }
-  spend(t, 4, "activities", 14000, "Gletscherwanderung", { currency: "ISK", country: "Island", paidBy: "" });
-  spend(t, 8, "activities", 7500, "Naturbad", { currency: "ISK", country: "Island", paidBy: "" });
+  spend(t, 4, "activities", 14000, "Gletscherwanderung", { currency: "ISK", country: "IS", paidBy: "" });
+  spend(t, 8, "activities", 7500, "Naturbad", { currency: "ISK", country: "IS", paidBy: "" });
 }
+
+/** Weltkarte: Länder von früheren Reisen (ohne eigene Reise in der App) und Wunschziele */
+const countryNotes = [
+  ...(
+    [
+      ["FR", "2019"],
+      ["IT", "2021"],
+      ["AT", "2022"],
+      ["ES", "2018"],
+      ["HR", "2023"],
+      ["GB", "2016"],
+      ["NL", "2020"],
+      ["US", "2018"],
+      ["TH", "2017"],
+    ] as const
+  ).map(([code, year]) => ({ ...newCountryNote(code), visited: true, visitedYear: year })),
+  ...["NZ", "CA", "PE", "VN", "ZA", "CL"].map((code) => ({ ...newCountryNote(code), favorite: true, notes: code === "NZ" ? "Wohnmobil, mindestens 4 Wochen" : "" })),
+  { ...newCountryNote("NO"), visited: true, visitedYear: "2024", favorite: true, notes: "Nochmal im Winter: Polarlichter" },
+];
 
 export function loadDemo() {
   bookings.length = 0;
@@ -204,6 +223,7 @@ export function loadDemo() {
   put("checklist", checklist);
   put("expenses", expenses);
   put("payments", []);
+  put("countries", countryNotes);
   put("settings", [settings]);
   localStorage.setItem("reiseplaner:me", "alex");
 }
