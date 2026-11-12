@@ -274,6 +274,13 @@ cd src-tauri && REISEPLANER_TEST_DAV=http://127.0.0.1:8765 cargo test --test syn
 npm run licenses       # schreibt THIRD_PARTY_LICENSES.md und src/generated/third-party.json
 ```
 
+**Länderdaten** der Weltkarte neu erzeugen (nur nötig, wenn `world-atlas` aktualisiert oder die Länderliste im
+Skript geändert wird):
+
+```bash
+npm run countries      # schreibt src/generated/world.json und src/generated/countries.json
+```
+
 ## Projektstruktur
 
 ```
@@ -372,6 +379,23 @@ happy-dom (MIT), @vitejs/plugin-react (MIT), @tauri-apps/cli (MIT OR Apache-2.0)
 
 Umrechnung, Abrechnung, Auswertung, CSV, Kalenderdatei und Diagramme sind selbst geschrieben – dafür gibt es keine
 zusätzlichen Bibliotheken. Die Diagrammfarben folgen einer auf Farbfehlsichtigkeit geprüften Palette.
+
+### Kartendaten der Weltkarte
+
+Die Weltkarte braucht keinen Online-Dienst. Alles, was sie zeigt, ist in der App enthalten oder wird von ihr selbst
+berechnet:
+
+| Was | Woher |
+| --- | --- |
+| Ländergrenzen (1:50 Mio.) | [Natural Earth](https://www.naturalearthdata.com/), Version 4.1.0, gemeinfrei – über das Paket [world-atlas](https://github.com/topojson/world-atlas) (ISC). Das Skript `scripts/countries.mjs` macht daraus einmalig `src/generated/world.json` mit ISO-3166-Codes. |
+| Darstellung, Zoom, Einfärbung | eigener Code; die Kartenprojektion (Natural Earth 1) rechnet [d3-geo](https://d3js.org/d3-geo) (ISC) |
+| Deutsche Ländernamen | aus dem Betriebssystem bzw. der Laufzeitumgebung (`Intl.DisplayNames`), ohne Internet |
+| Kontinente, Liste der 197 Staaten | selbst festgelegt im Skript (UN-Mitglieder sowie Vatikan, Palästina, Kosovo und Taiwan) |
+| Fläche je Land, „Welt gesehen“ | aus den Grenzen berechnet (Kugel mit Erdradius), Abweichung zu amtlichen Zahlen meist unter 2 % |
+
+Die Grenzen folgen den tatsächlichen Verhältnissen, wie Natural Earth sie abbildet. Sie sind keine politische Aussage
+zu umstrittenen Gebieten; Flächen ohne eigenen ISO-Code (z. B. Somaliland, Nordzypern) werden dem Staat zugerechnet,
+zu dem sie völkerrechtlich gehören.
 
 ### Alle mitgelieferten Komponenten
 
