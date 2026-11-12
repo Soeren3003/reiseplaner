@@ -47,7 +47,7 @@ const japan: Trip = {
   travelers: ["alex", "sam"],
   rates: { JPY: 0.0061 },
   budgetType: "daily",
-  budget: 180,
+  budget: 360,
   notes: "Rail-Pass nicht gekauft – Einzeltickets waren günstiger.",
 };
 

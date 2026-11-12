@@ -2153,3 +2153,9 @@ tr.day-start td {
 .alert.row {
   white-space: normal;
 }
+
+/* Leere Datums- und Zeitfelder: WebKit zeigt sonst das heutige Datum bzw. die aktuelle Uhrzeit grau an */
+input[type="date"][value=""]:not(:focus),
+input[type="time"][value=""]:not(:focus) {
+  -webkit-text-fill-color: transparent;
+}

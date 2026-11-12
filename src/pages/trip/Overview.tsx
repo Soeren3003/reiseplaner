@@ -86,7 +86,7 @@ export default function Overview({ trip, sum, go }: { trip: Trip; sum: TripSumma
                     <ul className="day-items">
                       {d.checkOuts.map((s) => (
                         <li key={`o${s.id}`} className="muted" onClick={() => go("stays")}>
-                          <span className="time">{s.checkOutTime || ""}</span> Check-out {s.name}
+                          <span className="time">{s.checkOutTime || ""}</span>🧳 Check-out {s.name}
                         </li>
                       ))}
                       {d.transports.map((t) => {

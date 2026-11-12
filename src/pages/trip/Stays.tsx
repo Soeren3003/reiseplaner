@@ -228,7 +228,7 @@ function TouristTaxFields({ trip, s, set }: { trip: Trip; s: Stay; set: (patch: 
       {s.touristTax > 0 && (
         <>
           {taxPerPerson(s.touristTaxUnit) && (
-            <Field label="Personen für die Kurtaxe" hint={`leer = automatisch (${num(auto, 0)}, aus „Für“ bzw. den Mitreisenden)`}>
+            <Field label="Personen für die Kurtaxe" hint={`leer = automatisch (${num(auto, 0)}, aus „Aufgeteilt auf“ bzw. den Mitreisenden)`}>
               <NumberInput value={s.touristTaxPersons} digits={0} min={1} allowEmpty placeholder={String(auto)} onChange={(v) => set({ touristTaxPersons: v || null })} />
             </Field>
           )}
