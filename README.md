@@ -107,6 +107,15 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
 - **Statistik über alle Reisen**: Reisen, Reisetage, Nächte, Länder, Ausgaben pro Reise als Diagramm, nach
   Kategorie, Land, Zahlungsmittel und Jahr, Ø pro Tag und pro Person und Tag, Verkehrsmittel mit Anzahl, km und Stunden, Budget-Abweichung je Reise, CSV-Export
 
+### Weltkarte
+- Alle Länder, die du bereist hast, farbig auf einer Weltkarte; geplante Reisen und Wunschziele in eigenen Farben
+- Zoomen mit Mausrad, Trackpad oder +/−, verschieben durch Ziehen; Klick auf ein Land zoomt hinein und zeigt die
+  Reisen dorthin
+- Länder früherer Reisen ohne eigene Reise in der App markieren („schon dort gewesen“, mit Jahr) und Notizen je Land
+- **Offene Länder**: alle noch nicht besuchten Staaten, filterbar nach Kontinent, mit ★ als Favorit auf die Wunschliste
+- Kennzahlen: Länder (von 197 Staaten), Kontinente, geplante Länder, Favoriten, Fortschritt je Kontinent
+- Läuft komplett offline: Die Ländergrenzen sind in der App enthalten, es werden keine Kartenkacheln geladen.
+
 ### Dokumente
 - Tickets, Bordkarten, Buchungsbestätigungen und Belege je Reise ablegen (per Drag & Drop) und mit
   Nextcloud abgleichen
@@ -120,6 +129,8 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
 | <img src="docs/screenshots/expenses.jpg" alt="Ausgaben: Schnellerfassung, Liste nach Tagen in Yen und Euro, Budget und Wechselkurse" width="440"> | <img src="docs/screenshots/checklist.jpg" alt="Aufgaben vor der Reise und Packliste mit Abschnitten" width="440"> |
 | **Auswertung** | **Zahlungsmittel und Tag für Tag** |
 | <img src="docs/screenshots/analysis.jpg" alt="Auswertung: Kennzahlen, Ausgaben pro Tag nach Kategorie, Tabelle nach Kategorie" width="440"> | <img src="docs/screenshots/analysis-days.jpg" alt="Auswertung nach Zahlungsmittel und Tabelle Tag für Tag mit dem Anteil jeder Person" width="440"> |
+| **Weltkarte** | **Offene Länder und Favoriten** |
+| <img src="docs/screenshots/world.jpg" alt="Weltkarte mit bereisten, geplanten und gewünschten Ländern, Fortschritt je Kontinent" width="440"> | <img src="docs/screenshots/world-lists.jpg" alt="Listen der bereisten und offenen Länder mit Favoriten-Stern" width="440"> |
 | **Abrechnung** | **Statistik über alle Reisen** |
 | <img src="docs/screenshots/settlement.jpg" alt="Abrechnung: Salden und wer wem wie viel zahlt" width="440"> | <img src="docs/screenshots/statistics.jpg" alt="Statistik: Ausgaben pro Reise, nach Kategorie, Land, Zahlungsmittel und Jahr" width="440"> |
 
@@ -185,6 +196,7 @@ db/activities/<id>.json   Aktivitäten
 db/checklist/<id>.json    Aufgaben und Packliste
 db/expenses/<id>.json     Ausgaben
 db/payments/<id>.json     Ausgleichszahlungen zwischen Mitreisenden
+db/countries/<code>.json  Weltkarte: Favoriten, „schon dort gewesen“, Notizen je Land
 db/settings/settings.json Einstellungen und Vorlagen
 files/<reise>/…           Dokumente je Reise
 conflicts/                nur lokal: ältere Version bei Sync-Konflikten
@@ -263,19 +275,21 @@ src/                      Oberfläche (React, TypeScript)
   lib/calc.ts             Umrechnung, Tage, Abrechnung, Auswertung, Buchung → Ausgabe, Tagesplan
   lib/summary.ts          alles zu einer Reise zusammengesucht
   lib/export.ts           Kalenderdatei, CSV, Abrechnungstext, PDF
+  lib/countries.ts        Länderliste, Namen erkennen, bereist/geplant/Favorit
   lib/csv.ts              CSV schreiben
   lib/store.tsx           Zustand, verzögertes Speichern, automatische Ausgaben, Sync-Auslöser
   lib/api.ts              Brücke zu Tauri (im Browser: localStorage)
   lib/demo.ts             erfundene Beispieldaten
   pages/                  Übersicht, Reisen, Statistik, Mitreisende, Einstellungen
   pages/trip/             Reiter einer Reise
-  components/             Bedienelemente, Buchungsformulare, Diagramme, Info-Fenster
+  components/             Bedienelemente, Buchungsformulare, Weltkarte, Diagramme, Info-Fenster
+  generated/              Lizenzliste, Länderliste und Ländergrenzen (erzeugt)
 src-tauri/                Desktop-Hülle (Rust)
   src/store.rs            JSON-Dateien je Datensatz, Dokumente
   src/sync.rs             Zwei-Wege-Abgleich mit Konfliktbehandlung
   src/webdav.rs           WebDAV-Client
   src/config.rs           lokale Einstellungen, Schlüsselbund
-scripts/                  Versionsnummer setzen, Lizenzliste erzeugen
+scripts/                  Versionsnummer setzen, Lizenzliste und Länderdaten erzeugen
 ```
 
 ## Bauen und Veröffentlichen
@@ -303,7 +317,9 @@ keine Inhalte aus dem Internet.
 - Zeiten sind Ortszeiten ohne Zeitzone; bei Flügen über Zeitzonen die echte Dauer eintragen.
 - Ausgaben werden gleichmäßig aufgeteilt; ungleiche Anteile (z. B. 70/30) gibt es noch nicht – dafür die
   Ausgabe teilen oder nur ausgewählten Personen zuordnen.
-- Keine Karte und keine Flugdaten-Abfrage (bewusst ohne Online-Dienste).
+- Keine Straßenkarte und keine Flugdaten-Abfrage (bewusst ohne Online-Dienste); die Weltkarte zeigt Ländergrenzen,
+  noch keine Bundesländer und Städte.
+- Sehr kleine Staaten (z. B. Tuvalu) sind auf der Karte nur als Punkt oder gar nicht zu sehen, stehen aber in den Listen.
 - Keine App fürs Handy; Ausgaben werden am Rechner erfasst.
 
 ## Entstanden mit KI
@@ -329,6 +345,8 @@ weitergeben, auch kommerziell, solange der Copyright- und Lizenzhinweis erhalten
 | --- | --- | --- |
 | [react](https://react.dev/), react-dom | Oberfläche | MIT |
 | [jsPDF](https://github.com/parallax/jsPDF), jspdf-autotable | PDF-Export | MIT |
+| [d3-geo](https://d3js.org/d3-geo), topojson-client | Weltkarte: Projektion und Ländergrenzen | ISC |
+| [world-atlas](https://github.com/topojson/world-atlas) | Ländergrenzen aus [Natural Earth](https://www.naturalearthdata.com/) (1:50 Mio.) | ISC, Daten gemeinfrei |
 | [@tauri-apps/api](https://tauri.app/) | Brücke zur Desktop-Hülle | MIT OR Apache-2.0 |
 | [@tauri-apps/plugin-dialog](https://tauri.app/plugin/dialog/) | Datei- und Ordnerdialoge | MIT OR Apache-2.0 |
 | [tauri](https://tauri.app/), tauri-build | Desktop-Hülle | MIT OR Apache-2.0 |
@@ -349,7 +367,7 @@ zusätzlichen Bibliotheken. Die Diagrammfarben folgen einer auf Farbfehlsichtigk
 
 ### Alle mitgelieferten Komponenten
 
-Mit allen indirekten Abhängigkeiten enthält die App rund 500 Komponenten (29 npm-Pakete, 476 Rust-Crates). Alle
+Mit allen indirekten Abhängigkeiten enthält die App rund 510 Komponenten (35 npm-Pakete, 476 Rust-Crates). Alle
 stehen unter freien Lizenzen, die mit der MIT-Lizenz vereinbar sind:
 
 | Lizenz | Bedeutung für dieses Projekt |
