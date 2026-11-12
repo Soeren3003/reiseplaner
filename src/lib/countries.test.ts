@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { COUNTRIES, STATES, countryName, countryStates, findCountryCode, migrateCountryList } from "./countries";
+import { COUNTRIES, STATES, countryName, countryStates, findCountryCode, landShare, migrateCountryList } from "./countries";
 import { defaultSettings, newCountryNote, newTrip } from "./defaults";
 import type { Trip } from "./types";
 
@@ -52,9 +52,54 @@ describe("Bereiste Länder", () => {
     expect(s.get("ES")).toMatchObject({ status: "visited", firstYear: "2023" });
     expect(s.get("ES")?.trips.map((t) => t.id)).toEqual(["e", "a"]);
     expect(s.get("JP")?.status).toBe("planned");
-    expect(s.get("IS")?.status).toBe("none");
+    // nur eine Idee: zählt weder als bereist noch als geplant
+    expect(s.get("IS")).toBeUndefined();
     expect(s.get("CA")).toBeUndefined();
     expect(s.get("FR")).toMatchObject({ status: "visited", manual: true, firstYear: "2019" });
     expect(s.get("NZ")).toMatchObject({ status: "none", favorite: true });
+  });
+});
+
+describe("Pro Person und Gruppe", () => {
+  const today = "2026-06-01";
+  const trips = [
+    trip({ id: "pt", countries: ["PT"], startDate: "2025-05-01", endDate: "2025-05-10", status: "done", travelers: ["anna", "ben"] }),
+    trip({ id: "jp", countries: ["JP"], startDate: "2024-03-01", endDate: "2024-03-10", status: "done", travelers: ["anna"] }),
+    trip({ id: "it", countries: ["IT"], startDate: "2023-08-01", endDate: "2023-08-10", status: "done", travelers: ["ben"] }),
+    // allein unterwegs, ohne eingetragene Mitreisende: zählt für „mich“
+    trip({ id: "is", countries: ["IS"], startDate: "2022-07-01", endDate: "2022-07-10", status: "done", travelers: [] }),
+    trip({ id: "no", countries: ["NO"], startDate: "2026-08-01", endDate: "2026-08-10", status: "booked", travelers: ["anna", "ben"] }),
+  ];
+  const notes = [{ ...newCountryNote("IT"), visitedBy: ["anna"], visitedYear: "2010" }];
+  const visited = (sel: Partial<Parameters<typeof countryStates>[3]>) =>
+    [...countryStates(trips, notes, today, { persons: [], mode: "together", me: "anna", ...sel }).values()]
+      .filter((s) => s.status === "visited")
+      .map((s) => s.code)
+      .sort();
+
+  it("zeigt die Länder einer Person, auch von Hand abgehakte", () => {
+    expect(visited({ persons: ["anna"] })).toEqual(["IS", "IT", "JP", "PT"]);
+    expect(visited({ persons: ["ben"] })).toEqual(["IT", "PT"]);
+  });
+
+  it("unterscheidet zusammen gereist, jeder war dort und mindestens einer", () => {
+    expect(visited({ persons: ["anna", "ben"], mode: "together" })).toEqual(["PT"]);
+    expect(visited({ persons: ["anna", "ben"], mode: "each" })).toEqual(["IT", "PT"]);
+    expect(visited({ persons: ["anna", "ben"], mode: "any" })).toEqual(["IS", "IT", "JP", "PT"]);
+  });
+
+  it("kennt geplante gemeinsame Reisen und wer wo war", () => {
+    const s = countryStates(trips, notes, today, { persons: ["anna", "ben"], mode: "together", me: "anna" });
+    expect(s.get("NO")?.status).toBe("planned");
+    const all = countryStates(trips, notes, today, { persons: [], mode: "any", me: "anna" });
+    expect(all.get("IT")?.who.sort()).toEqual(["anna", "ben"]);
+    expect(countryStates(trips, notes, today, { persons: ["anna"], mode: "any", me: "anna" }).get("IT")).toMatchObject({ manual: true, firstYear: "2010" });
+  });
+
+  it("rechnet den Anteil an der Landfläche ohne Antarktis", () => {
+    expect(landShare(["RU"])).toBeGreaterThan(0.12);
+    expect(landShare(["RU"])).toBeLessThan(0.13);
+    expect(landShare(["AQ"])).toBe(0);
+    expect(landShare(COUNTRIES.map((c) => c.code))).toBeCloseTo(1, 5);
   });
 });

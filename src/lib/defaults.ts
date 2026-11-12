@@ -386,11 +386,18 @@ export function migrateExpense(e: Partial<Expense> & { id: string }): Expense {
 }
 
 export function newCountryNote(code: string): CountryNote {
-  return { id: code, createdAt: now(), updatedAt: now(), visited: false, visitedYear: "", favorite: false, notes: "" };
+  return { id: code, createdAt: now(), updatedAt: now(), visitedBy: [], visited: false, visitedYear: "", favorite: false, notes: "" };
 }
 
 export function migrateCountryNote(n: Partial<CountryNote> & { id: string }): CountryNote {
-  return { ...newCountryNote(n.id), ...n, visited: !!n.visited, favorite: !!n.favorite, visitedYear: typeof n.visitedYear === "string" ? n.visitedYear : "" };
+  return {
+    ...newCountryNote(n.id),
+    ...n,
+    visitedBy: strings(n.visitedBy),
+    visited: !!n.visited,
+    favorite: !!n.favorite,
+    visitedYear: typeof n.visitedYear === "string" ? n.visitedYear : "",
+  };
 }
 
 export function newPayment(tripId: string, from: string, to: string, date: string): Payment {

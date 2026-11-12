@@ -188,23 +188,24 @@ function demoIceland() {
   spend(t, 8, "activities", 7500, "Naturbad", { currency: "ISK", country: "IS", paidBy: "" });
 }
 
-/** Weltkarte: Länder von früheren Reisen (ohne eigene Reise in der App) und Wunschziele */
+/** Weltkarte: Länder von früheren Reisen (ohne eigene Reise in der App) je Person, und Wunschziele */
 const countryNotes = [
   ...(
     [
-      ["FR", "2019"],
-      ["IT", "2021"],
-      ["AT", "2022"],
-      ["ES", "2018"],
-      ["HR", "2023"],
-      ["GB", "2016"],
-      ["NL", "2020"],
-      ["US", "2018"],
-      ["TH", "2017"],
+      ["FR", "2019", ["alex", "sam"]],
+      ["IT", "2021", ["alex", "sam"]],
+      ["AT", "2022", ["alex"]],
+      ["ES", "2018", ["alex", "sam"]],
+      ["HR", "2023", ["sam"]],
+      ["GB", "2016", ["alex"]],
+      ["NL", "2020", ["sam"]],
+      ["US", "2018", ["alex"]],
+      ["TH", "2017", ["sam"]],
+      ["MX", "2015", ["sam"]],
     ] as const
-  ).map(([code, year]) => ({ ...newCountryNote(code), visited: true, visitedYear: year })),
+  ).map(([code, year, by]) => ({ ...newCountryNote(code), visitedBy: [...by], visitedYear: year })),
   ...["NZ", "CA", "PE", "VN", "ZA", "CL"].map((code) => ({ ...newCountryNote(code), favorite: true, notes: code === "NZ" ? "Wohnmobil, mindestens 4 Wochen" : "" })),
-  { ...newCountryNote("NO"), visited: true, visitedYear: "2024", favorite: true, notes: "Nochmal im Winter: Polarlichter" },
+  { ...newCountryNote("NO"), visitedBy: ["alex"], visitedYear: "2024", favorite: true, notes: "Nochmal im Winter: Polarlichter" },
 ];
 
 export function loadDemo() {

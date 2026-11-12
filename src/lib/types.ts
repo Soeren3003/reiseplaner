@@ -216,7 +216,9 @@ export interface Payment extends Entity {
 
 /** Eigene Angaben zu einem Land (Weltkarte): id = ISO-3166-Code, z. B. „PT“ */
 export interface CountryNote extends Entity {
-  /** schon dort gewesen, auch ohne Reise in der App */
+  /** Personen-IDs, die (auch ohne Reise in der App) schon dort waren */
+  visitedBy: string[];
+  /** schon dort gewesen ohne Zuordnung zu einer Person (allein unterwegs bzw. Angabe aus Version 1.1) */
   visited: boolean;
   /** Jahr des (ersten) Besuchs, optional */
   visitedYear: string;
