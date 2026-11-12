@@ -413,6 +413,13 @@
   "url": "https://github.com/Marwes/combine"
  },
  {
+  "kind": "npm",
+  "name": "commander",
+  "version": "2.20.3",
+  "license": "MIT",
+  "url": "https://github.com/tj/commander.js.git"
+ },
+ {
   "kind": "crate",
   "name": "concurrent-queue",
   "version": "2.5.0",
@@ -537,6 +544,20 @@
   "version": "1.0.13",
   "license": "Apache-2.0 OR MIT",
   "url": "https://github.com/mmastrac/linktime"
+ },
+ {
+  "kind": "npm",
+  "name": "d3-array",
+  "version": "3.2.5",
+  "license": "ISC",
+  "url": "https://d3js.org/d3-array/"
+ },
+ {
+  "kind": "npm",
+  "name": "d3-geo",
+  "version": "3.1.2",
+  "license": "ISC",
+  "url": "https://d3js.org/d3-geo/"
  },
  {
   "kind": "crate",
@@ -1300,6 +1321,13 @@
   "version": "0.1.4",
   "license": "MIT OR Apache-2.0",
   "url": "https://github.com/RustCrypto/utils"
+ },
+ {
+  "kind": "npm",
+  "name": "internmap",
+  "version": "2.0.3",
+  "license": "ISC",
+  "url": "https://github.com/mbostock/internmap/"
  },
  {
   "kind": "npm",
@@ -2758,6 +2786,13 @@
   "url": "https://github.com/toml-rs/toml"
  },
  {
+  "kind": "npm",
+  "name": "topojson-client",
+  "version": "3.1.0",
+  "license": "ISC",
+  "url": "https://github.com/topojson/topojson-client"
+ },
+ {
   "kind": "crate",
   "name": "tower",
   "version": "0.5.3",
@@ -3386,6 +3421,13 @@
   "version": "0.57.1",
   "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
   "url": "https://github.com/bytecodealliance/wit-bindgen"
+ },
+ {
+  "kind": "npm",
+  "name": "world-atlas",
+  "version": "2.0.2",
+  "license": "ISC",
+  "url": "https://github.com/topojson/world-atlas.git"
  },
  {
   "kind": "crate",

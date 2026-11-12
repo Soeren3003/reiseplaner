@@ -1,0 +1,1661 @@
+[
+ {
+  "code": "AF",
+  "name": "Afghanistan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "EG",
+  "name": "Ägypten",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AX",
+  "name": "Ålandinseln",
+  "continent": "Europa",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "AL",
+  "name": "Albanien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "DZ",
+  "name": "Algerien",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AS",
+  "name": "Amerikanisch-Samoa",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "VI",
+  "name": "Amerikanische Jungferninseln",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "AD",
+  "name": "Andorra",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AO",
+  "name": "Angola",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AI",
+  "name": "Anguilla",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "AQ",
+  "name": "Antarktis",
+  "continent": "Antarktis",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "AG",
+  "name": "Antigua und Barbuda",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GQ",
+  "name": "Äquatorialguinea",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AR",
+  "name": "Argentinien",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AM",
+  "name": "Armenien",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AW",
+  "name": "Aruba",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "AZ",
+  "name": "Aserbaidschan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "ET",
+  "name": "Äthiopien",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AU",
+  "name": "Australien",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BS",
+  "name": "Bahamas",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BH",
+  "name": "Bahrain",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BD",
+  "name": "Bangladesch",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BB",
+  "name": "Barbados",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BY",
+  "name": "Belarus",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BE",
+  "name": "Belgien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BZ",
+  "name": "Belize",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BJ",
+  "name": "Benin",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BM",
+  "name": "Bermuda",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "BT",
+  "name": "Bhutan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BO",
+  "name": "Bolivien",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BA",
+  "name": "Bosnien und Herzegowina",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BW",
+  "name": "Botsuana",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BR",
+  "name": "Brasilien",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "VG",
+  "name": "Britische Jungferninseln",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "IO",
+  "name": "Britisches Territorium im Indischen Ozean",
+  "continent": "Asien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "BN",
+  "name": "Brunei Darussalam",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BG",
+  "name": "Bulgarien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BF",
+  "name": "Burkina Faso",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BI",
+  "name": "Burundi",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CV",
+  "name": "Cabo Verde",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CL",
+  "name": "Chile",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CN",
+  "name": "China",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CK",
+  "name": "Cookinseln",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "CR",
+  "name": "Costa Rica",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CI",
+  "name": "Côte d’Ivoire",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CW",
+  "name": "Curaçao",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "DK",
+  "name": "Dänemark",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "DE",
+  "name": "Deutschland",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "DM",
+  "name": "Dominica",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "DO",
+  "name": "Dominikanische Republik",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "DJ",
+  "name": "Dschibuti",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "EC",
+  "name": "Ecuador",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SV",
+  "name": "El Salvador",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "ER",
+  "name": "Eritrea",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "EE",
+  "name": "Estland",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SZ",
+  "name": "Eswatini",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "FK",
+  "name": "Falklandinseln",
+  "continent": "Südamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "FO",
+  "name": "Färöer",
+  "continent": "Europa",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "FJ",
+  "name": "Fidschi",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "FI",
+  "name": "Finnland",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "FR",
+  "name": "Frankreich",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PF",
+  "name": "Französisch-Polynesien",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "TF",
+  "name": "Französische Süd- und Antarktisgebiete",
+  "continent": "Antarktis",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "GA",
+  "name": "Gabun",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GM",
+  "name": "Gambia",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GE",
+  "name": "Georgien",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GH",
+  "name": "Ghana",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GD",
+  "name": "Grenada",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GR",
+  "name": "Griechenland",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GL",
+  "name": "Grönland",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "GU",
+  "name": "Guam",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "GT",
+  "name": "Guatemala",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GG",
+  "name": "Guernsey",
+  "continent": "Europa",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "GN",
+  "name": "Guinea",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GW",
+  "name": "Guinea-Bissau",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GY",
+  "name": "Guyana",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "HT",
+  "name": "Haiti",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "HM",
+  "name": "Heard und McDonaldinseln",
+  "continent": "Antarktis",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "HN",
+  "name": "Honduras",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "IN",
+  "name": "Indien",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "ID",
+  "name": "Indonesien",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "IQ",
+  "name": "Irak",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "IR",
+  "name": "Iran",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "IE",
+  "name": "Irland",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "IS",
+  "name": "Island",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "IM",
+  "name": "Isle of Man",
+  "continent": "Europa",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "IL",
+  "name": "Israel",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "IT",
+  "name": "Italien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "JM",
+  "name": "Jamaika",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "JP",
+  "name": "Japan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "YE",
+  "name": "Jemen",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "JE",
+  "name": "Jersey",
+  "continent": "Europa",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "JO",
+  "name": "Jordanien",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "KY",
+  "name": "Kaimaninseln",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "KH",
+  "name": "Kambodscha",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CM",
+  "name": "Kamerun",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CA",
+  "name": "Kanada",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "KZ",
+  "name": "Kasachstan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "QA",
+  "name": "Katar",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "KE",
+  "name": "Kenia",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "KG",
+  "name": "Kirgisistan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "KI",
+  "name": "Kiribati",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CO",
+  "name": "Kolumbien",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "KM",
+  "name": "Komoren",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CG",
+  "name": "Kongo-Brazzaville",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CD",
+  "name": "Kongo-Kinshasa",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "XK",
+  "name": "Kosovo",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "HR",
+  "name": "Kroatien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CU",
+  "name": "Kuba",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "KW",
+  "name": "Kuwait",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LA",
+  "name": "Laos",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LS",
+  "name": "Lesotho",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LV",
+  "name": "Lettland",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LB",
+  "name": "Libanon",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LR",
+  "name": "Liberia",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LY",
+  "name": "Libyen",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LI",
+  "name": "Liechtenstein",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LT",
+  "name": "Litauen",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LU",
+  "name": "Luxemburg",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MG",
+  "name": "Madagaskar",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MW",
+  "name": "Malawi",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MY",
+  "name": "Malaysia",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MV",
+  "name": "Malediven",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "ML",
+  "name": "Mali",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MT",
+  "name": "Malta",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MA",
+  "name": "Marokko",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MH",
+  "name": "Marshallinseln",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MR",
+  "name": "Mauretanien",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MU",
+  "name": "Mauritius",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MX",
+  "name": "Mexiko",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "FM",
+  "name": "Mikronesien",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MC",
+  "name": "Monaco",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MN",
+  "name": "Mongolei",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "ME",
+  "name": "Montenegro",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MS",
+  "name": "Montserrat",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "MZ",
+  "name": "Mosambik",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MM",
+  "name": "Myanmar",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NA",
+  "name": "Namibia",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NR",
+  "name": "Nauru",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NP",
+  "name": "Nepal",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NC",
+  "name": "Neukaledonien",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "NZ",
+  "name": "Neuseeland",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NI",
+  "name": "Nicaragua",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NL",
+  "name": "Niederlande",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NE",
+  "name": "Niger",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NG",
+  "name": "Nigeria",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NU",
+  "name": "Niue",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "KP",
+  "name": "Nordkorea",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MP",
+  "name": "Nördliche Marianen",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "MK",
+  "name": "Nordmazedonien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "NF",
+  "name": "Norfolkinsel",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "NO",
+  "name": "Norwegen",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "OM",
+  "name": "Oman",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AT",
+  "name": "Österreich",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PK",
+  "name": "Pakistan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PS",
+  "name": "Palästinensische Autonomiegebiete",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PW",
+  "name": "Palau",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PA",
+  "name": "Panama",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PG",
+  "name": "Papua-Neuguinea",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PY",
+  "name": "Paraguay",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PE",
+  "name": "Peru",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PH",
+  "name": "Philippinen",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PN",
+  "name": "Pitcairninseln",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "PL",
+  "name": "Polen",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PT",
+  "name": "Portugal",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "PR",
+  "name": "Puerto Rico",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "MD",
+  "name": "Republik Moldau",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "RW",
+  "name": "Ruanda",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "RO",
+  "name": "Rumänien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "RU",
+  "name": "Russland",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SB",
+  "name": "Salomonen",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "ZM",
+  "name": "Sambia",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "WS",
+  "name": "Samoa",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SM",
+  "name": "San Marino",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "ST",
+  "name": "São Tomé und Príncipe",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SA",
+  "name": "Saudi-Arabien",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SE",
+  "name": "Schweden",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CH",
+  "name": "Schweiz",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SN",
+  "name": "Senegal",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "RS",
+  "name": "Serbien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SC",
+  "name": "Seychellen",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SL",
+  "name": "Sierra Leone",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "ZW",
+  "name": "Simbabwe",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SG",
+  "name": "Singapur",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SX",
+  "name": "Sint Maarten",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "SK",
+  "name": "Slowakei",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SI",
+  "name": "Slowenien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SO",
+  "name": "Somalia",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "HK",
+  "name": "Sonderverwaltungsregion Hongkong",
+  "continent": "Asien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "MO",
+  "name": "Sonderverwaltungsregion Macau",
+  "continent": "Asien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "ES",
+  "name": "Spanien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LK",
+  "name": "Sri Lanka",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "BL",
+  "name": "St. Barthélemy",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "SH",
+  "name": "St. Helena",
+  "continent": "Afrika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "KN",
+  "name": "St. Kitts und Nevis",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "LC",
+  "name": "St. Lucia",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "MF",
+  "name": "St. Martin",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "PM",
+  "name": "St. Pierre und Miquelon",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "VC",
+  "name": "St. Vincent und die Grenadinen",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "ZA",
+  "name": "Südafrika",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SD",
+  "name": "Sudan",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GS",
+  "name": "Südgeorgien und die Südlichen Sandwichinseln",
+  "continent": "Südamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "KR",
+  "name": "Südkorea",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SS",
+  "name": "Südsudan",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SR",
+  "name": "Suriname",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "SY",
+  "name": "Syrien",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TJ",
+  "name": "Tadschikistan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TW",
+  "name": "Taiwan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TZ",
+  "name": "Tansania",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TH",
+  "name": "Thailand",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TL",
+  "name": "Timor-Leste",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TG",
+  "name": "Togo",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TO",
+  "name": "Tonga",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TT",
+  "name": "Trinidad und Tobago",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TD",
+  "name": "Tschad",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CZ",
+  "name": "Tschechien",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TN",
+  "name": "Tunesien",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TR",
+  "name": "Türkei",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TM",
+  "name": "Turkmenistan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "TC",
+  "name": "Turks- und Caicosinseln",
+  "continent": "Nordamerika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "TV",
+  "name": "Tuvalu",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": false
+ },
+ {
+  "code": "UG",
+  "name": "Uganda",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "UA",
+  "name": "Ukraine",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "HU",
+  "name": "Ungarn",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "UY",
+  "name": "Uruguay",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "UZ",
+  "name": "Usbekistan",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "VU",
+  "name": "Vanuatu",
+  "continent": "Ozeanien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "VA",
+  "name": "Vatikanstadt",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "VE",
+  "name": "Venezuela",
+  "continent": "Südamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "AE",
+  "name": "Vereinigte Arabische Emirate",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "US",
+  "name": "Vereinigte Staaten",
+  "continent": "Nordamerika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "GB",
+  "name": "Vereinigtes Königreich",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "VN",
+  "name": "Vietnam",
+  "continent": "Asien",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "WF",
+  "name": "Wallis und Futuna",
+  "continent": "Ozeanien",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "EH",
+  "name": "Westsahara",
+  "continent": "Afrika",
+  "sovereign": false,
+  "onMap": true
+ },
+ {
+  "code": "CF",
+  "name": "Zentralafrikanische Republik",
+  "continent": "Afrika",
+  "sovereign": true,
+  "onMap": true
+ },
+ {
+  "code": "CY",
+  "name": "Zypern",
+  "continent": "Europa",
+  "sovereign": true,
+  "onMap": true
+ }
+]
