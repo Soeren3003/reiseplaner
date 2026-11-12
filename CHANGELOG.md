@@ -10,6 +10,22 @@ Die Versionsnummern folgen der [semantischen Versionierung](https://semver.org/l
 
 Vor Version 1.0.0 kann sich das Datenformat noch ändern; ältere Datensätze werden beim Laden mit Standardwerten ergänzt.
 
+## [1.2.0] – 2026-11-12
+
+### Neu
+
+- Weltkarte pro Person oder für eine Gruppe: zusammen gereist, jeder war dort oder mindestens einer; die Auswahl wird
+  auf diesem Rechner gemerkt
+- „Schon dort gewesen“ pro Person abhaken; im Länderdetail steht, wer dort war
+- „Welt gesehen“: Anteil der bereisten Landfläche an der Erde (ohne Antarktis), zusätzlich zum Anteil der Staaten
+- Bereiste Länder zeigen, welche Mitreisenden dort waren
+
+### Geändert
+
+- Länder, die in Version 1.1 ohne Person abgehakt wurden, erscheinen als „ohne Zuordnung“ und lassen sich auf
+  Personen verteilen.
+- Reisen, die nur eine Idee sind, zählen auf der Weltkarte nicht mehr als Reise in ein Land.
+
 ## [1.1.0] – 2026-11-12
 
 ### Neu
