@@ -111,9 +111,13 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
 - Alle Länder, die du bereist hast, farbig auf einer Weltkarte; geplante Reisen und Wunschziele in eigenen Farben
 - Zoomen mit Mausrad, Trackpad oder +/−, verschieben durch Ziehen; Klick auf ein Land zoomt hinein und zeigt die
   Reisen dorthin
-- Länder früherer Reisen ohne eigene Reise in der App markieren („schon dort gewesen“, mit Jahr) und Notizen je Land
+- **Pro Person oder als Gruppe**: alle zusammen, eine Person oder mehrere – bei mehreren wahlweise *zusammen gereist*
+  (gemeinsame Reise), *jeder war dort* (auch getrennt) oder *mindestens einer*
+- Länder früherer Reisen ohne eigene Reise in der App **pro Person abhaken** („schon dort gewesen“, mit Jahr) und
+  Notizen je Land
 - **Offene Länder**: alle noch nicht besuchten Staaten, filterbar nach Kontinent, mit ★ als Favorit auf die Wunschliste
-- Kennzahlen: Länder (von 197 Staaten), Kontinente, geplante Länder, Favoriten, Fortschritt je Kontinent
+- Kennzahlen: Länder (von 197 Staaten), **Welt gesehen in Prozent der Landfläche** (ohne Antarktis), Kontinente,
+  geplante Länder, Favoriten, Fortschritt je Kontinent
 - Läuft komplett offline: Die Ländergrenzen sind in der App enthalten, es werden keine Kartenkacheln geladen.
 
 ### Dokumente
@@ -129,8 +133,8 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
 | <img src="docs/screenshots/expenses.jpg" alt="Ausgaben: Schnellerfassung, Liste nach Tagen in Yen und Euro, Budget und Wechselkurse" width="440"> | <img src="docs/screenshots/checklist.jpg" alt="Aufgaben vor der Reise und Packliste mit Abschnitten" width="440"> |
 | **Auswertung** | **Zahlungsmittel und Tag für Tag** |
 | <img src="docs/screenshots/analysis.jpg" alt="Auswertung: Kennzahlen, Ausgaben pro Tag nach Kategorie, Tabelle nach Kategorie" width="440"> | <img src="docs/screenshots/analysis-days.jpg" alt="Auswertung nach Zahlungsmittel und Tabelle Tag für Tag mit dem Anteil jeder Person" width="440"> |
-| **Weltkarte** | **Offene Länder und Favoriten** |
-| <img src="docs/screenshots/world.jpg" alt="Weltkarte mit bereisten, geplanten und gewünschten Ländern, Fortschritt je Kontinent" width="440"> | <img src="docs/screenshots/world-lists.jpg" alt="Listen der bereisten und offenen Länder mit Favoriten-Stern" width="440"> |
+| **Weltkarte** | **Weltkarte für eine Gruppe** |
+| <img src="docs/screenshots/world.jpg" alt="Weltkarte mit bereisten, geplanten und gewünschten Ländern, Welt gesehen in Prozent, Fortschritt je Kontinent" width="440"> | <img src="docs/screenshots/world-lists.jpg" alt="Gruppenansicht „jeder war dort“: Italien mit Häkchen pro Person, bereiste und offene Länder" width="440"> |
 | **Abrechnung** | **Statistik über alle Reisen** |
 | <img src="docs/screenshots/settlement.jpg" alt="Abrechnung: Salden und wer wem wie viel zahlt" width="440"> | <img src="docs/screenshots/statistics.jpg" alt="Statistik: Ausgaben pro Reise, nach Kategorie, Land, Zahlungsmittel und Jahr" width="440"> |
 
@@ -153,6 +157,10 @@ Personen, Buchungsnummern und Beträge in den Bildern sind erfunden.
   (An- und Abreisetag zählen mit). Ausgaben vor oder nach der Reise zählen zur Summe, nicht zum Durchschnitt.
 - **Pro Person und Tag** = Tagesdurchschnitt geteilt durch die Zahl der Mitreisenden (allein bzw. beim eigenen
   Anteil: 1). Die Spalten je Person in „Tag für Tag“ zeigen dagegen den tatsächlichen Anteil an den geteilten Ausgaben.
+- **Weltkarte**: Ein Land zählt für eine Person, wenn sie auf einer Reise dorthin eingetragen ist (Reisen ohne
+  Mitreisende zählen für „Das bin ich“) oder es von Hand abgehakt ist. Als bereist gilt eine Reise mit Status
+  „Gereist“ oder sobald sie begonnen hat; Ideen und Absagen zählen nicht. „Welt gesehen“ = Fläche der bereisten
+  Länder geteilt durch die Landfläche der Erde ohne Antarktis (aus den Kartendaten berechnet).
 - **Kurtaxe** = Betrag × Nächte bzw. Tage (× Personen, wenn pro Person); Tage = Nächte + 1. Ein Gesamtbetrag wird
   gleichmäßig auf die Tage von der Anreise bis zur Abreise verteilt. Die Personen ergeben sich aus „Aufgeteilt auf“
   bzw. den Mitreisenden oder werden eingetragen.
@@ -196,7 +204,7 @@ db/activities/<id>.json   Aktivitäten
 db/checklist/<id>.json    Aufgaben und Packliste
 db/expenses/<id>.json     Ausgaben
 db/payments/<id>.json     Ausgleichszahlungen zwischen Mitreisenden
-db/countries/<code>.json  Weltkarte: Favoriten, „schon dort gewesen“, Notizen je Land
+db/countries/<code>.json  Weltkarte: Favoriten, „schon dort gewesen“ je Person, Notizen je Land
 db/settings/settings.json Einstellungen und Vorlagen
 files/<reise>/…           Dokumente je Reise
 conflicts/                nur lokal: ältere Version bei Sync-Konflikten
