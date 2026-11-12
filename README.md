@@ -15,12 +15,19 @@
   <a href="#entstanden-mit-ki"><img src="https://img.shields.io/badge/entwickelt%20mit-Claude%20%28KI%29-d97757" alt="Entwickelt mit Claude (KI)"></a>
 </p>
 
+<p align="center">
+  <img src="docs/screenshots/overview.jpg" alt="Reise-Überblick mit Kennzahlen, Tagesplan und Eckdaten" width="900">
+</p>
+
+<p align="center"><sub>Beispieldaten mit erfundenen Namen (Demo-Modus, siehe <a href="#entwicklung">Entwicklung</a>)</sub></p>
+
 ---
 
 ## Inhalt
 
 - [Worum geht es?](#worum-geht-es)
 - [Funktionen](#funktionen)
+- [Screenshots](#screenshots)
 - [Erste Schritte](#erste-schritte)
 - [So wird gerechnet](#so-wird-gerechnet)
 - [Gemeinsam nutzen mit Nextcloud](#gemeinsam-nutzen-mit-nextcloud)
@@ -103,6 +110,20 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
 ### Dokumente
 - Tickets, Bordkarten, Buchungsbestätigungen und Belege je Reise ablegen (per Drag & Drop) und mit
   Nextcloud abgleichen
+
+## Screenshots
+
+| Transport | Unterkunft mit Verpflegung und Kurtaxe |
+| --- | --- |
+| <img src="docs/screenshots/transport.jpg" alt="Transport: Flüge und Züge mit Zeiten, Dauer, Buchungsnummer und Preis" width="440"> | <img src="docs/screenshots/stay.jpg" alt="Unterkunft bearbeiten: Verpflegung, Kurtaxe, Status, Preis, Zahler und Zahlungsmittel" width="440"> |
+| **Ausgaben** | **Vorbereitung** |
+| <img src="docs/screenshots/expenses.jpg" alt="Ausgaben: Schnellerfassung, Liste nach Tagen in Yen und Euro, Budget und Wechselkurse" width="440"> | <img src="docs/screenshots/checklist.jpg" alt="Aufgaben vor der Reise und Packliste mit Abschnitten" width="440"> |
+| **Auswertung** | **Zahlungsmittel und Tag für Tag** |
+| <img src="docs/screenshots/analysis.jpg" alt="Auswertung: Kennzahlen, Ausgaben pro Tag nach Kategorie, Tabelle nach Kategorie" width="440"> | <img src="docs/screenshots/analysis-days.jpg" alt="Auswertung nach Zahlungsmittel und Tabelle Tag für Tag mit dem Anteil jeder Person" width="440"> |
+| **Abrechnung** | **Statistik über alle Reisen** |
+| <img src="docs/screenshots/settlement.jpg" alt="Abrechnung: Salden und wer wem wie viel zahlt" width="440"> | <img src="docs/screenshots/statistics.jpg" alt="Statistik: Ausgaben pro Reise, nach Kategorie, Land, Zahlungsmittel und Jahr" width="440"> |
+
+Personen, Buchungsnummern und Beträge in den Bildern sind erfunden.
 
 ## Erste Schritte
 
@@ -264,14 +285,14 @@ npm run tauri build                     # .app und .dmg unter src-tauri/target/r
 npm run tauri build -- --bundles app    # nur die .app
 ```
 
-Der Workflow `.github/workflows/build.yml` baut bei einem Versions-Tag (`v0.1.0`) Installer für macOS, Windows
+Der Workflow `.github/workflows/build.yml` baut bei einem Versions-Tag (`v1.0.0`) Installer für macOS, Windows
 und Linux und legt ein GitHub-Release mit den Notizen aus dem [CHANGELOG.md](CHANGELOG.md) an. Die
 Versionsnummer wird mit `npm run set-version -- 0.2.0` überall gleich gesetzt.
 
 ## Sicherheit
 
 Siehe [SECURITY.md](SECURITY.md). Kurz: Die Oberfläche darf nur Dateidialoge öffnen und PDF-, CSV- und
-Kalenderdateien schreiben; Datensatz-Kennungen und Dateinamen werden geprüft, Pfade vom Server, die den
+Kalenderdateien schreiben; der Abgleich läuft nur über HTTPS (http:// nur zu einem Server auf dem eigenen Rechner); Datensatz-Kennungen und Dateinamen werden geprüft, Pfade vom Server, die den
 Datenordner verlassen würden, werden ignoriert, Programme aus dem Dokumente-Ordner werden nicht direkt gestartet,
 CSV-Exporte sind gegen Formel-Einschleusung geschützt, das App-Passwort liegt im Schlüsselbund, und die App lädt
 keine Inhalte aus dem Internet.
@@ -328,7 +349,7 @@ zusätzlichen Bibliotheken. Die Diagrammfarben folgen einer auf Farbfehlsichtigk
 
 ### Alle mitgelieferten Komponenten
 
-Mit allen indirekten Abhängigkeiten enthält die App rund 490 Komponenten (31 npm-Pakete, 461 Rust-Crates). Alle
+Mit allen indirekten Abhängigkeiten enthält die App rund 500 Komponenten (29 npm-Pakete, 476 Rust-Crates). Alle
 stehen unter freien Lizenzen, die mit der MIT-Lizenz vereinbar sind:
 
 | Lizenz | Bedeutung für dieses Projekt |
