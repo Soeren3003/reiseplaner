@@ -10,6 +10,28 @@ Die Versionsnummern folgen der [semantischen Versionierung](https://semver.org/l
 
 Vor Version 1.0.0 kann sich das Datenformat noch ändern; ältere Datensätze werden beim Laden mit Standardwerten ergänzt.
 
+## [1.0.0] – 2026-11-12
+
+Erste stabile Version.
+
+### Neu
+
+- README mit Screenshots aus dem Demo-Modus
+
+### Geändert
+
+- Abhängigkeiten aktualisiert: React 19, Vite 8, TypeScript 7, @vitejs/plugin-react 6, Rust-Crates auf den neuesten
+  kompatiblen Stand; `npm audit` und `cargo audit` ohne Sicherheitslücken
+- Leere Datums- und Zeitfelder zeigen nicht mehr grau das heutige Datum bzw. die aktuelle Uhrzeit an (sah aus wie ein
+  gesetzter Termin)
+- Hinweis bei der Kurtaxe nennt das Feld „Aufgeteilt auf“
+
+### Sicherheit
+
+- Nextcloud/WebDAV nur noch über HTTPS; http:// wird nur für einen Server auf dem eigenen Rechner angenommen, damit
+  das App-Passwort nicht unverschlüsselt übertragen werden kann.
+- Per Sync empfangene Datensätze mit fehlenden oder falschen Feldern werden beim Laden abgesichert.
+
 ## [0.2.2] – 2026-11-10
 
 ### Neu
