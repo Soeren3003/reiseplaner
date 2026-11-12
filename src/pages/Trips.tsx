@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import type { Nav } from "../App";
 import { Badge, Empty } from "../components/ui";
+import { countryName } from "../lib/countries";
 import { TRIP_STATUS } from "../lib/defaults";
 import { dateRange, money } from "../lib/format";
 import { useStore } from "../lib/store";
@@ -16,7 +17,7 @@ export default function Trips({ nav, onNew }: { nav: Nav; onNew: () => void }) {
   const years = [...new Set(store.trips.map((t) => t.startDate.slice(0, 4)).filter(Boolean))].sort().reverse();
   const list = all
     .filter(({ trip: t }) => (!status || t.status === status) && (!year || t.startDate.startsWith(year)))
-    .filter(({ trip: t }) => !q || `${t.name} ${t.destination} ${t.countries.join(" ")}`.toLowerCase().includes(q.toLowerCase()))
+    .filter(({ trip: t }) => !q || `${t.name} ${t.destination} ${t.countries.map(countryName).join(" ")}`.toLowerCase().includes(q.toLowerCase()))
     .sort((a, b) => b.trip.startDate.localeCompare(a.trip.startDate));
 
   return (

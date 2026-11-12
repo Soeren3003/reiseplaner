@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import type { TripTab } from "../../App";
 import { CurrencySelect } from "../../components/booking";
+import { CountryPicker } from "../../components/CountryPicker";
 import { PersonPicker } from "../../components/common";
 import { Empty, Field, NumberInput } from "../../components/ui";
 import { arrivalDate, stayNights, transportDuration, tripDays, tripNights, tripPhase } from "../../lib/calc";
@@ -168,41 +168,9 @@ function Hints({ trip, sum, go }: { trip: Trip; sum: TripSummary; go: (t: TripTa
   );
 }
 
-/** Ländereingabe: kommagetrennt, wird beim Verlassen übernommen */
-function CountriesInput({ value, onChange, suggestions }: { value: string[]; onChange: (v: string[]) => void; suggestions: string[] }) {
-  const [text, setText] = useState(value.join(", "));
-  useEffect(() => setText(value.join(", ")), [value]);
-  return (
-    <>
-      <input
-        value={text}
-        list="known-countries"
-        placeholder="z. B. Japan, Südkorea"
-        onChange={(e) => setText(e.target.value)}
-        onBlur={() =>
-          onChange([
-            ...new Set(
-              text
-                .split(/[,;]/)
-                .map((s) => s.trim())
-                .filter(Boolean),
-            ),
-          ])
-        }
-      />
-      <datalist id="known-countries">
-        {suggestions.map((c) => (
-          <option key={c} value={c} />
-        ))}
-      </datalist>
-    </>
-  );
-}
-
 function TripFacts({ trip, sum }: { trip: Trip; sum: TripSummary }) {
   const store = useStore();
   const set = (patch: Partial<Trip>) => store.save("trips", { ...trip, ...patch });
-  const known = [...new Set(store.trips.flatMap((t) => t.countries))].sort((a, b) => a.localeCompare(b, "de"));
   const used = new Set([...sum.expenses.map((e) => e.paidBy), ...sum.expenses.flatMap((e) => e.splitAmong), ...sum.payments.flatMap((p) => [p.from, p.to])]);
   return (
     <section className="card">
@@ -231,8 +199,8 @@ function TripFacts({ trip, sum }: { trip: Trip; sum: TripSummary }) {
         <Field label="Reiseziel">
           <input value={trip.destination} placeholder="z. B. Tokio, Kyoto, Osaka" onChange={(e) => set({ destination: e.target.value })} />
         </Field>
-        <Field label="Länder" hint="Für die Auswertung nach Land, kommagetrennt">
-          <CountriesInput value={trip.countries} onChange={(countries) => set({ countries })} suggestions={known} />
+        <Field label="Länder" hint="Für die Weltkarte und die Auswertung nach Land">
+          <CountryPicker value={trip.countries} onChange={(countries) => set({ countries })} />
         </Field>
         <Field label="Heimatwährung" hint="Darin wird gerechnet und abgerechnet">
           <CurrencySelect trip={trip} value={trip.currency} onChange={(currency) => set({ currency })} className="" />

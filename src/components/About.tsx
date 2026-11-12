@@ -12,6 +12,8 @@ const CREDITS: [string, string, string][] = [
   ["Tauri", "https://tauri.app/", "Desktop-Hülle"],
   ["React", "https://react.dev/", "Oberfläche"],
   ["jsPDF", "https://github.com/parallax/jsPDF", "PDF-Export (Reiseunterlagen, Abrechnung)"],
+  ["d3-geo", "https://d3js.org/d3-geo", "Kartenprojektion der Weltkarte"],
+  ["Natural Earth", "https://www.naturalearthdata.com/", "Ländergrenzen (gemeinfrei, über world-atlas)"],
 ];
 
 function Link({ href, children }: { href: string; children: string }) {

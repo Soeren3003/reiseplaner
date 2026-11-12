@@ -10,6 +10,7 @@ import SettingsPage from "./pages/Settings";
 import Statistics from "./pages/Statistics";
 import TripDetail from "./pages/TripDetail";
 import Trips from "./pages/Trips";
+import World from "./pages/World";
 
 export type TripTab = "overview" | "transport" | "stays" | "activities" | "checklist" | "expenses" | "settlement" | "analysis" | "files";
 
@@ -18,6 +19,7 @@ export type View =
   | { page: "trips" }
   | { page: "trip"; id: string; tab?: TripTab }
   | { page: "statistics" }
+  | { page: "world" }
   | { page: "people"; id?: string }
   | { page: "settings"; tab?: string };
 
@@ -33,12 +35,13 @@ function initialView(): View {
   const tab = p.get("tab") as TripTab | null;
   if (trip) return { page: "trip", id: trip, tab: tab && TRIP_TABS.includes(tab) ? tab : undefined };
   const page = p.get("page") as View["page"] | null;
-  return page && ["dashboard", "trips", "statistics", "people", "settings"].includes(page) ? ({ page } as View) : { page: "dashboard" };
+  return page && ["dashboard", "trips", "world", "statistics", "people", "settings"].includes(page) ? ({ page } as View) : { page: "dashboard" };
 }
 
 const NAV: { page: View["page"]; label: string; icon: string }[] = [
   { page: "dashboard", label: "Übersicht", icon: "◧" },
   { page: "trips", label: "Reisen", icon: "🧳" },
+  { page: "world", label: "Weltkarte", icon: "🌍" },
   { page: "statistics", label: "Statistik", icon: "📊" },
   { page: "people", label: "Mitreisende", icon: "☺" },
   { page: "settings", label: "Einstellungen", icon: "⚙" },
@@ -107,7 +110,7 @@ export default function App() {
         </div>
       </aside>
       {about && <AboutDialog onClose={() => setAbout(false)} />}
-      <main className={`content ${view.page === "trip" || view.page === "statistics" ? "wide" : ""}`}>
+      <main className={`content ${view.page === "trip" || view.page === "statistics" || view.page === "world" ? "wide" : ""}`}>
         {store.saveError && (
           <div className="alert error banner">
             {store.saveError}
@@ -119,6 +122,7 @@ export default function App() {
         {view.page === "dashboard" && <Dashboard nav={setView} onNew={createTrip} />}
         {view.page === "trips" && <Trips nav={setView} onNew={createTrip} />}
         {view.page === "trip" && <TripDetail key={view.id} view={view} nav={setView} />}
+        {view.page === "world" && <World nav={setView} />}
         {view.page === "statistics" && <Statistics nav={setView} />}
         {view.page === "people" && <People selected={view.id} nav={setView} />}
         {view.page === "settings" && <SettingsPage tab={view.tab} />}

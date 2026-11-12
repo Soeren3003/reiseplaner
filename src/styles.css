@@ -2159,3 +2159,179 @@ input[type="date"][value=""]:not(:focus),
 input[type="time"][value=""]:not(:focus) {
   -webkit-text-fill-color: transparent;
 }
+
+/* ---------- Weltkarte ---------- */
+
+:root {
+  --map-ocean: #e8eef5;
+  --map-land: #d5d9e0;
+  --map-border: #ffffff;
+  --map-visited: #2a78d6;
+  --map-planned: #9cc3ee;
+  --map-favorite: #eda100;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --map-ocean: #1b2230;
+    --map-land: #3a404b;
+    --map-border: #1f2228;
+    --map-visited: #3987e5;
+    --map-planned: #2b4f7a;
+    --map-favorite: #c98500;
+  }
+}
+.map-card {
+  overflow: hidden;
+}
+.world-map {
+  position: relative;
+  user-select: none;
+  touch-action: none;
+}
+.world-map svg {
+  display: block;
+  cursor: grab;
+}
+.world-map svg.dragging {
+  cursor: grabbing;
+}
+.world-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.world-map .ocean {
+  fill: var(--map-ocean);
+}
+.world-map .country {
+  fill: var(--map-land);
+  stroke: var(--map-border);
+  stroke-width: 0.6px;
+  cursor: pointer;
+  transition: fill 0.15s;
+}
+.world-map .country:hover {
+  filter: brightness(0.92);
+}
+.world-map .country.planned {
+  fill: var(--map-planned);
+}
+.world-map .country.visited {
+  fill: var(--map-visited);
+}
+.world-map .country.favorite:not(.visited) {
+  fill: var(--map-favorite);
+}
+.world-map .country.selected {
+  stroke: var(--text);
+  stroke-width: 1.8px;
+}
+.world-map .dot {
+  stroke: var(--map-border);
+  stroke-width: 1px;
+}
+.map-zoom {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.map-zoom .icon {
+  width: 30px;
+  height: 30px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 16px;
+  box-shadow: var(--shadow);
+}
+.map-tip {
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  white-space: nowrap;
+}
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  align-items: center;
+  padding: 10px 16px;
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+}
+.map-legend .lg {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  margin-right: 4px;
+  vertical-align: -1px;
+}
+.lg.visited {
+  background: var(--map-visited);
+}
+.lg.planned {
+  background: var(--map-planned);
+}
+.lg.favorite {
+  background: var(--map-favorite);
+}
+.stat-of {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.star {
+  background: transparent;
+  border: 0;
+  padding: 0 4px;
+  font-size: 17px;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+}
+.star.on {
+  color: var(--map-favorite);
+}
+.star:hover:not(:disabled) {
+  background: transparent;
+  color: var(--map-favorite);
+}
+.continent-progress li {
+  margin-bottom: 10px;
+}
+.continent-progress .progress {
+  margin: 4px 0;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+.country-trips li {
+  margin-bottom: 4px;
+}
+.open-list,
+.open-list + p {
+  max-height: 560px;
+}
+.country-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.country-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 4px 2px 8px;
+}
+.country-chip .icon {
+  padding: 0 4px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--accent);
+}

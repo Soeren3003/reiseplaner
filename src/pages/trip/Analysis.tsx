@@ -3,6 +3,7 @@ import { BarList, Legend, StackedColumns } from "../../components/charts";
 import { PersonDot } from "../../components/common";
 import { Empty } from "../../components/ui";
 import { dailyByPerson, tripStats } from "../../lib/calc";
+import { countryName } from "../../lib/countries";
 import { CATEGORIES } from "../../lib/defaults";
 import { exportDailyCsv, exportExpensesCsv, exportPdf } from "../../lib/export";
 import { dayLabel, money, moneyShort, num } from "../../lib/format";
@@ -294,7 +295,7 @@ export default function Analysis({ trip, sum }: { trip: Trip; sum: TripSummary }
         {st.byCountry.some((c) => c.key) && (
           <section className="card">
             <h2>Nach Land</h2>
-            <BarList items={st.byCountry.map((c) => ({ label: c.key || "ohne Angabe", value: c.amount }))} format={m} />
+            <BarList items={st.byCountry.map((c) => ({ label: c.key ? countryName(c.key) : "ohne Angabe", value: c.amount }))} format={m} />
           </section>
         )}
         <section className="card">

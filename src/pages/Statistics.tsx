@@ -5,6 +5,7 @@ import { Empty } from "../components/ui";
 import { round2, stayNights, transportDuration, tripStats, type TripStats } from "../lib/calc";
 import { saveAs } from "../lib/api";
 import { toCsv } from "../lib/csv";
+import { countryName } from "../lib/countries";
 import { CATEGORIES, TRANSPORT_MODES } from "../lib/defaults";
 import { date, duration, money, moneyShort, num } from "../lib/format";
 import { useStore } from "../lib/store";
@@ -56,7 +57,10 @@ export default function Statistics({ nav }: { nav: Nav }) {
   for (const r of rows) {
     for (const c of r.st.byCategory) catMap.set(c.key, (catMap.get(c.key) ?? 0) + c.amount);
     for (const c of r.st.byMethod) methodMap.set(c.key || "ohne Angabe", (methodMap.get(c.key || "ohne Angabe") ?? 0) + c.amount);
-    for (const c of r.st.byCountry) countryMap.set(c.key || "ohne Angabe", (countryMap.get(c.key || "ohne Angabe") ?? 0) + c.amount);
+    for (const c of r.st.byCountry) {
+      const k = c.key ? countryName(c.key) : "ohne Angabe";
+      countryMap.set(k, (countryMap.get(k) ?? 0) + c.amount);
+    }
   }
   const byCategory = [...catMap.entries()].map(([key, amount]) => ({ key, amount: round2(amount), count: 0 })).sort((a, b) => b.amount - a.amount);
   const { series, values } = categorySeries(byCategory);
@@ -88,7 +92,7 @@ export default function Statistics({ nav }: { nav: Nav }) {
             date(r.trip.endDate),
             r.st.days,
             r.st.persons,
-            r.trip.countries.join(", "),
+            r.trip.countries.map(countryName).join(", "),
             r.st.total,
             r.st.perDay,
             r.st.perPersonDay,
@@ -155,7 +159,7 @@ export default function Statistics({ nav }: { nav: Nav }) {
         <div className="stat">
           <div className="stat-label">Länder</div>
           <div className="stat-value">{countries.size}</div>
-          <div className="stat-sub ellipsis">{[...countries].sort((a, b) => a.localeCompare(b, "de")).join(", ") || "–"}</div>
+          <div className="stat-sub ellipsis">{[...countries].map(countryName).sort((a, b) => a.localeCompare(b, "de")).join(", ") || "–"}</div>
         </div>
       </section>
 

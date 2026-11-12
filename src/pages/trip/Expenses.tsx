@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { BarList } from "../../components/charts";
 import { CurrencySelect, MethodSelect, MoneyField } from "../../components/booking";
+import { CountrySelect } from "../../components/CountryPicker";
+import { countryName } from "../../lib/countries";
 import { PersonDot, PersonPicker, PersonSelect } from "../../components/common";
 import { Empty, Field, Modal, NumberInput } from "../../components/ui";
 import { budgetTotal, expenseDays, homeAmount, rateOf, splitIds, tripCurrencies } from "../../lib/calc";
@@ -29,7 +31,7 @@ export default function Expenses({ trip, sum }: { trip: Trip; sum: TripSummary }
       (!cat || e.category === cat) &&
       (method === null || (e.method || "") === method) &&
       (!who || (who === NO_PAYER ? !e.paidBy : e.paidBy === who || splitIds(e, trip).includes(who))) &&
-      (!q || `${e.title} ${e.notes} ${e.country} ${CATEGORIES[e.category].label}`.toLowerCase().includes(q.toLowerCase())),
+      (!q || `${e.title} ${e.notes} ${countryName(e.country)} ${CATEGORIES[e.category].label}`.toLowerCase().includes(q.toLowerCase())),
   );
   const days = useMemo(() => [...new Set(list.map((e) => e.date))], [list]);
   const filtered = list.length !== sum.expenses.length;
@@ -145,7 +147,7 @@ function ExpenseRow({ trip, sum, e, onClick }: { trip: Trip; sum: TripSummary; e
         <div className="muted small">
           {[
             spread > 1 && `verteilt auf ${spread} Tage bis ${date(e.endDate)}`,
-            e.country,
+            e.country && countryName(e.country),
             e.method,
             e.excludeFromDaily && "nicht im Tagesdurchschnitt",
             e.notes,
@@ -311,7 +313,6 @@ function ExpenseEditor({ trip, sum, e, onClose }: { trip: Trip; sum: TripSummary
   const [confirm, setConfirm] = useState(false);
   const set = (patch: Partial<Expense>) => store.updateExpense(e, patch);
   const linked = !!e.source;
-  const countries = [...new Set([...trip.countries, ...(e.country ? [e.country] : [])])];
   return (
     <Modal
       title={`${CATEGORIES[e.category].icon} ${e.title || CATEGORIES[e.category].label}`}
@@ -391,12 +392,7 @@ function ExpenseEditor({ trip, sum, e, onClose }: { trip: Trip; sum: TripSummary
           </>
         )}
         <Field label="Land">
-          <input value={e.country} list={`countries-${trip.id}`} onChange={(ev) => set({ country: ev.target.value })} />
-          <datalist id={`countries-${trip.id}`}>
-            {countries.map((c) => (
-              <option key={c} value={c} />
-            ))}
-          </datalist>
+          <CountrySelect value={e.country} first={trip.countries} onChange={(country) => set({ country })} />
         </Field>
         <Field label="Zahlungsmittel">
           <MethodSelect value={e.method} onChange={(method) => set({ method })} />
