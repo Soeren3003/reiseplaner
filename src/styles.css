@@ -2335,3 +2335,54 @@ input[type="time"][value=""]:not(:focus) {
   line-height: 1;
   color: var(--accent);
 }
+.stats.five {
+  grid-template-columns: repeat(5, 1fr);
+}
+@media (max-width: 1240px) {
+  .stats.five {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.progress.slim {
+  height: 5px;
+  margin: 2px 0 0;
+}
+.who-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 12px 16px;
+}
+.who-bar .label {
+  font-weight: 600;
+  font-size: 13px;
+}
+.who-bar .member-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.who-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+.who-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.visited-by {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.visited-by .check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}

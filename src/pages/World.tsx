@@ -1,24 +1,74 @@
 import { useMemo, useState } from "react";
 import type { Nav } from "../App";
+import { PersonDot, PersonPicker } from "../components/common";
 import { Badge, Empty, Field } from "../components/ui";
 import { WorldMap } from "../components/WorldMap";
-import { CONTINENTS, COUNTRIES, STATES, countryInfo, countryName, countryStates, type CountryState } from "../lib/countries";
+import {
+  CONTINENTS,
+  COUNTRIES,
+  STATES,
+  countryInfo,
+  countryName,
+  countryStates,
+  landShare,
+  type CountryState,
+  type GroupMode,
+  type Selection,
+} from "../lib/countries";
 import { TRIP_STATUS, newCountryNote, today } from "../lib/defaults";
 import { dateRange, num } from "../lib/format";
 import { useStore } from "../lib/store";
-import type { CountryNote } from "../lib/types";
+import type { CountryNote, Person } from "../lib/types";
+
+const NONE = (code: string): CountryState => ({ code, status: "none", favorite: false, trips: [], manual: false, firstYear: "", who: [] });
+
+const MODES: [GroupMode, string, string][] = [
+  ["together", "zusammen gereist", "Länder, in denen alle Ausgewählten gemeinsam auf einer Reise waren"],
+  ["each", "jeder war dort", "Länder, in denen jede der ausgewählten Personen war – auch getrennt oder ohne Reise in der App"],
+  ["any", "mindestens einer", "Länder, in denen mindestens eine der ausgewählten Personen war"],
+];
+
+/** Auswahl merken (nur auf diesem Rechner) */
+function readSelection(): Pick<Selection, "persons" | "mode"> {
+  try {
+    const v = JSON.parse(localStorage.getItem("reiseplaner:world") ?? "{}");
+    return { persons: Array.isArray(v.persons) ? v.persons : [], mode: ["together", "each", "any"].includes(v.mode) ? v.mode : "together" };
+  } catch {
+    return { persons: [], mode: "together" };
+  }
+}
 
 export default function World({ nav }: { nav: Nav }) {
   const store = useStore();
   const [selected, setSelected] = useState("");
-  const states = useMemo(() => countryStates(store.trips, store.countries, today()), [store.trips, store.countries]);
-  const st = (code: string): CountryState => states.get(code) ?? { code, status: "none", favorite: false, trips: [], manual: false, firstYear: "" };
+  const [choice, setChoiceState] = useState(readSelection);
+  const setChoice = (c: Pick<Selection, "persons" | "mode">) => {
+    setChoiceState(c);
+    try {
+      localStorage.setItem("reiseplaner:world", JSON.stringify(c));
+    } catch {
+      /* nur Komfort */
+    }
+  };
+  // gelöschte Personen nicht mehr berücksichtigen
+  const persons = choice.persons.filter((id) => store.people.some((p) => p.id === id));
+  const sel: Selection = { persons, mode: choice.mode, me: store.people.some((p) => p.id === store.me) ? store.me : "" };
+  const states = useMemo(
+    () => countryStates(store.trips, store.countries, today(), sel),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [store.trips, store.countries, persons.join(), sel.mode, sel.me],
+  );
+  const st = (code: string): CountryState => states.get(code) ?? NONE(code);
+  const who = persons.map((id) => store.people.find((p) => p.id === id)!).filter(Boolean);
 
   const visitedStates = STATES.filter((c) => st(c.code).status === "visited");
   const visitedAll = COUNTRIES.filter((c) => st(c.code).status === "visited");
   const planned = COUNTRIES.filter((c) => st(c.code).status === "planned");
   const favorites = COUNTRIES.filter((c) => st(c.code).favorite);
   const continentsVisited = CONTINENTS.filter((k) => visitedStates.some((c) => c.continent === k));
+  const land = landShare(visitedAll.map((c) => c.code));
+  const pct = (v: number) => `${num(v * 100, v < 0.1 ? 1 : 0)} %`;
+  const subject = who.length === 0 ? "" : who.length === 1 ? who[0].name : `${who.map((p) => p.name).join(", ")} (${MODES.find((m) => m[0] === sel.mode)![1]})`;
 
   return (
     <div className="page">
@@ -26,15 +76,42 @@ export default function World({ nav }: { nav: Nav }) {
         <h1>Weltkarte</h1>
       </div>
 
-      <section className="stats four">
+      {store.people.length > 0 && (
+        <section className="card who-bar">
+          <span className="label">Wessen Länder?</span>
+          <PersonPicker people={store.people} selected={persons} onChange={(ids) => setChoice({ ...choice, persons: ids })} allLabel="Alle" />
+          {persons.length > 1 && (
+            <div className="segmented">
+              {MODES.map(([k, label, hint]) => (
+                <button key={k} className={sel.mode === k ? "active" : ""} title={hint} onClick={() => setChoice({ ...choice, mode: k })}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
+          {persons.length > 1 && <span className="muted small">{MODES.find((m) => m[0] === sel.mode)![2]}.</span>}
+        </section>
+      )}
+
+      <section className="stats five">
         <div className="stat">
-          <div className="stat-label">Länder bereist</div>
+          <div className="stat-label">Länder bereist{subject && ` · ${subject}`}</div>
           <div className="stat-value">
             {visitedStates.length} <span className="stat-of">von {STATES.length}</span>
           </div>
           <div className="stat-sub">
-            {num((visitedStates.length / STATES.length) * 100, 0)} % der Staaten
+            {pct(visitedStates.length / STATES.length)} der Staaten
             {visitedAll.length > visitedStates.length && ` · dazu ${visitedAll.length - visitedStates.length} Gebiet(e)`}
+          </div>
+        </div>
+        <div className="stat">
+          <div className="stat-label">Welt gesehen</div>
+          <div className="stat-value">{pct(land)}</div>
+          <div className="stat-sub" title="Fläche der bereisten Länder im Verhältnis zur Landfläche der Erde ohne Antarktis">
+            der Landfläche (ohne Antarktis)
+          </div>
+          <div className="progress slim">
+            <div style={{ width: `${Math.min(100, land * 100)}%` }} />
           </div>
         </div>
         <div className="stat">
@@ -76,7 +153,7 @@ export default function World({ nav }: { nav: Nav }) {
       </div>
 
       <div className="two-col">
-        <VisitedList states={states} onPick={setSelected} />
+        <VisitedList states={states} onPick={setSelected} showWho={store.people.length > 1 && persons.length !== 1} />
         <OpenList states={states} onPick={setSelected} />
       </div>
     </div>
@@ -108,8 +185,11 @@ function Star({ code, state }: { code: string; state: CountryState }) {
 }
 
 function CountryPanel({ code, state, nav }: { code: string; state: CountryState; nav: Nav }) {
+  const store = useStore();
   const [note, set] = useNote(code);
   const info = countryInfo(code);
+  const person = (id: string) => store.people.find((p) => p.id === id);
+  const toggle = (id: string, on: boolean) => set({ visitedBy: on ? [...new Set([...note.visitedBy, id])] : note.visitedBy.filter((x) => x !== id) });
   return (
     <section className="card">
       <div className="card-head">
@@ -119,6 +199,7 @@ function CountryPanel({ code, state, nav }: { code: string; state: CountryState;
       <p className="muted small">
         {info?.continent}
         {info && !info.sovereign && " · abhängiges Gebiet"}
+        {info && info.area > 0 && ` · ${num(info.area, 0)} km²`}
         {state.status === "visited" && (
           <>
             {" · "}
@@ -132,9 +213,18 @@ function CountryPanel({ code, state, nav }: { code: string; state: CountryState;
           </>
         )}
       </p>
+      {state.who.length > 0 && (
+        <div className="who-list">
+          {state.who.map((id) => (
+            <span key={id} className="who-item">
+              <PersonDot person={person(id)} size={18} /> {person(id)?.name ?? "Unbekannt"}
+            </span>
+          ))}
+        </div>
+      )}
       <h3>Reisen</h3>
       {state.trips.length === 0 ? (
-        <p className="muted small">Noch keine Reise in der App.</p>
+        <p className="muted small">Keine passende Reise in der App.</p>
       ) : (
         <ul className="plain country-trips">
           {state.trips.map((t) => (
@@ -150,11 +240,29 @@ function CountryPanel({ code, state, nav }: { code: string; state: CountryState;
           ))}
         </ul>
       )}
-      <label className="check">
-        <input type="checkbox" checked={note.visited} onChange={(e) => set({ visited: e.target.checked })} />
-        Schon dort gewesen (auch ohne Reise in der App)
-      </label>
-      {note.visited && (
+      <h3>Schon dort gewesen (ohne Reise in der App)</h3>
+      {store.people.length === 0 ? (
+        <label className="check">
+          <input type="checkbox" checked={note.visited} onChange={(e) => set({ visited: e.target.checked })} />
+          Ja, war schon dort
+        </label>
+      ) : (
+        <div className="visited-by">
+          {store.people.map((p: Person) => (
+            <label key={p.id} className="check">
+              <input type="checkbox" checked={note.visitedBy.includes(p.id)} onChange={(e) => toggle(p.id, e.target.checked)} />
+              <PersonDot person={p} size={16} /> {p.name || "Ohne Namen"}
+            </label>
+          ))}
+          {note.visited && (
+            <label className="check" title="Angabe ohne Person, z. B. aus einer früheren Version. Häkchen bei den Personen setzen und dieses entfernen.">
+              <input type="checkbox" checked onChange={() => set({ visited: false })} />
+              <span className="muted">ohne Zuordnung</span>
+            </label>
+          )}
+        </div>
+      )}
+      {(note.visited || note.visitedBy.length > 0) && (
         <Field label="Jahr des ersten Besuchs">
           <input value={note.visitedYear} inputMode="numeric" maxLength={4} placeholder="z. B. 2015" onChange={(e) => set({ visitedYear: e.target.value.replace(/\D/g, "") })} />
         </Field>
@@ -203,7 +311,8 @@ function ContinentProgress({ states, onPick }: { states: Map<string, CountryStat
   );
 }
 
-function VisitedList({ states, onPick }: { states: Map<string, CountryState>; onPick: (code: string) => void }) {
+function VisitedList({ states, onPick, showWho }: { states: Map<string, CountryState>; onPick: (code: string) => void; showWho: boolean }) {
+  const store = useStore();
   const list = COUNTRIES.filter((c) => states.get(c.code)?.status === "visited").sort((a, b) => a.name.localeCompare(b.name, "de"));
   return (
     <section className="card">
@@ -222,6 +331,15 @@ function VisitedList({ states, onPick }: { states: Map<string, CountryState>; on
                   <td>{c.name}</td>
                   <td className="muted small">{c.continent}</td>
                   <td className="muted small">{s.firstYear || ""}</td>
+                  {showWho && (
+                    <td>
+                      <span className="dots">
+                        {s.who.map((id) => (
+                          <PersonDot key={id} person={store.people.find((p) => p.id === id)} size={16} />
+                        ))}
+                      </span>
+                    </td>
+                  )}
                   <td className="r muted small">{s.trips.length ? `${s.trips.length} Reise(n)` : "ohne Reise"}</td>
                   <td className="w-act">
                     <Star code={c.code} state={s} />
@@ -245,7 +363,6 @@ function OpenList({ states, onPick }: { states: Map<string, CountryState>; onPic
     .filter((c) => (!continent || c.continent === continent) && (!onlyFav || states.get(c.code)?.favorite) && (!q || c.name.toLowerCase().includes(q.toLowerCase())))
     // Favoriten zuerst
     .sort((a, b) => Number(!!states.get(b.code)?.favorite) - Number(!!states.get(a.code)?.favorite) || a.name.localeCompare(b.name, "de"));
-  const none: CountryState = { code: "", status: "none", favorite: false, trips: [], manual: false, firstYear: "" };
   return (
     <section className="card">
       <div className="card-head">
@@ -272,7 +389,7 @@ function OpenList({ states, onPick }: { states: Map<string, CountryState>; onPic
         <table className="list compact open-list">
           <tbody>
             {list.map((c) => {
-              const s = states.get(c.code) ?? { ...none, code: c.code };
+              const s = states.get(c.code) ?? NONE(c.code);
               return (
                 <tr key={c.code} onClick={() => onPick(c.code)}>
                   <td className="w-act">
