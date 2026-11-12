@@ -10,6 +10,21 @@ Die Versionsnummern folgen der [semantischen Versionierung](https://semver.org/l
 
 Vor Version 1.0.0 kann sich das Datenformat noch ändern; ältere Datensätze werden beim Laden mit Standardwerten ergänzt.
 
+## [1.1.0] – 2026-11-12
+
+### Neu
+
+- Weltkarte (offline): bereiste, geplante und gewünschte Länder farbig, Zoomen und Verschieben, Klick auf ein Land
+  zeigt die Reisen dorthin
+- Länder früherer Reisen ohne eigene Reise markieren („schon dort gewesen“, mit Jahr), Notizen je Land
+- Liste der offenen Länder mit Favoriten (★), Filter nach Kontinent; Kennzahlen und Fortschritt je Kontinent
+- Länderauswahl bei Reisen (Suche nach deutschem oder englischem Namen) und Ausgaben (Länder der Reise zuerst)
+
+### Geändert
+
+- Länder werden als ISO-Code gespeichert und überall auf Deutsch angezeigt. Bisherige Einträge („Griechenland“,
+  „USA“, „Kos“ …) werden beim Laden automatisch übernommen.
+
 ## [1.0.0] – 2026-11-12
 
 Erste stabile Version.
