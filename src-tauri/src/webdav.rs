@@ -61,6 +61,15 @@ fn clean_etag(s: &str) -> String {
     s.trim().trim_start_matches("W/").trim_matches('"').to_string()
 }
 
+/// Server auf diesem Rechner (localhost, 127.x, ::1), z. B. für Tests
+fn is_local(url: &str) -> bool {
+    let rest = url.split_once("://").map_or(url, |(_, r)| r);
+    let host = rest.split('/').next().unwrap_or("");
+    let host = host.rsplit_once('@').map_or(host, |(_, h)| h);
+    let host = if host.starts_with('[') { host.split(']').next().unwrap_or("").trim_start_matches('[') } else { host.split(':').next().unwrap_or("") };
+    host.eq_ignore_ascii_case("localhost") || host.starts_with("127.") || host == "::1"
+}
+
 impl Dav {
     pub fn new(url: &str, user: &str, pass: &str, folder: &str) -> Result<Self, String> {
         let mut root = url.trim().trim_end_matches('/').to_string();
@@ -72,6 +81,10 @@ impl Dav {
         }
         if !root.starts_with("http://") && !root.starts_with("https://") {
             root = format!("https://{root}");
+        }
+        // Das App-Passwort geht bei jeder Anfrage mit; unverschlüsselt nur an einen Server auf diesem Rechner.
+        if root.starts_with("http://") && !is_local(&root) {
+            return Err("Bitte eine https://-Adresse verwenden – über http:// würde das Passwort unverschlüsselt übertragen.".into());
         }
         if !root.contains("/remote.php/") {
             root = format!("{root}/remote.php/dav/files/{}", encode(user.trim()));
@@ -305,6 +318,16 @@ fn parse_multistatus(xml: &str) -> Result<Vec<(String, bool, String)>, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn requires_https_except_local() {
+        assert!(Dav::new("http://cloud.example.com", "a", "x", "R").is_err());
+        assert!(Dav::new("http://localhost.evil.com", "a", "x", "R").is_err());
+        assert!(Dav::new("http://127.0.0.1:8765", "a", "x", "R").is_ok());
+        assert!(Dav::new("http://[::1]:8765", "a", "x", "R").is_ok());
+        assert!(Dav::new("http://localhost:8080", "a", "x", "R").is_ok());
+        assert!(Dav::new("cloud.example.com", "a", "x", "R").is_ok());
+    }
 
     #[test]
     fn builds_nextcloud_urls() {

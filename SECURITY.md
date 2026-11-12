@@ -40,7 +40,10 @@ Deshalb gilt:
 - **CSV-Export:** Felder, die mit `=`, `+`, `-` oder `@` beginnen, werden entschärft, damit Tabellenprogramme sie
   nicht als Formel ausführen (CSV-Injection).
 - **Sync:** Pfade vom Server, die den Datenordner verlassen würden (`..`, Laufwerksangaben, Backslashes,
-  versteckte Dateien), werden ignoriert. Verbindungen laufen über HTTPS (rustls). Bei Konflikten geht nichts
+  versteckte Dateien), werden ignoriert. Verbindungen laufen über HTTPS (rustls); eine
+  http://-Adresse wird nur für einen Server auf dem eigenen Rechner (localhost) angenommen, damit das App-Passwort
+  nie unverschlüsselt übertragen wird. Datensätze vom Server werden beim Laden geprüft und ergänzt (fehlende oder
+  falsche Felder führen nicht zum Absturz). Bei Konflikten geht nichts
   verloren: Die ältere Version wird unter `conflicts/` aufbewahrt.
 - **Speichern:** Datensätze werden atomar geschrieben (erst temporäre Datei, dann umbenennen), damit bei einem
   Absturz keine halbe Datei entsteht.

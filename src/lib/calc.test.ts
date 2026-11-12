@@ -293,3 +293,14 @@ describe("Verpflegung und Kurtaxe", () => {
     expect(plannedCosts(t, [s])).toBe(206);
   });
 });
+
+describe("Daten aus dem Sync", () => {
+  it("ergänzt fehlende oder beschädigte Felder, statt abzustürzen", () => {
+    const e = migrateExpense({ id: "x", splitAmong: "anna" as unknown as string[], amount: "12" as unknown as number });
+    expect(e.splitAmong).toEqual([]);
+    expect(e.amount).toBe(0);
+    const s = migrateStay({ id: "s", travelers: null as unknown as string[] });
+    expect(s.travelers).toEqual([]);
+    expect(s.price).toBe(0);
+  });
+});

@@ -19,6 +19,10 @@ import type {
   TripStatus,
 } from "./types";
 
+/** Liste von Texten absichern (Daten können per Sync von einer anderen Version oder beschädigt ankommen) */
+const strings = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : []);
+const num0 = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : 0);
+
 export const uid = () => crypto.randomUUID().replace(/-/g, "").slice(0, 16);
 export const now = () => new Date().toISOString();
 export const today = () => new Date().toLocaleDateString("sv-SE");
@@ -227,7 +231,8 @@ export function newTrip(s: Settings): Trip {
 
 export function migrateTrip(t: Partial<Trip> & { id: string }, s: Settings): Trip {
   const d = newTrip(s);
-  return { ...d, ...t, rates: { ...(t.rates ?? {}) }, countries: t.countries ?? [], travelers: t.travelers ?? [] } as Trip;
+  const rates = Object.fromEntries(Object.entries(t.rates && typeof t.rates === "object" ? t.rates : {}).filter(([, v]) => typeof v === "number" && Number.isFinite(v)));
+  return { ...d, ...t, rates, countries: strings(t.countries), travelers: strings(t.travelers), budget: num0(t.budget) } as Trip;
 }
 
 export function newPerson(n: number): Person {
@@ -296,7 +301,8 @@ export function newStay(trip: Trip, paidBy: string, checkIn = trip.startDate, ch
 
 /** Buchungen älterer Versionen ergänzen (Zahlungsmittel; bei Unterkünften Verpflegung und Kurtaxe) */
 export function migrateBooking<T extends { id: string; method?: string }>(b: T): T {
-  return { ...b, method: migrateMethod(b.method) };
+  const x = b as unknown as Record<string, unknown>;
+  return { ...b, method: migrateMethod(typeof b.method === "string" ? b.method : ""), travelers: strings(x.travelers), price: num0(x.price) };
 }
 
 export function migrateStay(s: Partial<Stay> & { id: string; breakfast?: boolean }): Stay {
@@ -349,7 +355,7 @@ export function newExpense(trip: Trip, paidBy: string, date: string, currency = 
 }
 
 export function migrateExpense(e: Partial<Expense> & { id: string }): Expense {
-  return {
+  const d: Omit<Expense, "id"> = {
     tripId: "",
     date: "",
     endDate: "",
@@ -361,14 +367,20 @@ export function migrateExpense(e: Partial<Expense> & { id: string }): Expense {
     paidBy: "",
     splitAmong: [],
     country: "",
+    method: "",
     excludeFromDaily: false,
     source: "",
     sourceId: "",
     notes: "",
     createdAt: now(),
     updatedAt: now(),
+  };
+  return {
+    ...d,
     ...e,
-    method: migrateMethod(e.method),
+    method: migrateMethod(typeof e.method === "string" ? e.method : ""),
+    splitAmong: strings(e.splitAmong),
+    amount: num0(e.amount),
   } as Expense;
 }
 
