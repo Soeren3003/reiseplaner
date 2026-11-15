@@ -14,7 +14,8 @@
     "tauri": "tauri",
     "set-version": "node scripts/set-version.mjs",
     "licenses": "node scripts/third-party-licenses.mjs",
-    "countries": "node scripts/countries.mjs"
+    "countries": "node scripts/countries.mjs",
+    "places": "node scripts/places.mjs"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.1.1",
