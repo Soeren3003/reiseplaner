@@ -107,6 +107,17 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
 - **Statistik über alle Reisen**: Reisen, Reisetage, Nächte, Länder, Ausgaben pro Reise als Diagramm, nach
   Kategorie, Land, Zahlungsmittel und Jahr, Ø pro Tag und pro Person und Tag, Verkehrsmittel mit Anzahl, km und Stunden, Budget-Abweichung je Reise, CSV-Export
 
+### Routenkarte
+- Jede Reise als Karte: alle Verbindungen als **Luftlinie** in Reihenfolge, mit Farbe und Symbol je Verkehrsmittel
+  (Flüge gestrichelt), nummerierte Stationen und Unterkünfte als 🏠
+- **Ganze Route** oder **Vor Ort** (nur die Orte in den Reiseländern, ohne An- und Abreise); Klick auf eine Strecke
+  zoomt auf diese Verbindung
+- Entfernungen je Strecke und Verkehrsmittel (Luftlinie)
+- Orte werden ohne Online-Dienst erkannt: Flughafen-Codes wie „Frankfurt (FRA)“ und eine mitgelieferte Liste mit rund
+  34.000 Städten (auch deutsche Namen wie „Lissabon“ oder „Mailand“); bei mehreren gleichnamigen Orten gewinnen die
+  Länder der Reise. Unterkünfte über die Adresse, sonst den Namen.
+- Kleinere Orte und Hotels **per Klick auf die Karte setzen**; das gilt dann für alle Reisen mit demselben Ortsnamen.
+
 ### Weltkarte
 - Alle Länder, die du bereist hast, farbig auf einer Weltkarte; geplante Reisen und Wunschziele in eigenen Farben
 - Zoomen mit Mausrad, Trackpad oder +/−, verschieben durch Ziehen; Klick auf ein Land zoomt hinein und zeigt die
@@ -133,6 +144,8 @@ Nextcloud zwischen mehreren Rechnern oder mit Mitreisenden ab.
 | <img src="docs/screenshots/expenses.jpg" alt="Ausgaben: Schnellerfassung, Liste nach Tagen in Yen und Euro, Budget und Wechselkurse" width="440"> | <img src="docs/screenshots/checklist.jpg" alt="Aufgaben vor der Reise und Packliste mit Abschnitten" width="440"> |
 | **Auswertung** | **Zahlungsmittel und Tag für Tag** |
 | <img src="docs/screenshots/analysis.jpg" alt="Auswertung: Kennzahlen, Ausgaben pro Tag nach Kategorie, Tabelle nach Kategorie" width="440"> | <img src="docs/screenshots/analysis-days.jpg" alt="Auswertung nach Zahlungsmittel und Tabelle Tag für Tag mit dem Anteil jeder Person" width="440"> |
+| **Routenkarte** | **Routenkarte „Vor Ort“** |
+| <img src="docs/screenshots/route.jpg" alt="Routenkarte: Flüge und Zug als Luftlinie mit Verkehrsmittel, Unterkünfte, Strecken und Entfernungen" width="440"> | <img src="docs/screenshots/route-local.jpg" alt="Routenkarte nur vor Ort: Stationen in Japan mit Zugverbindungen und Unterkünften" width="440"> |
 | **Weltkarte** | **Weltkarte für eine Gruppe** |
 | <img src="docs/screenshots/world.jpg" alt="Weltkarte mit bereisten, geplanten und gewünschten Ländern, Welt gesehen in Prozent, Fortschritt je Kontinent" width="440"> | <img src="docs/screenshots/world-lists.jpg" alt="Gruppenansicht „jeder war dort“: Italien mit Häkchen pro Person, bereiste und offene Länder" width="440"> |
 | **Abrechnung** | **Statistik über alle Reisen** |
@@ -205,6 +218,7 @@ db/checklist/<id>.json    Aufgaben und Packliste
 db/expenses/<id>.json     Ausgaben
 db/payments/<id>.json     Ausgleichszahlungen zwischen Mitreisenden
 db/countries/<code>.json  Weltkarte: Favoriten, „schon dort gewesen“ je Person, Notizen je Land
+db/places/<id>.json       Routenkarte: selbst gesetzte Orte (per Klick)
 db/settings/settings.json Einstellungen und Vorlagen
 files/<reise>/…           Dokumente je Reise
 conflicts/                nur lokal: ältere Version bei Sync-Konflikten
@@ -281,6 +295,14 @@ Skript geändert wird):
 npm run countries      # schreibt src/generated/world.json und src/generated/countries.json
 ```
 
+**Ortsdaten** der Routenkarte neu erzeugen: [cities15000.zip](https://download.geonames.org/export/dump/cities15000.zip)
+(GeoNames, entpacken) und [airports.csv](https://davidmegginson.github.io/ourairports-data/airports.csv) (OurAirports)
+in einen Ordner laden, dann:
+
+```bash
+npm run places -- ~/Downloads/geodaten   # schreibt src/generated/places.json
+```
+
 ## Projektstruktur
 
 ```
@@ -291,6 +313,8 @@ src/                      Oberfläche (React, TypeScript)
   lib/summary.ts          alles zu einer Reise zusammengesucht
   lib/export.ts           Kalenderdatei, CSV, Abrechnungstext, PDF
   lib/countries.ts        Länderliste, Namen erkennen, bereist/geplant/Favorit
+  lib/places.ts           Ortssuche: Flughafen-Codes, Städte, selbst gesetzte Orte
+  lib/route.ts            Route einer Reise, Luftlinien
   lib/csv.ts              CSV schreiben
   lib/store.tsx           Zustand, verzögertes Speichern, automatische Ausgaben, Sync-Auslöser
   lib/api.ts              Brücke zu Tauri (im Browser: localStorage)
@@ -298,13 +322,13 @@ src/                      Oberfläche (React, TypeScript)
   pages/                  Übersicht, Reisen, Statistik, Mitreisende, Einstellungen
   pages/trip/             Reiter einer Reise
   components/             Bedienelemente, Buchungsformulare, Weltkarte, Diagramme, Info-Fenster
-  generated/              Lizenzliste, Länderliste und Ländergrenzen (erzeugt)
+  generated/              Lizenzliste, Länderliste, Ländergrenzen, Städte und Flughäfen (erzeugt)
 src-tauri/                Desktop-Hülle (Rust)
   src/store.rs            JSON-Dateien je Datensatz, Dokumente
   src/sync.rs             Zwei-Wege-Abgleich mit Konfliktbehandlung
   src/webdav.rs           WebDAV-Client
   src/config.rs           lokale Einstellungen, Schlüsselbund
-scripts/                  Versionsnummer setzen, Lizenzliste und Länderdaten erzeugen
+scripts/                  Versionsnummer setzen, Lizenzliste, Länder- und Ortsdaten erzeugen
 ```
 
 ## Bauen und Veröffentlichen
@@ -334,6 +358,8 @@ keine Inhalte aus dem Internet.
   Ausgabe teilen oder nur ausgewählten Personen zuordnen.
 - Keine Straßenkarte und keine Flugdaten-Abfrage (bewusst ohne Online-Dienste); die Weltkarte zeigt Ländergrenzen,
   noch keine Bundesländer und Städte.
+- Die Routenkarte zeigt Luftlinien, nicht den tatsächlichen Weg von Zug, Bus oder Auto. Orte unter 15.000 Einwohnern
+  und Hotels müssen meist einmal per Klick gesetzt werden.
 - Sehr kleine Staaten (z. B. Tuvalu) sind auf der Karte nur als Punkt oder gar nicht zu sehen, stehen aber in den Listen.
 - Keine App fürs Handy; Ausgaben werden am Rechner erfasst.
 
@@ -362,6 +388,8 @@ weitergeben, auch kommerziell, solange der Copyright- und Lizenzhinweis erhalten
 | [jsPDF](https://github.com/parallax/jsPDF), jspdf-autotable | PDF-Export | MIT |
 | [d3-geo](https://d3js.org/d3-geo), topojson-client | Weltkarte: Projektion und Ländergrenzen | ISC |
 | [world-atlas](https://github.com/topojson/world-atlas) | Ländergrenzen aus [Natural Earth](https://www.naturalearthdata.com/) (1:50 Mio.) | ISC, Daten gemeinfrei |
+| Daten: [GeoNames](https://www.geonames.org/) | Städte der Routenkarte (aufbereitet) | CC BY 4.0 – mit MIT vereinbar, Namensnennung erforderlich |
+| Daten: [OurAirports](https://ourairports.com/) | Flughäfen der Routenkarte (aufbereitet) | gemeinfrei |
 | [@tauri-apps/api](https://tauri.app/) | Brücke zur Desktop-Hülle | MIT OR Apache-2.0 |
 | [@tauri-apps/plugin-dialog](https://tauri.app/plugin/dialog/) | Datei- und Ordnerdialoge | MIT OR Apache-2.0 |
 | [tauri](https://tauri.app/), tauri-build | Desktop-Hülle | MIT OR Apache-2.0 |
@@ -380,9 +408,9 @@ happy-dom (MIT), @vitejs/plugin-react (MIT), @tauri-apps/cli (MIT OR Apache-2.0)
 Umrechnung, Abrechnung, Auswertung, CSV, Kalenderdatei und Diagramme sind selbst geschrieben – dafür gibt es keine
 zusätzlichen Bibliotheken. Die Diagrammfarben folgen einer auf Farbfehlsichtigkeit geprüften Palette.
 
-### Kartendaten der Weltkarte
+### Kartendaten der Welt- und Routenkarte
 
-Die Weltkarte braucht keinen Online-Dienst. Alles, was sie zeigt, ist in der App enthalten oder wird von ihr selbst
+Welt- und Routenkarte brauchen keinen Online-Dienst. Alles, was sie zeigt, ist in der App enthalten oder wird von ihr selbst
 berechnet:
 
 | Was | Woher |
@@ -392,6 +420,9 @@ berechnet:
 | Deutsche Ländernamen | aus dem Betriebssystem bzw. der Laufzeitumgebung (`Intl.DisplayNames`), ohne Internet |
 | Kontinente, Liste der 197 Staaten | selbst festgelegt im Skript (UN-Mitglieder sowie Vatikan, Palästina, Kosovo und Taiwan) |
 | Fläche je Land, „Welt gesehen“ | aus den Grenzen berechnet (Kugel mit Erdradius), Abweichung zu amtlichen Zahlen meist unter 2 % |
+| Städte (Routenkarte) | [GeoNames](https://www.geonames.org/) „cities15000“, rund 34.000 Städte ab 15.000 Einwohnern, Lizenz [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); gekürzt auf Name, lateinische Alternativnamen, Koordinaten, Land und Einwohnerzahl (`scripts/places.mjs`) |
+| Flughäfen (Routenkarte) | [OurAirports](https://ourairports.com/), gemeinfrei; nur Flughäfen mit IATA-Code und Linienverkehr bzw. mittlere und große (`scripts/places.mjs`) |
+| Luftlinien, Entfernungen | Großkreis auf der Kugel, berechnet mit d3-geo |
 
 Die Grenzen folgen den tatsächlichen Verhältnissen, wie Natural Earth sie abbildet. Sie sind keine politische Aussage
 zu umstrittenen Gebieten; Flächen ohne eigenen ISO-Code (z. B. Somaliland, Nordzypern) werden dem Staat zugerechnet,
