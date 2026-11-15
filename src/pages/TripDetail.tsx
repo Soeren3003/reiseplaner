@@ -12,6 +12,7 @@ import Checklist from "./trip/Checklist";
 import Expenses from "./trip/Expenses";
 import Files from "./trip/Files";
 import Overview from "./trip/Overview";
+import Route from "./trip/Route";
 import Settlement from "./trip/Settlement";
 import Stays from "./trip/Stays";
 import Transports from "./trip/Transports";
@@ -33,6 +34,7 @@ export default function TripDetail({ view, nav }: { view: Extract<View, { page: 
 
   const tabs: [TripTab, string, number?][] = [
     ["overview", "Überblick"],
+    ["route", "Route"],
     ["transport", "Transport", sum.transports.length],
     ["stays", "Unterkünfte", sum.stays.length],
     ["activities", "Aktivitäten", sum.activities.length],
@@ -74,6 +76,7 @@ export default function TripDetail({ view, nav }: { view: Extract<View, { page: 
         ))}
       </div>
       {tab === "overview" && <Overview trip={trip} sum={sum} go={go} />}
+      {tab === "route" && <Route trip={trip} sum={sum} go={go} />}
       {tab === "transport" && <Transports trip={trip} sum={sum} />}
       {tab === "stays" && <Stays trip={trip} sum={sum} />}
       {tab === "activities" && <Activities trip={trip} sum={sum} />}

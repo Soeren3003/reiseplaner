@@ -2386,3 +2386,136 @@ input[type="time"][value=""]:not(:focus) {
   align-items: center;
   gap: 6px;
 }
+
+/* ---------- Routenkarte ---------- */
+
+.route-map .country {
+  cursor: default;
+}
+.route-map .country:hover {
+  filter: none;
+}
+/* Reiseländer in normalem Landgrau, alle anderen blasser */
+.route-map .country {
+  opacity: 0.45;
+}
+.route-map .country.trip {
+  opacity: 1;
+}
+.route-map.picking svg {
+  cursor: crosshair;
+}
+.leg-line {
+  fill: none;
+  stroke-width: 3px;
+  stroke-linecap: round;
+}
+.leg-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14px;
+}
+.leg.mode-flight .leg-line {
+  stroke-dasharray: 8 6;
+}
+.leg.unbooked {
+  opacity: 0.45;
+}
+.leg:hover .leg-line {
+  stroke-width: 5px;
+}
+.leg-badge {
+  fill: var(--panel);
+  stroke-width: 2px;
+}
+.leg-icon {
+  font-size: 12px;
+  pointer-events: none;
+}
+.stop-dot {
+  fill: var(--text);
+  stroke: var(--panel);
+  stroke-width: 2px;
+}
+.stop-no {
+  fill: var(--panel);
+  font-size: 10px;
+  font-weight: 700;
+  pointer-events: none;
+}
+.stop-label {
+  fill: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.stay-icon-map {
+  font-size: 15px;
+}
+.pick-hint {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--warn-bg);
+  color: var(--warn-text);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+.lg-line {
+  display: inline-block;
+  width: 22px;
+  border-top: 3px solid;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+.lg-line.mode-flight {
+  border-top-style: dashed;
+}
+.leg-list {
+  padding: 0;
+  margin: 0;
+}
+.leg-list li,
+.place-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.leg-swatch {
+  width: 4px;
+  align-self: stretch;
+  border-radius: 2px;
+  flex: none;
+}
+.place-list li.missing > .grow > div:first-child {
+  color: var(--warn-text);
+  font-weight: 600;
+}
+.leg.dimmed {
+  opacity: 0.25;
+}
+.leg.highlight .leg-line {
+  stroke-width: 5px;
+}
+.leg-list li.clickable {
+  cursor: pointer;
+  border-radius: 6px;
+  padding-left: 4px;
+}
+.leg-list li.clickable:hover,
+.leg-list li.active {
+  background: var(--row-hover);
+}
+.leg-list li.active {
+  background: var(--accent-soft);
+}

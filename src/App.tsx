@@ -12,7 +12,7 @@ import TripDetail from "./pages/TripDetail";
 import Trips from "./pages/Trips";
 import World from "./pages/World";
 
-export type TripTab = "overview" | "transport" | "stays" | "activities" | "checklist" | "expenses" | "settlement" | "analysis" | "files";
+export type TripTab = "overview" | "route" | "transport" | "stays" | "activities" | "checklist" | "expenses" | "settlement" | "analysis" | "files";
 
 export type View =
   | { page: "dashboard" }
@@ -25,7 +25,7 @@ export type View =
 
 export type Nav = (v: View) => void;
 
-export const TRIP_TABS: TripTab[] = ["overview", "transport", "stays", "activities", "checklist", "expenses", "settlement", "analysis", "files"];
+export const TRIP_TABS: TripTab[] = ["overview", "route", "transport", "stays", "activities", "checklist", "expenses", "settlement", "analysis", "files"];
 
 /** Browser-Vorschau: Startansicht per URL, z. B. ?trip=demo-japan&tab=analysis (für Screenshots) */
 function initialView(): View {
