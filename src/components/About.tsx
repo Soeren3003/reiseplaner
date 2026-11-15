@@ -14,6 +14,8 @@ const CREDITS: [string, string, string][] = [
   ["jsPDF", "https://github.com/parallax/jsPDF", "PDF-Export (Reiseunterlagen, Abrechnung)"],
   ["d3-geo", "https://d3js.org/d3-geo", "Kartenprojektion der Weltkarte"],
   ["Natural Earth", "https://www.naturalearthdata.com/", "Ländergrenzen (gemeinfrei, über world-atlas)"],
+  ["GeoNames", "https://www.geonames.org/", "Städte für die Routenkarte (CC BY 4.0, gekürzt)"],
+  ["OurAirports", "https://ourairports.com/", "Flughäfen für die Routenkarte (gemeinfrei)"],
 ];
 
 function Link({ href, children }: { href: string; children: string }) {

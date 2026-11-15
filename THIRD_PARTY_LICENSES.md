@@ -46,6 +46,30 @@ Diese Datei wird mit `npm run licenses` erzeugt – bitte nicht von Hand bearbei
 | (MIT OR Apache-2.0) AND Unicode-3.0 | 1 |
 | CDLA-Permissive-2.0 | 1 |
 
+## Daten
+
+Neben Software enthält die App aufbereitete Geodaten für die Weltkarte und die Routenkarte:
+
+### Ländergrenzen: Natural Earth
+
+- Quelle: https://www.naturalearthdata.com/ (Version 4.1.0, über das Paket world-atlas)
+- Lizenz: gemeinfrei (public domain)
+- Aufbereitung: Grenzen 1:50 Mio., Flächen mit ISO-3166-Codes versehen (`scripts/countries.mjs`)
+
+### Städte: GeoNames
+
+- Quelle: GeoNames, https://www.geonames.org/ – Datei „cities15000“ (Städte ab 15.000 Einwohnern)
+- Lizenz: Creative Commons Namensnennung 4.0 International (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/
+- Änderungen: auf Name, lateinisch geschriebene Alternativnamen, Koordinaten (gerundet auf 3 Nachkommastellen),
+  Land und Einwohnerzahl gekürzt (`scripts/places.mjs`). Die Daten werden ohne Gewähr bereitgestellt.
+
+### Flughäfen: OurAirports
+
+- Quelle: OurAirports, https://ourairports.com/ (Datei airports.csv)
+- Lizenz: gemeinfrei (public domain)
+- Änderungen: nur Flughäfen mit IATA-Code und Linienverkehr bzw. mittlere und große Flughäfen; Code, Name, Ort,
+  Koordinaten und Land (`scripts/places.mjs`)
+
 ## Komponenten
 
 ### @babel/runtime 7.29.14
