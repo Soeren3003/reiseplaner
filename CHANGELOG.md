@@ -10,6 +10,18 @@ Die Versionsnummern folgen der [semantischen Versionierung](https://semver.org/l
 
 Vor Version 1.0.0 kann sich das Datenformat noch ändern; ältere Datensätze werden beim Laden mit Standardwerten ergänzt.
 
+## [1.3.0] – 2026-11-15
+
+### Neu
+
+- Routenkarte je Reise (Reiter „Route“): Verbindungen als Luftlinie in Reihenfolge, Farbe und Symbol je
+  Verkehrsmittel, nummerierte Stationen, Unterkünfte; „Ganze Route“ oder „Vor Ort“, Klick auf eine Strecke zoomt hin;
+  Entfernungen je Strecke und Verkehrsmittel
+- Ortssuche ohne Online-Dienst: Flughafen-Codes (OurAirports, gemeinfrei) und rund 34.000 Städte (GeoNames,
+  CC BY 4.0), auch mit deutschen Namen; Länder der Reise werden bevorzugt
+- Orte per Klick auf die Karte setzen oder korrigieren, gilt für alle Reisen mit demselben Ortsnamen
+- Lizenzliste mit Abschnitt „Daten“ (Natural Earth, GeoNames, OurAirports)
+
 ## [1.2.0] – 2026-11-12
 
 ### Neu
