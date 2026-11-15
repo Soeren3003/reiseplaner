@@ -227,6 +227,16 @@ export interface CountryNote extends Entity {
   notes: string;
 }
 
+/** Selbst gesetzter Ort für die Routenkarte (per Klick), gilt für alle Reisen mit demselben Ortstext */
+export interface Place extends Entity {
+  /** normalisierter Ortstext, z. B. „caravia beach hotel“ */
+  key: string;
+  /** Text, wie er eingegeben wurde */
+  name: string;
+  lat: number;
+  lon: number;
+}
+
 export interface Settings {
   id: "settings";
   updatedAt: string;

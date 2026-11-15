@@ -5,7 +5,7 @@
  */
 import { syncBookingExpenses, type AnyBooking } from "./calc";
 import { PALETTE, addDays, newCountryNote, defaultSettings, newActivity, newExpense, newPerson, newStay, newTransport, newTrip, templateItems, today } from "./defaults";
-import type { Activity, BookingKind, ChecklistItem, Expense, ExpenseCategory, Settings, Stay, Transport, Trip } from "./types";
+import type { Activity, BookingKind, ChecklistItem, Expense, ExpenseCategory, Place, Settings, Stay, Transport, Trip } from "./types";
 
 const settings: Settings = { ...defaultSettings(), paymentMethods: ["Bar", "Kreditkarte", "Debitkarte / Girokarte", "PayPal / online", "Suica"] };
 
@@ -225,6 +225,9 @@ export function loadDemo() {
   put("expenses", expenses);
   put("payments", []);
   put("countries", countryNotes);
+  // Routenkarte: Hakone ist zu klein für die Städteliste – Ort von Hand gesetzt
+  const hakone: Place = { id: "demo-hakone", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), key: "hakone", name: "Hakone", lat: 35.233, lon: 139.107 };
+  put("places", [hakone]);
   put("settings", [settings]);
   localStorage.setItem("reiseplaner:me", "alex");
 }

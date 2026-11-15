@@ -3,7 +3,7 @@ import { api, type Collection } from "./api";
 import { syncBookingExpenses, type AnyBooking } from "./calc";
 import { findCountryCode, migrateCountryList } from "./countries";
 import { defaultSettings, migrateBooking, migrateCountryNote, migrateExpense, migratePerson, migrateSettings, migrateStay, migrateTrip, newExpense, now } from "./defaults";
-import type { Activity, BookingKind, ChecklistItem, CountryNote, Expense, LocalConfig, Payment, Person, Settings, Stay, SyncReport, Transport, Trip } from "./types";
+import type { Activity, BookingKind, ChecklistItem, CountryNote, Place, Expense, LocalConfig, Payment, Person, Settings, Stay, SyncReport, Transport, Trip } from "./types";
 
 type Entity = { id: string; updatedAt: string };
 
@@ -26,6 +26,8 @@ export interface Data {
   payments: Payment[];
   /** Eigene Angaben zu Ländern (Favoriten, schon besucht) */
   countries: CountryNote[];
+  /** Selbst gesetzte Orte für die Routenkarte */
+  places: Place[];
 }
 
 /** Sammlung je Buchungsart */
@@ -69,10 +71,10 @@ export function useStore() {
 }
 
 const SAVE_DELAY = 400;
-export const LISTS: ListCollection[] = ["trips", "people", "transports", "stays", "activities", "checklist", "expenses", "payments", "countries"];
+export const LISTS: ListCollection[] = ["trips", "people", "transports", "stays", "activities", "checklist", "expenses", "payments", "countries", "places"];
 /** Sammlungen, deren Einträge zu einer Reise gehören */
 const PER_TRIP = ["transports", "stays", "activities", "checklist", "expenses", "payments"] as const;
-const EMPTY: Data = { trips: [], people: [], transports: [], stays: [], activities: [], checklist: [], expenses: [], payments: [], countries: [] };
+const EMPTY: Data = { trips: [], people: [], transports: [], stays: [], activities: [], checklist: [], expenses: [], payments: [], countries: [], places: [] };
 
 function readMe() {
   try {
